@@ -1,0 +1,8 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:VisualElement name="KnotCulturePickerField" class="unity-base-field">
+    <eg:Label text="Culture" class="unity-base-field__label"/>
+    <eg:Button name="LanguageCultureButton" text="Pick" class="unity-enum-field__input margin0" style="flex-grow: 1">
+      <eg:VisualElement class="unity-enum-field__arrow enumArrow"/>
+    </eg:Button>
+  </eg:VisualElement>
+</UXML>

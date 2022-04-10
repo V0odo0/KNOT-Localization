@@ -1,0 +1,15 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:VisualElement name="KnotKeysTabPanel">
+    <ed:Toolbar name="Toolbar" style="flex-shrink: 0">
+      <ed:ToolbarButton name="AddKeyButton" class="ToolbarButton" tooltip="Add Key"/>
+      <ed:ToolbarPopupSearchField name="KeySearchField" style="flex-grow: 1; flex-shrink: 1">
+        <eg:Label name="SearchResultsLabel" class="MiniLabel" style="align-self: center"/>
+      </ed:ToolbarPopupSearchField>
+      <ed:ToolbarSpacer/>
+      <ed:ToolbarMenu name="TabOptionsMenu" style="border-right-width: 0px"/>
+    </ed:Toolbar>
+    <eg:VisualElement name="TabContentRoot">
+      <eg:IMGUIContainer name="TreeViewContainer" style="flex-basis: 2000px"/>
+    </eg:VisualElement>
+  </eg:VisualElement>
+</UXML>

@@ -1,0 +1,12 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:VisualElement name="KnotLanguagesTabPanel">
+    <ed:Toolbar name="Toolbar" style="flex-shrink: 0">
+      <ed:ToolbarButton name="AddLanguageButton" class="ToolbarButton" tooltip="Add Language"/>
+      <ed:ToolbarSpacer style="flex-grow: 1"/>
+      <ed:ToolbarMenu name="TabOptionsMenu" style="border-right-width: 0px"/>
+    </ed:Toolbar>
+    <eg:VisualElement name="TabContentRoot">
+      <eg:IMGUIContainer name="TreeViewContainer" style="flex-basis: 2000px"/>
+    </eg:VisualElement>
+  </eg:VisualElement>
+</UXML>

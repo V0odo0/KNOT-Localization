@@ -1,0 +1,9 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:VisualElement name="KnotKeyViewEditorPanel" class="TreeViewItemEditor">
+    <eg:ScrollView view-data-key="KnotKeyViewEditor.ScrollView" style="flex-grow: 1">
+      <eg:TextField name="KeyInputField" label="Key"/>
+      <eg:VisualElement name="ItemViewListContainer" style="margin: 3px"/>
+      <eg:Foldout name="MetadataContainerFoldout" text="Key Metadata"/>
+    </eg:ScrollView>
+  </eg:VisualElement>
+</UXML>

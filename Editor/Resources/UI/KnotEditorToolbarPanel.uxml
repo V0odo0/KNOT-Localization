@@ -1,0 +1,8 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:VisualElement name="KnotEditorToolbarPanel" style="flex-grow: 1">
+    <eg:VisualElement style="flex-shrink: 0; min-height: 25px; flex-direction: row">
+        <ed:Toolbar name="Toolbar" class="TabToolbar"/>
+    </eg:VisualElement>
+    <eg:VisualElement name="TabContentContainer" style="flex-grow: 1"/>
+  </eg:VisualElement>
+</UXML>

@@ -1,0 +1,5 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:VisualElement name="KnotAssetItemViewEditor">
+    <ed:ObjectField name="ObjectField"/>
+  </eg:VisualElement>
+</UXML>

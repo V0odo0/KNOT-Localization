@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc930969243ead468aabef3a091a229, type: 3}
+  m_Name: KnotAssetCollection_zh-CN_demo
+  m_EditorClassIdentifier: 
+  _isReadOnly: 0
+  _items:
+  - _key: Lang_flag_sprite
+    _asset: {fileID: 21300000, guid: dfd3bf15a6745ee4a867f3be07ae3fab, type: 3}

@@ -1,0 +1,7 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:Foldout name="KnotItemViewFoldout" class="ItemViewFoldout">
+    <eg:VisualElement name="ContentContainer" style="margin-bottom: 3px"/>
+    <eg:Label name="StateLabel" class="MiniLabel"/>
+    <eg:Button name="StateButton" class="FoldoutItemButton"/>
+  </eg:Foldout>
+</UXML>

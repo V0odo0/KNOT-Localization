@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecacf7bdd7e77b2419e140cb5ded6aa5, type: 3}
+  m_Name: KnotTextCollection_de_demo
+  m_EditorClassIdentifier: 
+  _items:
+  - _key: Pages.1.1
+    _rawText: "Dieser Text ist ins Afrikanische \xFCbersetzt"
+  - _key: Pages.0.0
+    _rawText: "Die Startsprache, falls in der Liste vorhanden, wird entsprechend
+      der Sprache Ihres Systems ausgew\xE4hlt, andernfalls wird standardm\xE4\xDFig
+      Englisch festgelegt. Beim \xC4ndern der aktuellen Sprache werden alle aktiven
+      lokalisierten Elemente der Szene nach dem Laden der Daten aktualisiert."
+  - _key: Pages.0.1
+    _rawText: "* Text in anderen Sprachen als Englisch wird maschinell \xFCbersetzt."
+  - _key: Pages.0.title
+    _rawText: Startsprache definieren
+  - _key: Pages.1.0
+    _rawText: "Unsere \xDCbersetzer haben es geschafft, nur den folgenden Text in
+      die afrikanische Sprache zu \xFCbersetzen. Aus diesem Grund haben wir unserer
+      Datenbank Fallback-Sprachmetadaten hinzugef\xFCgt. Versuchen Sie, auf afrikanisch
+      umzusteigen."
+  - _key: Pages.1.title
+    _rawText: "Zur\xFCckgreifen auf die Standardsprache"
+  - _key: Pages.2.0
+    _rawText: "Der folgende Text ist nicht in eine Sprache \xFCbersetzt und wird
+      daher als \"Fallback Value\" angezeigt. Versuchen Sie, den Wert f\xFCr den
+      angegebenen Schl\xFCssel zu \xFCberschreiben. Wenn sich der Wert \xE4ndert,
+      werden alle lokalisierten Komponenten mit einem Verweis auf diesen Schl\xFCssel
+      aktualisiert."
+  - _key: Pages.2.title
+    _rawText: "F\xFCgen Sie Text in Echtzeit hinzu"
+  - _key: Pages.3.0
+    _rawText: "Sie k\xF6nnen einem Textschl\xFCssel in einer Datenbank Metadaten
+      zuweisen, die Text basierend auf den Besonderheiten der aktuellen Sprache transformieren
+      k\xF6nnen. Der folgende Text wird mithilfe der System.CultureInfo-Klasse mit
+      dem Namen des aktuellen Wochentags nachfixiert."
+  - _key: Pages.3.postfixDayOfTheWeek
+    _rawText: 'Aktueller Wochentag:'
+  - _key: Pages.3.title
+    _rawText: Text mit Metadaten transformieren
+  - _key: Pages.4.0
+    _rawText: "Mit dem integrierten Addon \"Localized Components\" k\xF6nnen Sie
+      nicht nur Text, sondern auch Assets lokalisieren. Zum Beispiel Sprites. Versuchen
+      Sie, die Sprache zu \xE4ndern."
+  - _key: Pages.4.title
+    _rawText: Lokalisierung von Assets
+  - _key: UI.Language
+    _rawText: Sprache
+  - _key: UI.Title
+    _rawText: KNOT Localization - Demo
+  - _key: Pages.6.title
+    _rawText: Lokalisierung von Assets
+  - _key: Pages.6.0
+    _rawText: "Die Implementierung der Logik f\xFCr benutzerdefinierte Sammlungsanbieter
+      erm\xF6glicht das Laden der Textsammlung von einer beliebigen Quelle, entweder
+      remote oder lokal. Beispielsweise stammt die spanischsprachige Textsammlung
+      aus einer JSON-Datei, die auf gist.github.com gehostet wird."
+  - _key: UI.Load
+    _rawText: Herunterladen

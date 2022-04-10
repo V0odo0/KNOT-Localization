@@ -1,0 +1,11 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:VisualElement name="KnotLanguageDataEditorPanel" class="TreeViewItemEditor">
+    <eg:ScrollView view-data-key="Knot.LanguageData.ScrollView" style="flex-grow: 1">
+      <ed:PropertyField name="CultureName"/>
+      <ed:PropertyField name="SystemLanguage"/>
+      <ed:PropertyField name="NativeName"/>
+      <eg:IMGUIContainer name="ProvidersListContainer" style="margin: 3px"/>
+      <eg:Foldout name="MetadataContainerFoldout" text="Language Metadata"/>
+    </eg:ScrollView>
+  </eg:VisualElement>
+</UXML>

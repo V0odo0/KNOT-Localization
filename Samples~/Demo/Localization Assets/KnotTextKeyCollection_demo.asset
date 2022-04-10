@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1ff9c661913424893eef705ffbbc73, type: 3}
+  m_Name: KnotTextKeyCollection_demo
+  m_EditorClassIdentifier: 
+  _keyData:
+  - _key: UI.Title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: UI.Language
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.0.title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.0.0
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.1.0
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.1.title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.1.1
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.2.title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.0.1
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.2.0
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: untranslated_key
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.3.title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.3.0
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.3.postfixDayOfTheWeek
+    _metadata:
+      _runtime:
+      - id: 0
+      _editor: []
+  - _key: Pages.4.title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.4.0
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.6.title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.6.0
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: UI.Load
+    _metadata:
+      _runtime: []
+      _editor: []
+  references:
+    version: 1
+    00000000:
+      type: {class: KnotCultureSpecificDayPostfixMetadata, ns: Knot.Localization.Demo,
+        asm: Knot.Localization}
+      data:
+        _serializationPlaceholder: 0

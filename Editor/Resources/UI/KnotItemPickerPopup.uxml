@@ -1,0 +1,9 @@
+﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <eg:VisualElement name="KnotItemPickerPopup" style="margin: 1px">
+    <ed:Toolbar name="Toolbar" style="flex-shrink: 0">
+      <ed:ToolbarSearchField name="SearchField" style="flex-grow: 1; flex-shrink: 1"/>
+    </ed:Toolbar>
+    <eg:IMGUIContainer name="TreeViewContainer" style="flex-shrink: 1; flex-basis: 149600px"/>
+    <eg:VisualElement name="ItemPreviewContainer"/>
+  </eg:VisualElement>
+</UXML>

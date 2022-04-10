@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="KnotAboutEditorPanel" style="flex-grow: 1;">
+        <Style src="KnotEditorStyles.uss" />
+        <uie:Toolbar style="height: 50px;">
+            <ui:VisualElement style="align-items: center; justify-content: flex-start; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; flex-direction: row; flex-wrap: nowrap; flex-grow: 1;">
+                <ui:VisualElement name="LogoImage" style="background-image: resource(&apos;KnotLocalization_icon&apos;); -unity-background-scale-mode: stretch-to-fill; align-items: stretch; position: relative; width: 40px; height: 40px;" />
+                <ui:Label text="KNOT Localization" class="unity-base-field__label" style="-unity-font-style: normal; font-size: 20px; background-color: rgba(0, 0, 0, 0); -unity-text-align: upper-left; white-space: nowrap;" />
+                <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; justify-content: flex-start; align-items: flex-end;">
+                    <ui:Label text="vX.Y.Z" name="VersionLabel" class="unity-base-field__label" style="-unity-font-style: normal; -unity-text-align: upper-right; flex-grow: 1;" />
+                    <ui:Button text="up-to-date" name="UpdateButton" style="flex-shrink: 0; flex-grow: 0; flex-wrap: nowrap; flex-direction: column; -unity-font-style: normal;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </uie:Toolbar>
+        <ui:ScrollView style="height: auto; flex-direction: column; flex-wrap: nowrap; flex-grow: 1;">
+            <ui:VisualElement style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; justify-content: flex-start; align-items: stretch; flex-grow: 1;">
+                <ui:VisualElement style="margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;" />
+                <ui:Button text="Online Manual" name="OnlineManualButton" style="-unity-font-style: normal;" />
+                <ui:Button text="Offline Manual [PDF]" name="OfflineManualButton" style="-unity-font-style: normal;" />
+                <ui:Button text="Discuss on forums.unity.com" name="UnityForumThreadButton" style="-unity-font-style: normal;" />
+                <ui:VisualElement style="align-items: center; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
+                    <ui:Label text="Support:" style="font-size: 10px;" />
+                    <ui:TextField picking-mode="Ignore" text="e-mail" name="ContactDevEmailLabel" readonly="true" class="noBordersTextField" style="-unity-font-style: normal;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

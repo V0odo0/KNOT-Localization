@@ -1,0 +1,24 @@
+{
+    "name": "Knot.Localization.Tests.Editor",
+    "references": [
+        "GUID:0c836d202cf772f428223d8fdcf6f608",
+        "GUID:df9667fafd8981d4b8730b2b325af412",
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
+        "GUID:0acc523941302664db1f4e527237feb3"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

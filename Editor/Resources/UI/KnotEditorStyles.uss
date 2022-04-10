@@ -1,0 +1,113 @@
+.unity-property-field__label {
+    min-width: 152px;
+}
+
+.unity-scroll-view__content-container {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.noBordersTextField #unity-text-input {
+    background-color: transparent;
+    border-width: 0;
+}
+
+.MiniLabel {
+    font-size: 10px;
+    color: gray;
+}
+
+.GroupTitleLabel {
+    -unity-font-style: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.Separator {
+    background-color: rgba(255, 255, 255, 0.25);
+    height: 1px;
+    max-height: 1px;
+    min-height: 1px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.centerText {
+    -unity-text-align: middle-center;
+}
+
+.margin0 {
+    margin: 0;
+}
+
+.margin3px {
+    margin: 3px;
+}
+
+.padding3px {
+    padding: 3px;
+}
+
+.enumArrow {
+    position: absolute;
+    right: 3px;
+}
+
+.TreeViewItemEditor {
+    flex-shrink: 0;
+    max-height: 60%;
+    border-top-width: 1px;
+    border-color: grey;
+    min-width: 50%;
+}
+
+.ToolbarButton {
+    flex-shrink: 0;
+}
+
+.TabToolbar {
+    justify-content: center;
+    flex-shrink: 0;
+    align-items: flex-end;
+    min-height: 25px;
+    flex-grow: 1;
+    background-color: transparent;
+}
+
+.ToolbarToggle {
+    border-top-width: 1px;
+    min-height: 20px;
+}
+
+.MetadataListContainer {
+    margin: 3px;
+    margin-top: 0;
+}
+
+.ToolbarSpacer {
+    flex-shrink: 1;
+    flex-basis: 2000px;
+}
+
+.ItemViewFoldout {
+    border-color: grey;
+    border-width: 1px;
+    flex-grow: 1;
+}
+
+.FoldoutItemButton {
+    border-width: 0;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.HorizontalSplitter {
+    left: -2px;
+    min-width: 4px;
+    min-height: 100%;
+    position: absolute;
+    cursor: resize-horizontal;
+}

@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="KnotDatabaseSettingsTabPanel" style="padding: 3px;">
+        <Style src="KnotEditorStyles.uss" />
+        <ui:ScrollView view-data-key="Knot.DatabaseSettingsTabPanel.ScrollView" style="flex-grow: 1;">
+            <uie:PropertyField name="LanguageSelector" tooltip="Implements startup language selection logic if Load On Startup is enabled. Also implements saving selected language logic whenever selected language has been changed" />
+            <ui:VisualElement name="Separator" class="Separator" />
+            <ui:IMGUIContainer name="TextKeyCollectionsContainer" class="margin3px" />
+            <ui:IMGUIContainer name="AssetKeyCollectionsContainer" class="margin3px" />
+            <ui:VisualElement name="Separator" class="Separator" />
+            <uie:PropertyField name="TextController" tooltip="Implements creating key-value dictionary from provided language data. Controller is responsible for retrieving values from currently selected language" />
+            <uie:PropertyField name="AssetController" tooltip="Implements creating key-value dictionary from provided language data. Controller is responsible for retrieving values from currently selected language" />
+            <ui:VisualElement name="Separator" class="Separator" />
+            <ui:Foldout name="MetadataContainerFoldout" text="Global Metadata" class="margin3px" style="min-height: 2px;" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>
