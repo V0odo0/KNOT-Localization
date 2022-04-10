@@ -9,6 +9,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
+
 
 namespace Knot.Localization.Editor
 {
@@ -20,6 +22,12 @@ namespace Knot.Localization.Editor
 
         const string EditorStylesResourcesPath = "UI/KnotEditorStyles";
 
+
+        public static bool IsUpmPackage => UpmPackageInfo != null;
+
+        public static PackageInfo UpmPackageInfo => 
+            _upmPackageInfo ?? (_upmPackageInfo = PackageInfo.FindForAssembly(Assembly.GetAssembly(typeof(KnotLocalization))));
+        private static PackageInfo _upmPackageInfo;
 
         public static IReadOnlyDictionary<KnotMetadataInfoAttribute.MetadataScope, KnotEditorExtensions.TypeInfo[]> MetadataTypes
         {
