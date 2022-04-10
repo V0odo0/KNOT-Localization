@@ -1,18 +1,22 @@
 {
   "name": "com.knot.localization",
+  "version": "0.9.0",
+  "author": "V0odo0",
   "displayName": "KNOT Localization",
-  "version": "0.9.0-beta",
   "unity": "2019.3",
-  "description": "",
+  "description": "Lightweight, scalable and extensible texts & assets localization system for Unity.",
   "keywords": [
     "localization",
-    "globalization",
-  ],
+    "globalization"
+	],
   "category": "Localization",
-  "relatedPackages": { "com.unity.textmeshpro.tests": "1.0.1" },
-  "repository": {
-    "type": "git",
-    "url": "https://gitlab.cds.internal.unity3d.com/upm-packages/text/com.unity.textmeshpro.git",
-    "revision": "dcedac21"
-  }
+  "documentationUrl": "https://github.com/V0odo0/KNOT-Localization"
+  "changelogUrl": "https://github.com/V0odo0/KNOT-Localization/blob/main/CHANGELOG.md",
+  "samples": [
+        {
+            "displayName": "Demo",
+            "description": "Features overview",
+            "path": "Samples~/Demo"
+        }
+    ]
 }
