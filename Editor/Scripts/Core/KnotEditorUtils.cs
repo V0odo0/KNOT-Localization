@@ -18,7 +18,6 @@ namespace Knot.Localization.Editor
     {
         internal const string CorePrefix = "KnotLocalization";
         internal const string ToolsRootPath = "Tools/" + KnotLocalization.CoreName + "/";
-        internal const string DefineName = "KNOT_LOCALIZATION";
 
         const string EditorStylesResourcesPath = "UI/KnotEditorStyles";
 
@@ -105,29 +104,11 @@ namespace Knot.Localization.Editor
             {
                 //Ensure that Project Settings is created
             }
-
-            SetDefine();
         }
 
         static void SaveAllSettings()
         {
             _userSettings?.Save();
-        }
-
-        static void SetDefine()
-        {
-            StringBuilder defineStringBuilder = new StringBuilder(PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup));
-            var currentDefines = defineStringBuilder.ToString().Trim().Split(';');
-
-            if (currentDefines.Contains(DefineName))
-                return;
-
-            if (defineStringBuilder.Length != 0 && defineStringBuilder[defineStringBuilder.Length - 1] != ';')
-                defineStringBuilder.Append(';');
-
-            defineStringBuilder.Append(DefineName);
-
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defineStringBuilder.ToString());
         }
 
 
