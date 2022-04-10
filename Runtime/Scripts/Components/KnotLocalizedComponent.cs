@@ -3,8 +3,7 @@
 namespace Knot.Localization.Components
 {
     /// <summary>
-    /// Base component that handles <see cref="KnotKeyReference{TValueType}.Value"/>
-    /// update in <see cref="OnValueUpdated"/>.
+    /// Base class for implementing custom localizable components
     /// </summary>
     public abstract partial class KnotLocalizedComponent<TKeyReference, TValueType> : MonoBehaviour
         where TKeyReference : KnotKeyReference<TValueType>
@@ -22,6 +21,16 @@ namespace Knot.Localization.Components
         [SerializeField] private TKeyReference _keyReference;
 
 
+        protected virtual void Awake()
+        {
+
+        }
+        
+        protected virtual void Start()
+        {
+
+        }
+
         protected virtual void OnEnable()
         {
             if (KnotLocalization.Manager.State == KnotManagerState.LanguageLoaded)
@@ -33,6 +42,16 @@ namespace Knot.Localization.Components
         protected virtual void OnDisable()
         {
             KeyReference.ValueUpdated -= OnValueUpdated;
+        }
+
+        protected virtual void OnDestroy()
+        {
+
+        }
+
+        protected virtual void OnValidate()
+        {
+
         }
 
         /// <summary>

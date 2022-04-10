@@ -18,8 +18,10 @@ namespace Knot.Localization.Components
         private Font _defaultFont;
 
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             _defaultFont = Text?.font;
         }
 
