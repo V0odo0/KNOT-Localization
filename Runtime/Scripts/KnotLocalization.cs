@@ -18,7 +18,7 @@ namespace Knot.Localization
         internal const string CoreName = "KNOT Localization";
 
         public static KnotProjectSettings ProjectSettings =>
-            _projectSettings ?? (_projectSettings = GetProjectSettings());
+            _projectSettings ?? (_projectSettings = LoadProjectSettings());
         private static KnotProjectSettings _projectSettings;
 
         public static IKnotManager Manager => _manager ?? (_manager = ProjectSettings.Manager ?? new KnotManager());
@@ -33,7 +33,7 @@ namespace Knot.Localization
         }
 
         
-        static KnotProjectSettings GetProjectSettings()
+        static KnotProjectSettings LoadProjectSettings()
         {
             KnotProjectSettings settings;
 

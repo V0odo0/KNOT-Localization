@@ -10,13 +10,14 @@ namespace Knot.Localization.Editor
 {
     public abstract class KnotItemPickerPopup<TItem> : KnotPopupWindowContent where TItem : class
     {
-        public Action<TItem> ItemPicked;
+        internal static Vector2 DefaultWindowSize = new Vector2(350, 400);
 
-        public readonly ToolbarSearchField SearchField;
-        public readonly TextField SearchTextField;
-        public readonly IMGUIContainer TreeViewContainer;
-        public readonly VisualElement ItemPreviewContainer;
+        public event Action<TItem> ItemPicked;
 
+        protected readonly ToolbarSearchField SearchField;
+        protected readonly TextField SearchTextField;
+        protected readonly IMGUIContainer TreeViewContainer;
+        protected readonly VisualElement ItemPreviewContainer;
         protected PickerTreeView TreeView;
         
 
@@ -43,7 +44,7 @@ namespace Knot.Localization.Editor
 
         protected void SelectItem(TItem item)
         {
-            var targetTreeViewItem = TreeView.Items.FirstOrDefault(t => t.Item == item);
+            var targetTreeViewItem = TreeView.Items.FirstOrDefault(t => t.Item.Equals(item));
             if (targetTreeViewItem != null)
             {
                 TreeView.SetSelection(new List<int> { targetTreeViewItem.id }, TreeViewSelectionOptions.FireSelectionChanged);
@@ -63,7 +64,7 @@ namespace Knot.Localization.Editor
         protected virtual void OnItemSelected(TItem item) { }
 
 
-        public override Vector2 GetWindowSize() => new Vector2(350, 400);
+        public override Vector2 GetWindowSize() => DefaultWindowSize;
 
 
         protected class PickerTreeView : TreeView

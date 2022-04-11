@@ -9,73 +9,54 @@ using Object = UnityEngine.Object;
 
 namespace Knot.Localization.Editor
 {
-    public class KnotAssetKeyPickerPopup : KnotItemPickerPopup<string>
+    public class KnotAssetKeyPickerPopup : KnotItemKeyPickerPopup
     {
-        protected KnotAssetKeyPickerPopup(List<PickerTreeViewItem> items, TreeViewState state = null) : base(items, state)
+        protected KnotAssetKeyPickerPopup(List<PickerTreeViewItem> items, TreeViewState state = null) 
+            : base(items, state)
         {
-
+            
         }
 
 
-        static string[] GetAllKeys(Type assetType = null)
+        static string[] GetAllKeys(KnotDatabase db, Type assetType = null)
         {
-            if (KnotDatabaseUtils.ActiveDatabase == null)
-                return new string[0];
+            if (db == null)
+                return Array.Empty<string>();
 
-            var keysHashSet = new HashSet<string>();
-            foreach (var assetKey in KnotLocalization.ProjectSettings.DefaultDatabase.AssetKeyCollections.SelectMany(c => c))
+            bool hasAssetTypeRestriction = assetType != null && assetType != typeof(Object);
+            var keys = new HashSet<string>();
+            foreach (var assetKey in db.AssetKeyCollections.Where(c => c != null).SelectMany(c => c))
             {
-                if (assetType != null && assetType != typeof(Object))
+                if (hasAssetTypeRestriction)
                 {
-                    var restrictedType = assetKey.Metadata.OfType<KnotAssetTypeRestrictionMetadata>().FirstOrDefault()?.AssetType;
-                    if (restrictedType == null || restrictedType != assetType)
+                    var restrictedAssetType = assetKey.Metadata.OfType<KnotAssetTypeRestrictionMetadata>().FirstOrDefault()?.AssetType;
+                    if (restrictedAssetType != null && restrictedAssetType != assetType)
                         continue;
                 }
                 
-                keysHashSet.Add(assetKey.Key);
-            }
-                
-
-            foreach (var lang in KnotLocalization.ProjectSettings.DefaultDatabase.Languages)
-            {
-                var collections = lang.CollectionProviders.OfType<IKnotPersistentItemCollectionProvider>().
-                    Select(p => p.Collection).Where(c => c != null).
-                    OfType<IKnotItemCollection<KnotAssetData>>().Distinct();
-
-                foreach (var collection in collections)
-                {
-                    foreach (var assetItem in collection.AsParallel())
-                    {
-                        if (assetType != null && assetType != typeof(Object) && assetType != assetItem.Asset?.GetType())
-                            continue;
-
-                        keysHashSet.Add(assetItem.Key);
-                    }
-                        
-                }
+                keys.Add(assetKey.Key);
             }
 
-            return keysHashSet.OrderBy(key => key).ToArray();
+            return keys.OrderBy(key => key).ToArray();
         }
 
         
-        public static void Show(Rect rect, Type restrictedAssetType, Action<string> keyPicked, string selectedKey = "")
+        public static void Show(Rect rect, Type restrictedAssetType, Action<string> keyPicked, string lastSelectedKey = "")
         {
-            var allKeys = GetAllKeys(restrictedAssetType);
-
             Texture2D icon = restrictedAssetType == null
                 ? null
                 : AssetPreview.GetMiniTypeThumbnail(restrictedAssetType);
 
-            var treeViewItems = new List<PickerTreeViewItem>();
-
+            var treeViewItems = new List<PickerTreeViewItem> { new PickerTreeViewItem(string.Empty, 0, "None", null) };
+            var allKeys = GetAllKeys(KnotLocalization.ProjectSettings.DefaultDatabase, restrictedAssetType);
             for (int i = 0; i < allKeys.Length; i++)
                 treeViewItems.Add(new PickerTreeViewItem(allKeys[i], i + 1, allKeys[i], icon));
-
-            treeViewItems.Insert(0, new PickerTreeViewItem(string.Empty, 0, "None", null));
-
+            
             var popup = new KnotAssetKeyPickerPopup(treeViewItems);
             popup.ItemPicked += keyPicked;
+            
+            if (!string.IsNullOrEmpty(lastSelectedKey))
+                popup.SelectItem(lastSelectedKey);
 
             ShowAndRememberLastFocus(rect, popup);
         }

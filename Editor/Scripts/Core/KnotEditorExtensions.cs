@@ -50,6 +50,17 @@ namespace Knot.Localization.Editor
             return e?.GetType().GetProperty("visualInput", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(e) as VisualElement;
         }
 
+        internal static void SetMargins(this IStyle style, StyleLength m)
+        {
+            if (style == null)
+                return;
+
+            style.marginTop = m;
+            style.marginBottom = m;
+            style.marginLeft = m;
+            style.marginRight = m;
+        }
+
         internal static void SetIcon(this ToolbarToggle t, Texture icon)
         {
             VisualElement checkmark;
