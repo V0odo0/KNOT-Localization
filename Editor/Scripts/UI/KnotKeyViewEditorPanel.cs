@@ -57,33 +57,38 @@ namespace Knot.Localization.Editor
             MetadataContainerEditor = new KnotMetadataContainerEditor(MetadataContainerFoldout, MetadataScope, null, OnMetadataChanged);
             MetadataContainerEditor.MetadataContainer.onGUIHandler += () =>
             {
-                if (!MetadataContainerEditor.Root.value)
-                    return;
-
-                if (KeyView.KeyData == null && KeyCollections.Any(c => c != null && c.IsPersistent()))
+                if (KeyView.KeyData == null)
                 {
-                    bool isMultipleCollections = KeyCollections.Distinct().Count(c => c != null) > 1;
-                    bool add = isMultipleCollections ? 
-                        EditorGUILayout.DropdownButton(AddToKeyCollectionContent, FocusType.Passive) :
-                        GUILayout.Button(AddToKeyCollectionContent);
-                    
-                    if (add)
+                    if (KeyCollections.Any(c => c != null && c.IsPersistent()))
                     {
-                        if (isMultipleCollections)
-                        {
-                            GenericMenu m = new GenericMenu();
-                            foreach (var keyCollection in KeyCollections.Where(c => c != null).Distinct())
-                            {
-                                m.AddItem(new GUIContent(keyCollection.name), false, () =>
-                                {
-                                    AddToKeyCollection?.Invoke(keyCollection, KeyView);
-                                });
-                            }
+                        bool isMultipleCollections = KeyCollections.Distinct().Count(c => c != null) > 1;
+                        bool add = isMultipleCollections
+                            ? EditorGUILayout.DropdownButton(AddToKeyCollectionContent, FocusType.Passive)
+                            : GUILayout.Button(AddToKeyCollectionContent);
 
-                            m.ShowAsContext();
+                        if (add)
+                        {
+                            if (isMultipleCollections)
+                            {
+                                GenericMenu m = new GenericMenu();
+                                foreach (var keyCollection in KeyCollections.Where(c => c != null).Distinct())
+                                {
+                                    m.AddItem(new GUIContent(keyCollection.name), false, () =>
+                                    {
+                                        AddToKeyCollection?.Invoke(keyCollection, KeyView);
+                                    });
+                                }
+
+                                m.ShowAsContext();
+                            }
+                            else AddToKeyCollection?.Invoke(KeyCollections.First(), KeyView);
                         }
-                        else AddToKeyCollection?.Invoke(KeyCollections.First(), KeyView);
                     }
+                    else
+                    {
+                        GUILayout.Label("No Key Collection assigned");
+                    }
+                    
                 }
             };
         }
