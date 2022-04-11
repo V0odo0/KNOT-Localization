@@ -56,7 +56,7 @@ namespace Knot.Localization
 
             foreach (var data in GetCombinedKeyData(buildData).AsParallel())
             {
-                var keyMetadata = data.Value.KeyData?.Metadata.ToArray() ?? new IKnotMetadata[0];
+                var keyMetadata = data.Value.KeyData?.Metadata.ToArray() ?? Array.Empty<IKnotMetadata>();
                 UpdateCultureSpecificMetadata(keyMetadata);
 
                 var metadata = keySharedMetadata.Union(keyMetadata).ToArray();

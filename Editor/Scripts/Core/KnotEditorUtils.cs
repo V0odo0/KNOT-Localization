@@ -178,12 +178,6 @@ namespace Knot.Localization.Editor
             return true;
         }
 
-        public static void ResetUserSettings()
-        {
-            EditorUserSettings.SetConfigValue(KnotEditorUserSettings.ConfigValueName, string.Empty);
-            _userSettings = null;
-        }
-
         public static Texture GetIcon(string iconName)
         {
             if (_cachedIcons.ContainsKey(iconName))

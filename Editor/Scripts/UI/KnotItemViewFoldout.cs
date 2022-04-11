@@ -69,6 +69,7 @@ namespace Knot.Localization.Editor
                 if (checkMark != null)
                 {
                     var iconImage = new Image { image = icon };
+                    iconImage.style.minWidth = 16;
                     checkMark?.parent.Insert(0, iconImage);
                 }
             }

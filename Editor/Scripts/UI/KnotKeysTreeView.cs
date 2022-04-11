@@ -244,7 +244,15 @@ namespace Knot.Localization.Editor
 
             if (_lastSearchStringLength != 0 && string.IsNullOrEmpty(newSearch))
             {
-                FrameItem(_lastSelectedItemId);
+                try
+                {
+                    FrameItem(_lastSelectedItemId);
+
+                }
+                catch 
+                {
+                    //
+                }
                 return;
             }
 

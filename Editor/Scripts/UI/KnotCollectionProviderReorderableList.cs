@@ -25,8 +25,9 @@ namespace Knot.Localization.Editor
         {
             rect.y += EditorGUIUtility.standardVerticalSpacing;
             var property = serializedProperty.GetArrayElementAtIndex(elementIndex);
-            
-            EditorGUI.PropertyField(rect, property, new GUIContent(property.GetManagedReferenceTypeName()), property.isExpanded);
+
+            var labelContent = EditorGUIUtility.TrTempContent(property.GetManagedReferenceTypeName());
+            EditorGUI.PropertyField(rect, property, labelContent, property.isExpanded);
         }
 
         float GetElementHeight(int elementIndex)
