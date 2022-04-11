@@ -7,49 +7,42 @@ using UnityEngine;
 
 namespace Knot.Localization.Editor
 {
-    public class KnotTextKeyPickerPopup : KnotItemPickerPopup<string>
+    public class KnotTextKeyPickerPopup : KnotItemKeyPickerPopup
     {
-        protected KnotTextKeyPickerPopup(List<PickerTreeViewItem> items, TreeViewState state = null) : base(items, state)
+        protected KnotTextKeyPickerPopup(List<PickerTreeViewItem> items, TreeViewState state = null) 
+            : base(items, state)
         {
 
         }
 
 
-        static string[] GetAllKeys()
+        static string[] GetAllKeys(KnotDatabase db)
         {
-            if (KnotDatabaseUtils.ActiveDatabase == null)
-                return new string[0];
+            if (db == null)
+                return Array.Empty<string>();
 
-            var keysHashSet = new HashSet<string>();
-            foreach (var textKey in KnotLocalization.ProjectSettings.DefaultDatabase.TextKeyCollections.Where(c => c != null).SelectMany(c => c))
-                keysHashSet.Add(textKey.Key);
+            var keys = new HashSet<string>();
+            foreach (var textKey in db.TextKeyCollections.Where(c => c != null).SelectMany(c => c))
+                keys.Add(textKey.Key);
 
-            foreach (var lang in KnotLocalization.ProjectSettings.DefaultDatabase.Languages)
-            {
-                var collections = lang.CollectionProviders.OfType<IKnotPersistentItemCollectionProvider>().Select(p => p.Collection).
-                    Distinct().OfType<IKnotItemCollection<KnotTextData>>();
-
-                foreach (var collection in collections)
-                foreach (var textItem in collection.AsParallel())
-                    keysHashSet.Add(textItem.Key);
-            }
-
-            return keysHashSet.OrderBy(text => text).ToArray();
+            return keys.OrderBy(key => key).ToArray();
         }
 
-        public static void Show(Rect rect, Action<string> keyPicked, string selectedKey = "")
-        {
-            var allKeys = GetAllKeys();
 
-            var treeViewItems = new List<PickerTreeViewItem>();
+        public static void Show(Rect rect, Action<string> keyPicked, string lastSelectedKey = "")
+        {
+            var allKeys = GetAllKeys(KnotLocalization.ProjectSettings.DefaultDatabase);
+
+            var treeViewItems = new List<PickerTreeViewItem> { new PickerTreeViewItem(string.Empty, 0, "None", null) };
             for (int i = 0; i < allKeys.Length; i++)
                 treeViewItems.Add(new PickerTreeViewItem(allKeys[i], i + 1, allKeys[i], KnotEditorUtils.GetIcon(KnotTextKeysTabPanel.KeyViewIconName)));
-
-            treeViewItems.Insert(0, new PickerTreeViewItem(string.Empty, 0, "None", null));
             
             var popup = new KnotTextKeyPickerPopup(treeViewItems);
             popup.ItemPicked += keyPicked;
             
+            if (!string.IsNullOrEmpty(lastSelectedKey))
+                popup.SelectItem(lastSelectedKey);
+
             ShowAndRememberLastFocus(rect, popup);
         }
     }

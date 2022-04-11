@@ -11,26 +11,13 @@ namespace Knot.Localization.Components
     {
         protected TextMesh TextMesh => _textMesh ?? (_textMesh = GetComponent<TextMesh>());
         private TextMesh _textMesh;
-        
-        private Font _lastCustomFont;
-        private Font _defaultFont;
 
-
-        void Awake()
-        {
-            _defaultFont = TextMesh?.font;
-        }
 
         protected virtual void UpdateFont()
         {
             var fontMetadata = KeyReference.Metadata.OfType<KnotCustomFontMetadata>().LastOrDefault();
-            if (fontMetadata != null && fontMetadata.Font != null)
-            {
-                if (TextMesh.font != fontMetadata.Font)
-                    TextMesh.font = _lastCustomFont = fontMetadata.Font;
-            }
-            else if (_lastCustomFont != null)
-                TextMesh.font = _defaultFont;
+            if (fontMetadata?.Font != null && TextMesh.font != fontMetadata.Font)
+                TextMesh.font = fontMetadata.Font;
         }
 
         protected override void OnValueUpdated(string value)

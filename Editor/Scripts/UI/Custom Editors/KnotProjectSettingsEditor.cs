@@ -37,16 +37,6 @@ namespace Knot.Localization.Editor
                 while (property.NextVisible(false));
             }
             serializedObject.ApplyModifiedProperties();
-
-            GUILayout.Space(15);
-            if (GUILayout.Button("Reset User Settings"))
-            {
-                if (EditorUtility.DisplayDialog("Reset User Settings",
-                    "Are you sure you want to reset User Settings? You cannot undo this action.", "Yes", "No"))
-                {
-                    KnotEditorUtils.ResetUserSettings();
-                }
-            }
         }
 
 

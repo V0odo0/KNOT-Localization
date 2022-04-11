@@ -9,6 +9,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
+
 
 namespace Knot.Localization.Editor
 {
@@ -16,10 +18,15 @@ namespace Knot.Localization.Editor
     {
         internal const string CorePrefix = "KnotLocalization";
         internal const string ToolsRootPath = "Tools/" + KnotLocalization.CoreName + "/";
-        internal const string DefineName = "KNOT_LOCALIZATION";
 
         const string EditorStylesResourcesPath = "UI/KnotEditorStyles";
 
+
+        public static bool IsUpmPackage => UpmPackageInfo != null;
+
+        public static PackageInfo UpmPackageInfo => 
+            _upmPackageInfo ?? (_upmPackageInfo = PackageInfo.FindForAssembly(Assembly.GetAssembly(typeof(KnotLocalization))));
+        private static PackageInfo _upmPackageInfo;
 
         public static IReadOnlyDictionary<KnotMetadataInfoAttribute.MetadataScope, KnotEditorExtensions.TypeInfo[]> MetadataTypes
         {
@@ -97,29 +104,11 @@ namespace Knot.Localization.Editor
             {
                 //Ensure that Project Settings is created
             }
-
-            SetDefine();
         }
 
         static void SaveAllSettings()
         {
             _userSettings?.Save();
-        }
-
-        static void SetDefine()
-        {
-            StringBuilder defineStringBuilder = new StringBuilder(PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup));
-            var currentDefines = defineStringBuilder.ToString().Trim().Split(';');
-
-            if (currentDefines.Contains(DefineName))
-                return;
-
-            if (defineStringBuilder.Length != 0 && defineStringBuilder[defineStringBuilder.Length - 1] != ';')
-                defineStringBuilder.Append(';');
-
-            defineStringBuilder.Append(DefineName);
-
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defineStringBuilder.ToString());
         }
 
 
@@ -189,12 +178,6 @@ namespace Knot.Localization.Editor
             return true;
         }
 
-        public static void ResetUserSettings()
-        {
-            EditorUserSettings.SetConfigValue(KnotEditorUserSettings.ConfigValueName, string.Empty);
-            _userSettings = null;
-        }
-
         public static Texture GetIcon(string iconName)
         {
             if (_cachedIcons.ContainsKey(iconName))
@@ -235,6 +218,15 @@ namespace Knot.Localization.Editor
                 _cachedIconsActiveState.Add(iconName, icon);
 
             return icon;
+        }
+
+        public static void PerformPlayModeLiveReload()
+        {
+            if (!Application.isPlaying)
+                return;
+
+            if (KnotLocalization.Manager.State == KnotManagerState.LanguageLoaded)
+                KnotLocalization.Manager.LoadLanguage(KnotLocalization.Manager.Languages.FirstOrDefault());
         }
     }
 }

@@ -14,26 +14,12 @@ namespace Knot.Localization.Components
         protected Text Text => _text ?? (_text = GetComponent<Text>());
         private Text _text;
 
-        private Font _lastCustomFont;
-        private Font _defaultFont;
-
-
-        void Awake()
-        {
-            _defaultFont = Text?.font;
-        }
-
 
         protected virtual void UpdateFont()
         {
             var fontMetadata = KeyReference.Metadata.OfType<KnotCustomFontMetadata>().LastOrDefault();
-            if (fontMetadata != null && fontMetadata.Font != null)
-            {
-                if (Text.font != fontMetadata.Font)
-                    Text.font = _lastCustomFont = fontMetadata.Font;
-            }
-            else if (_lastCustomFont != null)
-                Text.font = _defaultFont;
+            if (fontMetadata?.Font != null && Text.font != fontMetadata.Font)
+                Text.font = fontMetadata.Font;
         }
 
         protected override void OnValueUpdated(string value)

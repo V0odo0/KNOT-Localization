@@ -14,7 +14,7 @@ namespace Knot.Localization.Editor
 
         protected  override void ShowKeyPicker(Rect atRect, SerializedProperty parentProperty, Action<string> keyPicked)
         {
-            KnotTextKeyPickerPopup.Show(atRect, keyPicked);
+            KnotTextKeyPickerPopup.Show(atRect, keyPicked, GetKeyProperty(parentProperty)?.stringValue);
         }
 
         protected override string GetKeyDragAndDropDataName() => KnotTextKeysTreeView.DragAndDropKeyName;

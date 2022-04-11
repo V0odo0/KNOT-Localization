@@ -1,37 +1,40 @@
 ﻿using System;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Knot.Localization.Editor
 {
     public class KnotItemViewFoldout : KnotEditorPanel
     {
-        public event ContentRequest RequestFoldoutContent;
-        public event Action FoldoutContentHidden;
+        public event RequestContentEventHandler RequestAddContent;
+        public event Action RequestRemoveContent;
         public event Action<FoldoutButtonState> StateButtonClicked;
 
         public new Foldout Root => base.Root as Foldout;
 
         public virtual bool IsActive
         {
-            get => _toggleLabel?.enabledSelf ?? false;
+            get => ToggleLabel?.enabledSelf ?? false;
             set
             {
-                _toggleLabel?.SetEnabled(value);
+                ToggleLabel?.SetEnabled(value);
                 if (!value)
                     Root.value = false;
             }
         }
-        public bool IsReadOnly
+        public virtual string StateLabelText
         {
-            set => SwitchReadOnly(value);
-        }
-        public virtual string Name
-        {
-            get => Root.text;
-            set => Root.text = value;
+            get => StateLabel?.text;
+            set
+            {
+                if (StateLabel != null)
+                    StateLabel.text = value;
+            }
         }
 
+        protected string FoldoutStateName => $"{nameof(KnotItemViewFoldout)}_{Root.text}";
+        
         public FoldoutButtonState ButtonState
         {
             get => _buttonState;
@@ -46,20 +49,30 @@ namespace Knot.Localization.Editor
         }
         private FoldoutButtonState _buttonState = FoldoutButtonState.None;
 
-        public readonly Toggle Toggle;
-        public readonly Button StateButton;
-        public readonly Label StateLabel;
-        public readonly VisualElement ContentContainer;
+        protected readonly Toggle Toggle;
+        protected readonly VisualElement ToggleLabel;
+        protected readonly Button StateButton;
+        protected readonly Label StateLabel;
+        protected readonly VisualElement ContentContainer;
 
-        private readonly VisualElement _toggleLabel;
 
-
-        public KnotItemViewFoldout(string name = "", bool isReadOnly = false) : base(nameof(KnotItemViewFoldout))
+        public KnotItemViewFoldout(string name = "", bool readOnly = false, Texture icon = null) : base(nameof(KnotItemViewFoldout))
         {
             Toggle = Root.Q<Toggle>();
-            _toggleLabel = Toggle.Children()?.FirstOrDefault();
-            if (_toggleLabel != null)
-                _toggleLabel.style.flexShrink = 1f;
+            ToggleLabel = Toggle.Children()?.FirstOrDefault();
+            if (ToggleLabel != null)
+                ToggleLabel.style.flexShrink = 1f;
+
+            if (icon != null)
+            {
+                var checkMark = Root.Q("unity-checkmark");
+                if (checkMark != null)
+                {
+                    var iconImage = new Image { image = icon };
+                    iconImage.style.minWidth = 16;
+                    checkMark?.parent.Insert(0, iconImage);
+                }
+            }
 
             ContentContainer = Root.Q<VisualElement>(nameof(ContentContainer));
 
@@ -77,14 +90,13 @@ namespace Knot.Localization.Editor
             Root.text = name;
             Root.RegisterValueChangedCallback(evt =>
             {
-                if (evt.newValue && !IsActive)
-                    Root.SetValueWithoutNotify(false);
+                KnotEditorUtils.UserSettings.SetFoldoutState(FoldoutStateName, evt.newValue);
+                if (!IsActive)
+                    return;
 
-                if (Root.value)
-                    ShowFoldoutContent();
-                else HideFoldoutContent();
-
-                KnotEditorUtils.UserSettings.SetFoldoutState(Name, Root.value);
+                if (evt.newValue)
+                    ContentContainer.Add(RequestAddContent?.Invoke());
+                else RequestRemoveContent?.Invoke();
             });
 
             Root.RegisterCallback(new EventCallback<GeometryChangedEvent>(evt =>
@@ -94,7 +106,7 @@ namespace Knot.Localization.Editor
 
             UpdateButtonState();
             
-            IsReadOnly = isReadOnly;
+            SetReadOnly(readOnly);
         }
         
 
@@ -102,34 +114,21 @@ namespace Knot.Localization.Editor
         {
             base.OnPanelAdded();
 
-            Root.SetValueWithoutNotify(KnotEditorUtils.UserSettings.GetFoldoutState(Name));
+            Root.value = KnotEditorUtils.UserSettings.GetFoldoutState(FoldoutStateName);
 
             UpdateAdjacency();
-            ShowFoldoutContent();
+
+            if (Root.value)
+                ContentContainer.Add(RequestAddContent?.Invoke());
         }
 
         protected override void OnPanelRemoved()
         {
             base.OnPanelRemoved();
 
-            HideFoldoutContent();
+            RequestRemoveContent?.Invoke();
         }
 
-
-        void ShowFoldoutContent()
-        {
-            if (!Root.value)
-                return;
-
-            ContentContainer.Add(RequestFoldoutContent?.Invoke());
-        }
-
-        void HideFoldoutContent()
-        {
-            ContentContainer.Clear();
-
-            FoldoutContentHidden?.Invoke();
-        }
 
         void UpdateButtonState()
         {
@@ -202,11 +201,6 @@ namespace Knot.Localization.Editor
             Root.style.borderTopWidth = isFirst ? 1 : 0;
         }
 
-        void SwitchReadOnly(bool isReadOnly)
-        {
-            StateButton.SetEnabled(!isReadOnly);
-        }
-
         void MoveToToggle(VisualElement e)
         {
             if (e == null)
@@ -219,11 +213,17 @@ namespace Knot.Localization.Editor
         }
 
 
+        public void SetReadOnly(bool readOnly)
+        {
+            StateButton?.SetEnabled(!readOnly);
+        }
+
+
         public enum FoldoutButtonState
         {
             None, Add, AddContextMenu, Remove
         }
 
-        public delegate VisualElement ContentRequest();
+        public delegate VisualElement RequestContentEventHandler();
     }
 }

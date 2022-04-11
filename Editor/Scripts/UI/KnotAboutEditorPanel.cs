@@ -2,29 +2,21 @@
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UIElements;
 
 namespace Knot.Localization.Editor
 {
     public class KnotAboutEditorPanel : KnotEditorPanel
     {
-        ///todo: Update links
         const string OnlineManualLink = "https://vd3v.com/assets/knot_localization/docs/articles/introduction.html";
+        const string AssetStoreLink = "https://assetstore.unity.com/packages/tools/localization/knot-localization-187603";
+        const string GitHubLink = "https://github.com/V0odo0/KNOT-Localization";
         const string OfflineManualFileName = "KNOT Localization - Manual.pdf";
         const string UnityForumThreadLink = "https://forum.unity.com/threads/knot-localization.1042891/";
-        const string VersionCheckLink = "https://vd3v.com/assets/knot_localization/latest_version.txt";
-        const string UpdateVersionLink = "";
-        const string ContactDevEmail = "contact@vd3v.com";
 
-
-        public readonly VisualElement LogoImage;
-        public readonly Label VersionLabel;
-        public readonly Button OnlineManualButton;
-        public readonly Button OfflineManualButton;
-        public readonly Button UnityForumThreadButton;
-        public readonly Button UpdateButton;
-        public readonly TextField ContactDevEmailLabel;
+        
+        protected readonly VisualElement LogoImage;
+        protected readonly Label VersionLabel;
 
 
         public KnotAboutEditorPanel() : base(nameof(KnotAboutEditorPanel))
@@ -33,28 +25,23 @@ namespace Knot.Localization.Editor
             LogoImage.style.backgroundImage = new StyleBackground(KnotEditorUtils.CoreIcon as Texture2D);
 
             VersionLabel = Root.Q<Label>(nameof(VersionLabel));
-            VersionLabel.text = $"v{KnotLocalization.Version}-beta";
+            if (KnotEditorUtils.IsUpmPackage)
+                VersionLabel.text = KnotEditorUtils.UpmPackageInfo.version;
+            else VersionLabel.RemoveFromHierarchy();
 
-            OnlineManualButton = Root.Q<Button>(nameof(OnlineManualButton));
-            OnlineManualButton.clicked += OpenOnlineManual;
-            OnlineManualButton.SetEnabled(!string.IsNullOrEmpty(OnlineManualLink));
+            Root.Q<Button>("AssetStoreButton").clicked += () => OpenUrl(AssetStoreLink);
+            Root.Q<Button>("OnlineManualButton").clicked += () => OpenUrl(OnlineManualLink);
+            Root.Q<Button>("GitHubButton").clicked += () => OpenUrl(GitHubLink);
+            Root.Q<Button>("UnityForumThreadButton").clicked += () => OpenUrl(UnityForumThreadLink);
 
-            OfflineManualButton = Root.Q<Button>(nameof(OfflineManualButton));
-            OfflineManualButton.clicked += OpenOfflineManual;
-            OfflineManualButton.SetEnabled(!string.IsNullOrEmpty(GetOfflineManualPath()));
-
-            UnityForumThreadButton = Root.Q<Button>(nameof(UnityForumThreadButton));
-            UnityForumThreadButton.SetEnabled(!string.IsNullOrEmpty(UnityForumThreadLink));
-            UnityForumThreadButton.clicked += OpenUnityForumThread;
-
-            UpdateButton = Root.Q<Button>(nameof(UpdateButton));
-            UpdateButton.SetEnabled(false);
-
-            ContactDevEmailLabel = Root.Q<TextField>(nameof(ContactDevEmailLabel));
-            ContactDevEmailLabel.value = ContactDevEmail;
+            var offlineManualButton = Root.Q<Button>("OfflineManualButton");
+            offlineManualButton.clicked += () => OpenUrl(GetOfflineManualUrl());
+            if (string.IsNullOrEmpty(GetOfflineManualUrl()))
+                offlineManualButton.RemoveFromHierarchy();
 
             GetLatestVersion(v =>
             {
+                /*
                 bool newVersionAvailable = v > KnotLocalization.Version;
 
                 if (!string.IsNullOrEmpty(UpdateVersionLink))
@@ -63,13 +50,14 @@ namespace Knot.Localization.Editor
                     if (newVersionAvailable)
                         UpdateButton.text = $"Update to {v}";
                 }
+                */
             });
         }
 
 
         static void GetLatestVersion(Action<Version> versionLoaded)
         {
-            var request = UnityWebRequest.Get(VersionCheckLink);
+            /*var request = UnityWebRequest.Get(VersionCheckLink);
             request.SendWebRequest().completed += operation =>
             {
                 string versionText = request.downloadHandler.text;
@@ -77,28 +65,17 @@ namespace Knot.Localization.Editor
                 versionLoaded?.Invoke(string.IsNullOrEmpty(versionText)
                     ? KnotLocalization.Version
                     : new Version(request.downloadHandler.text));
-            };
+            };*/
         }
 
-        static string GetOfflineManualPath()
+        static string GetOfflineManualUrl()
         {
             return Directory.GetFiles(Application.dataPath, OfflineManualFileName, SearchOption.AllDirectories).FirstOrDefault();
         }
-
-
-        public static void OpenOnlineManual()
+        
+        static void OpenUrl(string url)
         {
-            Application.OpenURL(OnlineManualLink);
-        }
-
-        public static void OpenOfflineManual()
-        {
-            Application.OpenURL(GetOfflineManualPath());
-        }
-
-        public static void OpenUnityForumThread()
-        {
-            Application.OpenURL(UnityForumThreadLink);
+            Application.OpenURL(url);
         }
     }
 }

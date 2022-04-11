@@ -282,7 +282,7 @@ namespace Knot.Localization.Editor
             ReloadLayout();
             TreeView.FrameKeys(true, keyViews.Select(view => view.Key).ToArray());
         }
-
+        
 
         protected virtual bool IsKeyCollectionsPersistent()
         {
@@ -361,8 +361,7 @@ namespace Knot.Localization.Editor
 
             TreeView.OnGUI(TreeViewContainer.contentRect);
         }
-
-
+        
         public override void ReloadLayout()
         {
             BuildKeyViews();

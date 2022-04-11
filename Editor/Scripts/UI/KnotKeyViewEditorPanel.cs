@@ -57,33 +57,38 @@ namespace Knot.Localization.Editor
             MetadataContainerEditor = new KnotMetadataContainerEditor(MetadataContainerFoldout, MetadataScope, null, OnMetadataChanged);
             MetadataContainerEditor.MetadataContainer.onGUIHandler += () =>
             {
-                if (!MetadataContainerEditor.Root.value)
-                    return;
-
-                if (KeyView.KeyData == null && KeyCollections.Any(c => c != null && c.IsPersistent()))
+                if (KeyView.KeyData == null)
                 {
-                    bool isMultipleCollections = KeyCollections.Distinct().Count(c => c != null) > 1;
-                    bool add = isMultipleCollections ? 
-                        EditorGUILayout.DropdownButton(AddToKeyCollectionContent, FocusType.Passive) :
-                        GUILayout.Button(AddToKeyCollectionContent);
-                    
-                    if (add)
+                    if (KeyCollections.Any(c => c != null && c.IsPersistent()))
                     {
-                        if (isMultipleCollections)
-                        {
-                            GenericMenu m = new GenericMenu();
-                            foreach (var keyCollection in KeyCollections.Where(c => c != null).Distinct())
-                            {
-                                m.AddItem(new GUIContent(keyCollection.name), false, () =>
-                                {
-                                    AddToKeyCollection?.Invoke(keyCollection, KeyView);
-                                });
-                            }
+                        bool isMultipleCollections = KeyCollections.Distinct().Count(c => c != null) > 1;
+                        bool add = isMultipleCollections
+                            ? EditorGUILayout.DropdownButton(AddToKeyCollectionContent, FocusType.Passive)
+                            : GUILayout.Button(AddToKeyCollectionContent);
 
-                            m.ShowAsContext();
+                        if (add)
+                        {
+                            if (isMultipleCollections)
+                            {
+                                GenericMenu m = new GenericMenu();
+                                foreach (var keyCollection in KeyCollections.Where(c => c != null).Distinct())
+                                {
+                                    m.AddItem(new GUIContent(keyCollection.name), false, () =>
+                                    {
+                                        AddToKeyCollection?.Invoke(keyCollection, KeyView);
+                                    });
+                                }
+
+                                m.ShowAsContext();
+                            }
+                            else AddToKeyCollection?.Invoke(KeyCollections.First(), KeyView);
                         }
-                        else AddToKeyCollection?.Invoke(KeyCollections.First(), KeyView);
                     }
+                    else
+                    {
+                        GUILayout.Label("No Key Collection assigned");
+                    }
+                    
                 }
             };
         }
@@ -97,7 +102,7 @@ namespace Knot.Localization.Editor
             foreach (var lang in Database.Languages)
             {
                 string foldoutName = lang.CultureInfo.GetDisplayName();
-                KnotItemViewFoldout foldout = new KnotItemViewFoldout(foldoutName)
+                KnotItemViewFoldout foldout = new KnotItemViewFoldout(foldoutName, icon:KnotEditorUtils.GetIcon(KnotLanguagesTabPanel.LanguageIconName))
                 {
                     IsActive = false
                 };
@@ -108,7 +113,7 @@ namespace Knot.Localization.Editor
                 if (!collections.Any())
                 {
                     foldout.ButtonState = KnotItemViewFoldout.FoldoutButtonState.None;
-                    foldout.StateLabel.text = "No Item Collection assigned";
+                    foldout.StateLabelText = "No Item Collection assigned";
                 }
                 else
                 {
@@ -118,10 +123,10 @@ namespace Knot.Localization.Editor
                     
                     if (itemView != null)
                     {
-                        foldout.IsReadOnly = itemView.SourceCollection?.IsReadOnly ?? true;
+                        foldout.SetReadOnly(itemView.SourceCollection?.IsReadOnly ?? true);
                         foldout.IsActive = true;
                         foldout.ButtonState = KnotItemViewFoldout.FoldoutButtonState.Remove;
-                        foldout.StateLabel.text = itemView.SourceAsset.Name;
+                        foldout.StateLabelText = itemView.SourceAsset.Name;
                         foldout.StateButtonClicked += state =>
                         {
                             if (itemView.SourceCollection is IKnotItemCollection<TItemData> tCollection && RemoveItem(tCollection))
@@ -129,13 +134,13 @@ namespace Knot.Localization.Editor
                         };
 
                         var itemViewEditor = CreateItemViewEditor(keyView, itemView);
-                        foldout.RequestFoldoutContent += () =>
+                        foldout.RequestAddContent += () =>
                         {
                             itemViewEditor.Bind(keyView, itemView);
                             VisibleItemViewEditors.Add(itemViewEditor);
                             return itemViewEditor;
                         };
-                        foldout.FoldoutContentHidden += () =>
+                        foldout.RequestRemoveContent += () =>
                         {
                             VisibleItemViewEditors.Remove(itemViewEditor);
                         };
@@ -147,12 +152,15 @@ namespace Knot.Localization.Editor
                             IKnotItemCollection<TItemData> itemCollection =
                                 collections.First() as IKnotItemCollection<TItemData>;
 
-                            foldout.IsReadOnly = itemCollection == null || itemCollection.IsReadOnly;
+                            foldout.SetReadOnly(itemCollection == null || itemCollection.IsReadOnly);
                             foldout.ButtonState = KnotItemViewFoldout.FoldoutButtonState.Add;
                             foldout.StateButtonClicked += state =>
                             {
                                 if (itemCollection != null && AddItem(itemCollection))
+                                {
+                                    foldout.Root.value = true;
                                     OnItemChanged();
+                                }
                             };
                         }
                         else
@@ -168,8 +176,11 @@ namespace Knot.Localization.Editor
 
                                     void AddItemInternal()
                                     {
-                                        if (itemCollection != null && AddItem(itemCollection))
+                                        if (AddItem(itemCollection))
+                                        {
+                                            foldout.Root.value = true;
                                             OnItemChanged();
+                                        }
                                     }
 
                                     if (itemCollection != null && !itemCollection.IsReadOnly)

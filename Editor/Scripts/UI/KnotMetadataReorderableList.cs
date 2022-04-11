@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Knot.Localization;
 using Knot.Localization.Attributes;
 using Knot.Localization.Editor;
 using UnityEditor;

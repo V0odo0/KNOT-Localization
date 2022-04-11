@@ -2,6 +2,7 @@
 
 namespace Knot.Localization.Editor
 {
+    /*
     public class KnotLanguagesCounterLabel : IKnotKeyViewLabel<KnotTextKeyView>, IKnotKeyViewLabel<KnotAssetKeyView>
     {
         public int Order => 1000;
@@ -26,4 +27,5 @@ namespace Knot.Localization.Editor
 
         public GUIContent GetLabelContent(KnotAssetKeyView keyView) => GetLabelContent(keyView.LanguageItems.Count);
     }
+    */
 }

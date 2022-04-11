@@ -103,6 +103,12 @@ namespace Knot.Localization.Editor
 
         public void AddItemsToMenu(GenericMenu menu)
         {
+            if (!Application.isPlaying)
+                menu.AddDisabledItem(new GUIContent("Live Reload (Play Mode only)"));
+            else menu.AddItem(new GUIContent("Live Reload"), false, KnotEditorUtils.PerformPlayModeLiveReload);
+
+            menu.AddSeparator(string.Empty);
+            
             menu.AddItem(new GUIContent("Database/New..."), false, () =>
                 {
                     SetActiveDatabase(KnotEditorUtils.RequestCreateAsset<KnotDatabase>());

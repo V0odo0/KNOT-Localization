@@ -22,7 +22,7 @@ namespace Knot.Localization
             get => _defaultDatabase ?? KnotDatabase.Empty;
             set => _defaultDatabase = value;
         }
-        [SerializeField] private KnotDatabase _defaultDatabase;
+        [SerializeField, KnotCreateAssetField(typeof(KnotDatabase))] private KnotDatabase _defaultDatabase;
 
         /// <summary>
         /// <see cref="IKnotManager"/> that will be initialized by <see cref="KnotLocalization"/>

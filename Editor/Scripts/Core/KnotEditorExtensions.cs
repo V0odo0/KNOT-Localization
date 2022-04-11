@@ -13,13 +13,14 @@ namespace Knot.Localization.Editor
 {
     public static class KnotEditorExtensions
     {
-        private static Dictionary<Type, TypeInfo[]> _cachedDerivedTypesInfo = new Dictionary<Type, TypeInfo[]>();
+        private static readonly Dictionary<Type, string> _managedReferenceTypeNamesCache = new Dictionary<Type, string>();
+        private static readonly Dictionary<Type, TypeInfo[]> _derivedTypesInfoCache = new Dictionary<Type, TypeInfo[]>();
 
 
         internal static TypeInfo[] GetDerivedTypesInfo(this Type baseType)
         {
-            if (_cachedDerivedTypesInfo.ContainsKey(baseType) && _cachedDerivedTypesInfo[baseType] != null)
-                return _cachedDerivedTypesInfo[baseType];
+            if (_derivedTypesInfoCache.ContainsKey(baseType) && _derivedTypesInfoCache[baseType] != null)
+                return _derivedTypesInfoCache[baseType];
 
             bool IsValidType(Type t)
             {
@@ -40,14 +41,25 @@ namespace Knot.Localization.Editor
             foreach (var type in TypeCache.GetTypesDerivedFrom(baseType).Where(IsValidType))
                 derivedTypes.Add(new TypeInfo(type));
             
-            _cachedDerivedTypesInfo.Add(baseType, derivedTypes.OrderBy(t => t.Info.Order).ToArray());
+            _derivedTypesInfoCache.Add(baseType, derivedTypes.OrderBy(t => t.Info.Order).ToArray());
 
-            return _cachedDerivedTypesInfo[baseType];
+            return _derivedTypesInfoCache[baseType];
         }
 
         internal static VisualElement GetVisualInput(this VisualElement e)
         {
             return e?.GetType().GetProperty("visualInput", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(e) as VisualElement;
+        }
+
+        internal static void SetMargins(this IStyle style, StyleLength m)
+        {
+            if (style == null)
+                return;
+
+            style.marginTop = m;
+            style.marginBottom = m;
+            style.marginLeft = m;
+            style.marginRight = m;
         }
 
         internal static void SetIcon(this ToolbarToggle t, Texture icon)
@@ -98,10 +110,17 @@ namespace Knot.Localization.Editor
         internal static string GetManagedReferenceTypeName(this SerializedProperty property)
         {
             var type = property.GetManagedReferenceType();
-            return type == null
-                ? property.displayName
-                : (type.GetCustomAttribute<KnotTypeInfoAttribute>()?.DisplayName ??
-                   ObjectNames.NicifyVariableName(type.Name));
+            if (type == null)
+                return property.displayName;
+
+            if (_managedReferenceTypeNamesCache.ContainsKey(type))
+                return _managedReferenceTypeNamesCache[type];
+
+            var name = type.GetCustomAttribute<KnotTypeInfoAttribute>()?.DisplayName
+                       ?? ObjectNames.NicifyVariableName(type.Name);
+            _managedReferenceTypeNamesCache.Add(type, name);
+
+            return name;
         }
 
         internal static float GetChildPropertiesHeight(this SerializedProperty property,
