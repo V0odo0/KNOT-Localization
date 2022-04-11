@@ -1,4 +1,4 @@
-## 0.9.1 - 2022-xx-xx
+## 0.9.1-preview - 2022-04-11
 
 ### Added
 * TextMeshPRO support
@@ -14,4 +14,3 @@
 ### Fixed
 * Fixed NullReferenceException error caused by Key Reference Picker when fetching key list
 * Fixed incorrect key selection highlight & expanded state after using search in Keys Tree View
-
