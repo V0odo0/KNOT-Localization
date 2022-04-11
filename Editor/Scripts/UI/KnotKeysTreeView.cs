@@ -239,10 +239,12 @@ namespace Knot.Localization.Editor
 
         protected override void SearchChanged(string newSearch)
         {
+            if (rootItem == null)
+                return;
+
             if (_lastSearchStringLength != 0 && string.IsNullOrEmpty(newSearch))
             {
-                if (_lastSelectedItemId >= 0)
-                    FrameItem(_lastSelectedItemId);
+                FrameItem(_lastSelectedItemId);
                 return;
             }
 
