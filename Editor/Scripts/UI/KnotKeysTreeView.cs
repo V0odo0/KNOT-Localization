@@ -26,7 +26,7 @@ namespace Knot.Localization.Editor
         public IReadOnlyList<KnotTreeViewKeyItem> AllKeyItems => _allKeyItems;
         private List<KnotTreeViewKeyItem> _allKeyItems = new List<KnotTreeViewKeyItem>();
 
-        public IReadOnlyList<KnotTreeViewKeyItem> SelectedKeyItems => FindRows(GetSelection()).Cast<KnotTreeViewKeyItem>().ToList();
+        public IEnumerable<KnotTreeViewKeyItem> SelectedKeyItems => FindRows(GetSelection()).OfType<KnotTreeViewKeyItem>();
         public TKeyView[] SelectedKeyViews => SelectedKeyItems.OfType<TKeyView>().ToArray();
         
         public KnotKeysTreeViewMode TreeViewMode
@@ -57,6 +57,7 @@ namespace Knot.Localization.Editor
 
         private List<TKeyView> _keyViews = new List<TKeyView>();
         private HashSet<TKeyView> _searchFilterItems = new HashSet<TKeyView>();
+        private int _lastSelectedItemId = -1;
         private int _lastSearchStringLength;
 
 
@@ -238,8 +239,12 @@ namespace Knot.Localization.Editor
 
         protected override void SearchChanged(string newSearch)
         {
-            if (string.IsNullOrEmpty(newSearch))
+            if (_lastSearchStringLength != 0 && string.IsNullOrEmpty(newSearch))
+            {
+                if (_lastSelectedItemId >= 0)
+                    FrameItem(_lastSelectedItemId);
                 return;
+            }
 
             //Apply custom search filter
             if (SearchFilter != null)
@@ -281,14 +286,18 @@ namespace Knot.Localization.Editor
 
         protected override void SelectionChanged(IList<int> selectedIds)
         {
+            _lastSelectedItemId = selectedIds?.FirstOrDefault() ?? -1;
             KeysSelected?.Invoke(SelectedKeyViews);
         }
 
         protected virtual bool AppendContextMenuItems(GenericMenu menu, TKeyView[] selectedKeyViews) => false;
 
-
+        
         public virtual bool FrameKey(string key, bool select = false)
         {
+            if (string.IsNullOrEmpty(key))
+                return false;
+
             var keyView = AllKeyItems.FirstOrDefault(item => item.Key == key);
             if (keyView == null)
                 return false;
@@ -304,6 +313,9 @@ namespace Knot.Localization.Editor
 
         public virtual bool FrameKeys(bool select, params string[] keys)
         {
+            if (keys.Length == 0)
+                return false;
+
             var keyViews = AllKeyItems.Where(keyView => keys.Contains(keyView.Key)).ToArray();
             if (!keyViews.Any())
                 return false;
