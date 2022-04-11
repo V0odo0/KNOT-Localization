@@ -10,6 +10,11 @@
     "globalization"
 	],
   "category": "Localization",
+  "repository": {
+    "url": "https://github.com/V0odo0/KNOT-Localization.git",
+    "type": "git",
+    "revision": "61f59ebafb008b3b67c9eb6ed358aec62b398354"
+  },
   "documentationUrl": "https://github.com/V0odo0/KNOT-Localization",
   "changelogUrl": "https://github.com/V0odo0/KNOT-Localization/blob/main/CHANGELOG.md",
   "samples": [
