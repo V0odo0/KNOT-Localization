@@ -26,8 +26,8 @@ namespace Knot.Localization.Editor
         public IReadOnlyList<EditorTab> Tabs => _tabs;
         private readonly List<EditorTab> _tabs = new List<EditorTab>();
 
-        public readonly KnotToolbar Toolbar;
-        public readonly VisualElement TabContentContainer;
+        internal readonly KnotToolbar Toolbar;
+        internal readonly VisualElement TabContentContainer;
 
 
         public KnotEditorToolbarPanel() : base(nameof(KnotEditorToolbarPanel))

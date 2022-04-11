@@ -219,5 +219,14 @@ namespace Knot.Localization.Editor
 
             return icon;
         }
+
+        public static void PerformPlayModeLiveReload()
+        {
+            if (!Application.isPlaying)
+                return;
+
+            if (KnotLocalization.Manager.State == KnotManagerState.LanguageLoaded)
+                KnotLocalization.Manager.LoadLanguage(KnotLocalization.Manager.Languages.FirstOrDefault());
+        }
     }
 }
