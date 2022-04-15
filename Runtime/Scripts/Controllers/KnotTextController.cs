@@ -37,5 +37,7 @@ namespace Knot.Localization
                 _fallbackValue :
                 string.Format(_fallbackValue.Replace(KeyFormatArg, "{0}"), key);
         }
+
+        public override object Clone() => new KnotTextController();
     }
 }
