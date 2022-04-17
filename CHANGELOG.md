@@ -16,3 +16,4 @@
 * Fixed NullReferenceException error caused by Key Reference Picker when fetching key list
 * Fixed incorrect key selection highlight & expanded state after using search in Keys Tree View
 * Fixed an issue with annoying "Null Database is provided or the same Database is already assigned to this Manager" warning when using Enter PLay Mode feature without Assembly Reload checked
+* Fixed Reorderable List not responding to reorder action
