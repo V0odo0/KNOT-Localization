@@ -1,4 +1,5 @@
 ﻿#if KNOT_ADDRESSABLES
+#pragma warning disable CS0649
 using System;
 using System.Threading.Tasks;
 using Knot.Localization.Attributes;
@@ -17,15 +18,26 @@ namespace Knot.Localization.Data
         IKnotRuntimeItemCollectionProvider,
         IKnotPersistentItemCollectionProvider
     {
-        public KnotItemCollection Collection => _assetReference?.editorAsset;
-        [SerializeField] private KnotAddressableItemCollectionReference _assetReference;
+        public KnotItemCollection Collection
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return AssetReference.editorAsset;
+#else
+                return _asyncOperationHandle.Result;
+#endif
+            }
+        }
+
+        public KnotAddressableItemCollectionReference AssetReference;
 
         [NonSerialized] private AsyncOperationHandle<KnotItemCollection> _asyncOperationHandle;
 
 
         public async Task<KnotItemCollection> LoadAsync()
         {
-            _asyncOperationHandle = _assetReference.LoadAssetAsync();
+            _asyncOperationHandle = AssetReference.LoadAssetAsync();
             await _asyncOperationHandle.Task;
             return _asyncOperationHandle.Result;
         }
