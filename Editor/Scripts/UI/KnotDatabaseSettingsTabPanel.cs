@@ -25,8 +25,8 @@ namespace Knot.Localization.Editor
         public readonly KnotMetadataContainerEditor MetadataContainerEditor;
 
 
-        protected ReorderableList TextKeyCollectionsList;
-        protected ReorderableList AssetKeyCollectionsList;
+        protected KnotReorderableList TextKeyCollectionsList;
+        protected KnotReorderableList AssetKeyCollectionsList;
         protected SerializedProperty TextKeyCollectionsProp;
         protected SerializedProperty AssetKeyCollectionsProp;
 
@@ -56,19 +56,19 @@ namespace Knot.Localization.Editor
         }
 
 
-        ReorderableList GetKeyCollectionsList(string name)
+        KnotReorderableList GetKeyCollectionsList(string name)
         {
-            ReorderableList l = new ReorderableList((SerializedObject) null, null);
+            var reorderableList = new KnotReorderableList((SerializedObject) null, null);
             
-            l.drawHeaderCallback = rect => EditorGUI.LabelField(rect, name);
-            l.drawElementCallback = (rect, index, active, focused) =>
+            reorderableList.drawHeaderCallback = rect => EditorGUI.LabelField(rect, name);
+            reorderableList.drawElementCallback = (rect, index, active, focused) =>
             {
                 rect.y += 1;
                 rect.height = EditorGUIUtility.singleLineHeight;
-                EditorGUI.PropertyField(rect, l.serializedProperty.GetArrayElementAtIndex(index), true);
+                EditorGUI.PropertyField(rect, reorderableList.serializedProperty.GetArrayElementAtIndex(index), true);
             };
 
-            return l;
+            return reorderableList;
         }
 
         void DrawKeyCollectionsList(SerializedProperty property, ReorderableList list)

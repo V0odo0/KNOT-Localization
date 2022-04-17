@@ -18,7 +18,7 @@ namespace Knot.Localization.Data
         public KnotItemCollection Collection => _collection;
         [SerializeField, KnotCreateAssetField(typeof(KnotItemCollection))] private KnotItemCollection _collection;
 
-
+        
         public KnotAssetCollectionProvider() { }
 
         public KnotAssetCollectionProvider(KnotItemCollection collection)

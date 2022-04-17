@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Knot.Localization.Editor
 {
-    public class KnotCollectionProviderReorderableList : ReorderableList
+    public class KnotCollectionProviderReorderableList : KnotReorderableList
     {
         public KnotCollectionProviderReorderableList(SerializedProperty collectionProperty = null) : base(collectionProperty?.serializedObject, collectionProperty)
         {
@@ -14,7 +14,6 @@ namespace Knot.Localization.Editor
             elementHeightCallback = GetElementHeight;
             onAddDropdownCallback = AddDropdown;
         }
-
 
         void DrawHeader(Rect rect)
         {
@@ -39,7 +38,8 @@ namespace Knot.Localization.Editor
         void AddDropdown(Rect rect, ReorderableList elementsList)
         {
             GenericMenu menu = new GenericMenu();
-            foreach (var providerType in typeof(IKnotItemCollectionProvider).GetDerivedTypesInfo())
+            var collectionProviderTypes = typeof(IKnotItemCollectionProvider).GetDerivedTypesInfo();
+            foreach (var providerType in collectionProviderTypes)
             {
                 menu.AddItem(providerType.Content, false, () =>
                 {
