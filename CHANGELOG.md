@@ -1,8 +1,9 @@
 ## 0.9.1 - 2022-xx-xx
 
 ### Added
-* TextMeshPRO support
-* Live Reload - applies all changes and reloads active language data in Play Mode
+* [TextMeshPRO](https://docs.unity3d.com/Manual/com.unity.textmeshpro.html) support
+* [Addressables](https://docs.unity3d.com/Manual/com.unity.addressables.html) Item Collection Provider 
+* **Live Reload** - applies all changes and reloads active language data in Play Mode
 ![LiveReload](https://user-images.githubusercontent.com/10213769/162785846-7615edc5-b27e-46c3-a7f3-8e447409791e.gif)
 
 ### Changed
@@ -14,6 +15,7 @@
 
 ### Fixed
 * Fixed NullReferenceException error caused by Key Reference Picker when fetching key list
-* Fixed incorrect key selection highlight & expanded state after using search in Keys Tree View
+* Database Editor: Fixed incorrect key selection highlight & expanded state after using search in Keys Tree View
 * Fixed an issue with annoying "Null Database is provided or the same Database is already assigned to this Manager" warning when using Enter PLay Mode feature without Assembly Reload checked
-* Fixed Reorderable List not responding to reorder action
+* Database Editor: Fixed Reorderable List not responding to reorder action
+* Database Editor: Fixed Layout Mode state was not saved
