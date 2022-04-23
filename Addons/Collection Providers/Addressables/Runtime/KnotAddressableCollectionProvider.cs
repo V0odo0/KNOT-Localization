@@ -44,7 +44,8 @@ namespace Knot.Localization.Data
 
         public void Unload()
         {
-            Addressables.Release(_asyncOperationHandle);
+			if (_asyncOperationHandle.IsValid())
+				Addressables.Release(_asyncOperationHandle);
         }
     }
 }
