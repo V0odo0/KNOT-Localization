@@ -1,10 +1,12 @@
-## 0.9.1 - 2022-xx-xx
+## 0.9.2-preview (2022-xx-xx)
+
+## 0.9.1 (2022-04-23)
 
 ### Added
-* [TextMeshPRO](https://docs.unity3d.com/Manual/com.unity.textmeshpro.html) support
-* [Addressables](https://docs.unity3d.com/Manual/com.unity.addressables.html) Item Collection Provider 
-* **Live Reload** - applies all changes and reloads active language data in Play Mode
+* TextMeshPRO support
+* Live Reload - applies all changes and reloads active language data in Play Mode
 ![LiveReload](https://user-images.githubusercontent.com/10213769/162785846-7615edc5-b27e-46c3-a7f3-8e447409791e.gif)
+* [Addressables](https://docs.unity3d.com/Manual/com.unity.addressables.html) Item Collection Provider 
 
 ### Changed
 * Removed redundant KNOT_LOCALIZATION define symbol
@@ -15,7 +17,6 @@
 
 ### Fixed
 * Fixed NullReferenceException error caused by Key Reference Picker when fetching key list
-* Database Editor: Fixed incorrect key selection highlight & expanded state after using search in Keys Tree View
+* Fixed incorrect key selection highlight & expanded state after using search in Keys Tree View
 * Fixed an issue with annoying "Null Database is provided or the same Database is already assigned to this Manager" warning when using Enter PLay Mode feature without Assembly Reload checked
-* Database Editor: Fixed Reorderable List not responding to reorder action
-* Database Editor: Fixed Layout Mode state was not saved
+* Fixed Reorderable List not responding to reorder action
