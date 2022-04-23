@@ -192,6 +192,8 @@ namespace Knot.Localization
             _currentBuildData = null;
         }
 
+        public abstract object Clone();
+
 
         public virtual void RegisterValueChangedCallback(string key, Action<TValueType> valueChanged)
         {

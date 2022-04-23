@@ -26,7 +26,6 @@ namespace Knot.Localization.Data
         [Tooltip("Path to asset relative to Resources folder e.g. \"TextCollections/KnotTextCollection\"")]
         public string Path;
 
-
         public KnotItemCollection Collection => _cachedCollection = Resources.Load<KnotItemCollection>(Path);
         private KnotItemCollection _cachedCollection;
 

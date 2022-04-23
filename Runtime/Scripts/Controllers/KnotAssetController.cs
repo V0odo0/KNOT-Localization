@@ -18,6 +18,9 @@ namespace Knot.Localization
         protected override IKnotAsset CreateValue(Object value, params IKnotMetadata[] metadata)
             => new KnotAsset(value, metadata);
 
+        
         public override Object GetFallbackValue(string key) => null;
+
+        public override object Clone() => new KnotAssetController();
     }
 }

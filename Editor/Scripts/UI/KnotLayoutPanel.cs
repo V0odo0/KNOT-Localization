@@ -46,6 +46,8 @@ namespace Knot.Localization.Editor
         {
             ReloadLayout();
             Undo.undoRedoPerformed += ReloadLayout;
+
+            SetLayoutMode(KnotEditorUtils.UserSettings.PanelLayoutMode);
         }
 
         protected override void OnPanelRemoved()

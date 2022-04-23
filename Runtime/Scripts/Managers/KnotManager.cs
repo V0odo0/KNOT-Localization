@@ -184,12 +184,6 @@ namespace Knot.Localization
         
         public virtual void SetDatabase(KnotDatabase database, bool loadStartupLanguage = false)
         {
-            if (database == null || database == Database)
-            {
-                KnotLocalization.Log("Null Database is provided or the same Database is already assigned to this Manager", LogType.Warning);
-                return;
-            }
-
             _database = database;
             _languages = database.Languages.ToList();
 
@@ -205,8 +199,8 @@ namespace Knot.Localization
                 _assetController.Dispose();
             }
 
-            _textController = database.Settings.TextController;
-            _assetController = database.Settings.AssetController;
+            _textController = database.Settings.TextController.Clone() as IKnotTextController;
+            _assetController = database.Settings.AssetController.Clone() as  IKnotAssetController;
 
             if (loadStartupLanguage)
             {

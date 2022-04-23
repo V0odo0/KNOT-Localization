@@ -9,7 +9,7 @@ namespace Knot.Localization
     /// Base interface that should convert <see cref="TItemData"/> values and <see cref="KnotKeyData"/> metadata collection passed from <see cref="KnotControllerBuildData{TItemData}"/>
     /// to key-<see cref="IKnotValue{TValue}"/> dictionary.
     /// </summary>
-    public interface IKnotController<TItemData, TValue, TValueType> : IReadOnlyDictionary<string, TValue>, IDisposable
+    public interface IKnotController<TItemData, TValue, TValueType> : IReadOnlyDictionary<string, TValue>, IDisposable, ICloneable
         where TItemData : KnotItemData
         where TValue : class, IKnotValue<TValueType>
     {
