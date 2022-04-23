@@ -1,9 +1,10 @@
-## 0.9.1-preview - 2022-04-11
+## 0.9.1- 2022-04-23
 
 ### Added
 * TextMeshPRO support
 * Live Reload - applies all changes and reloads active language data in Play Mode
 ![LiveReload](https://user-images.githubusercontent.com/10213769/162785846-7615edc5-b27e-46c3-a7f3-8e447409791e.gif)
+* [Addressables](https://docs.unity3d.com/Manual/com.unity.addressables.html) Item Collection Provider 
 
 ### Changed
 * Removed redundant KNOT_LOCALIZATION define symbol
