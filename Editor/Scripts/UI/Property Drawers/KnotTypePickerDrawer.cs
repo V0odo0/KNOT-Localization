@@ -55,13 +55,7 @@ namespace Knot.Localization.Editor
             position.y += popupPos.height + EditorGUIUtility.standardVerticalSpacing;
             position.height -= popupPos.height;
 
-            if (property.hasVisibleChildren)
-            {
-                EditorGUI.indentLevel++;
-                property.DrawChildProperties(position);
-
-                EditorGUI.indentLevel--;
-            }
+            EditorGUI.PropertyField(position, property, label, true);
 
             EditorGUI.EndProperty();
         }
@@ -71,7 +65,7 @@ namespace Knot.Localization.Editor
             if (!IsValidProperty(property))
                 return base.GetPropertyHeight(property, label);
 
-            return EditorGUIUtility.singleLineHeight + property.GetChildPropertiesHeight();
+            return EditorGUI.GetPropertyHeight(property, true) + EditorGUIUtility.singleLineHeight;
         }
     }
 }
