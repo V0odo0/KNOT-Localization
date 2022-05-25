@@ -67,7 +67,7 @@ namespace Knot.Localization.Editor
         public override Vector2 GetWindowSize() => DefaultWindowSize;
 
 
-        protected class PickerTreeView : TreeView
+        protected class PickerTreeView : UnityEditor.IMGUI.Controls.TreeView
         {
             public event Action<TItem> ItemSelected;
             public event Action<TItem> ItemPicked; 
