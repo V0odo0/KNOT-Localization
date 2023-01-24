@@ -16,6 +16,7 @@ namespace Knot.Localization
     public static class KnotLocalization
     {
         internal const string CoreName = "KNOT Localization";
+        internal const string Version = "0.9.3";
 
         public static KnotProjectSettings ProjectSettings =>
             _projectSettings ?? (_projectSettings = LoadProjectSettings());
@@ -45,14 +46,22 @@ namespace Knot.Localization
 
             if (allSettings.Length == 0)
             {
-                var instance = ScriptableObject.CreateInstance<KnotProjectSettings>();
-
                 string path = $"Assets/{nameof(KnotProjectSettings)}.asset";
+                settings = AssetDatabase.LoadAssetAtPath<KnotProjectSettings>(path);
+                
+                if (settings == null)
+                    settings = PlayerSettings.GetPreloadedAssets().OfType<KnotProjectSettings>().FirstOrDefault();
 
-                AssetDatabase.CreateAsset(instance, path);
-                AssetDatabase.SaveAssets();
+                if (settings == null)
+                {
+                    var instance = ScriptableObject.CreateInstance<KnotProjectSettings>();
+                    AssetDatabase.CreateAsset(instance, path);
+                    AssetDatabase.SaveAssets();
+                    settings = instance;
 
-                settings = instance;
+                    var preloadedAssets = PlayerSettings.GetPreloadedAssets();
+                    PlayerSettings.SetPreloadedAssets(preloadedAssets.Append(settings).ToArray());
+                }
             }
             else settings = allSettings.First();
 #else
