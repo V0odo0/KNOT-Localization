@@ -14,10 +14,12 @@ namespace Knot.Localization.Editor
 
         public event Action<TItem> ItemPicked;
 
+        public virtual TItem SelectedItem { get; protected set; }
+
         protected readonly ToolbarSearchField SearchField;
         protected readonly TextField SearchTextField;
         protected readonly IMGUIContainer TreeViewContainer;
-        protected readonly VisualElement ItemPreviewContainer;
+        protected readonly IMGUIContainer ItemPreviewContainer;
         protected PickerTreeView TreeView;
         
 
@@ -36,7 +38,11 @@ namespace Knot.Localization.Editor
             TreeViewContainer = Panel.Root.Q<IMGUIContainer>(nameof(TreeViewContainer));
             TreeViewContainer.onGUIHandler += () => TreeView.OnGUI(TreeViewContainer.contentRect);
 
-            ItemPreviewContainer = Panel.Root.Q<VisualElement>(nameof(ItemPreviewContainer));
+            ItemPreviewContainer = Panel.Root.Q<IMGUIContainer>(nameof(ItemPreviewContainer));
+            ItemPreviewContainer.onGUIHandler += () =>
+            {
+                
+            };
 
             SetDeferredFocusTarget(SearchTextField.GetVisualInput());
         }
@@ -62,6 +68,8 @@ namespace Knot.Localization.Editor
         }
 
         protected virtual void OnItemSelected(TItem item) { }
+
+        protected virtual void OnPreviewGUI(TItem item) {}
 
 
         public override Vector2 GetWindowSize() => DefaultWindowSize;

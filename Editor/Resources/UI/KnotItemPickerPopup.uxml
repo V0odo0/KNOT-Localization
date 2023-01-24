@@ -1,9 +1,9 @@
-﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
-  <eg:VisualElement name="KnotItemPickerPopup" style="margin: 1px">
-    <ed:Toolbar name="Toolbar" style="flex-shrink: 0">
-      <ed:ToolbarSearchField name="SearchField" style="flex-grow: 1; flex-shrink: 1"/>
-    </ed:Toolbar>
-    <eg:IMGUIContainer name="TreeViewContainer" style="flex-shrink: 1; flex-basis: 149600px"/>
-    <eg:VisualElement name="ItemPreviewContainer"/>
-  </eg:VisualElement>
-</UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="KnotItemPickerPopup" style="margin: 1px;">
+        <uie:Toolbar name="Toolbar" style="flex-shrink: 0;">
+            <uie:ToolbarSearchField name="SearchField" style="flex-grow: 1; flex-shrink: 1;" />
+        </uie:Toolbar>
+        <ui:IMGUIContainer name="TreeViewContainer" style="flex-shrink: 1; flex-basis: 149600px;" />
+        <ui:IMGUIContainer name="ItemPreviewContainer" style="min-height: 25px;" />
+    </ui:VisualElement>
+</ui:UXML>
