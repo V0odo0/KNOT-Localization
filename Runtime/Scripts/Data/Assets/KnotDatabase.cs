@@ -8,7 +8,7 @@ namespace Knot.Localization.Data
     /// General asset that stores all reference to localization data
     /// </summary>
     [CreateAssetMenu(fileName = "KnotDatabase", menuName = KnotLocalization.CoreName + "/Database", order = -1000)]
-    public partial class KnotDatabase : ScriptableObject
+    public class KnotDatabase : ScriptableObject
     {
         internal static KnotDatabase Empty
         {

@@ -27,7 +27,7 @@ namespace Knot.Localization.Editor
             VersionLabel = Root.Q<Label>(nameof(VersionLabel));
             if (KnotEditorUtils.IsUpmPackage)
                 VersionLabel.text = KnotEditorUtils.UpmPackageInfo.version;
-            else VersionLabel.RemoveFromHierarchy();
+            else VersionLabel.text = KnotLocalization.Version;
 
             Root.Q<Button>("AssetStoreButton").clicked += () => OpenUrl(AssetStoreLink);
             Root.Q<Button>("OnlineManualButton").clicked += () => OpenUrl(OnlineManualLink);

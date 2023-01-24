@@ -1,3 +1,9 @@
+## 0.9.3 (2023-01-24)
+
+### Fixed
+* Fixed missing Default Database reference after Library folder rebuilding
+
+
 ## 0.9.2 (2023-01-24)
 
 ### Fixed
