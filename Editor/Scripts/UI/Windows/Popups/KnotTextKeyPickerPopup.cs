@@ -15,6 +15,13 @@ namespace Knot.Localization.Editor
 
         }
 
+        public override void OnGUI(Rect rect)
+        {
+            base.OnGUI(rect);
+
+            GUILayout.Label("OK");
+        }
+
 
         static string[] GetAllKeys(KnotDatabase db)
         {

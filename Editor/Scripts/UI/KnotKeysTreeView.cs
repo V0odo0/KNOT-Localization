@@ -58,7 +58,7 @@ namespace Knot.Localization.Editor
         private List<TKeyView> _keyViews = new List<TKeyView>();
         private HashSet<TKeyView> _searchFilterItems = new HashSet<TKeyView>();
         private int _lastSelectedItemId = -1;
-        private int _lastSearchStringLength;
+        private string _lastSearchString = string.Empty;
 
 
         protected KnotKeysTreeView(TreeViewState state): base(state)
@@ -242,12 +242,11 @@ namespace Knot.Localization.Editor
             if (rootItem == null)
                 return;
 
-            if (_lastSearchStringLength != 0 && string.IsNullOrEmpty(newSearch))
+            if (_lastSearchString.Length != 0 && string.IsNullOrEmpty(newSearch))
             {
                 try
                 {
                     FrameItem(_lastSelectedItemId);
-
                 }
                 catch 
                 {
@@ -265,7 +264,7 @@ namespace Knot.Localization.Editor
             }
 
             //Remove already found items from previous search string
-            if (_lastSearchStringLength > 0 && newSearch.Length > _lastSearchStringLength)
+            if (newSearch.Length > _lastSearchString.Length && newSearch.StartsWith(_lastSearchString))
             {
                 foreach (var keyItem in _searchFilterItems.ToArray().AsParallel())
                     if (!keyItem.IsMatchSearch(newSearch))
@@ -280,7 +279,7 @@ namespace Knot.Localization.Editor
                         _searchFilterItems.Add(keyView);
             }
 
-            _lastSearchStringLength = newSearch.Length;
+            _lastSearchString = newSearch;
         }
 
 

@@ -1,4 +1,11 @@
-## 0.9.2-preview (2022-xx-xx)
+## 0.9.2 (2023-01-24)
+
+### Fixed
+* Fixed search field not responsable to changes
+* Fixed KnotLocalizedTextMeshPro not applying custom font metadata
+
+### Changed
+* KnotLocalizedTextMeshPro is now universal for all TextMeshPO text components
 
 ## 0.9.1 (2022-04-23)
 
