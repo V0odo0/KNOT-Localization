@@ -11,12 +11,7 @@ namespace Knot.Localization.Components
         public TKeyReference KeyReference
         {
             get => _keyReference;
-            set
-            {
-                if (value == null)
-                    _keyReference.Key = string.Empty;
-                else _keyReference = value;
-            }
+            set => _keyReference = value;
         }
         [SerializeField] private TKeyReference _keyReference;
 

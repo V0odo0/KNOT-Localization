@@ -241,7 +241,7 @@ namespace Knot.Localization.Editor
         {
             if (rootItem == null)
                 return;
-
+            
             if (_lastSearchString.Length != 0 && string.IsNullOrEmpty(newSearch))
             {
                 try
@@ -263,21 +263,10 @@ namespace Knot.Localization.Editor
                 return;
             }
 
-            //Remove already found items from previous search string
-            if (newSearch.Length > _lastSearchString.Length && newSearch.StartsWith(_lastSearchString))
-            {
-                foreach (var keyItem in _searchFilterItems.ToArray().AsParallel())
-                    if (!keyItem.IsMatchSearch(newSearch))
-                        _searchFilterItems.Remove(keyItem);
-            }
-            //Search all items
-            else
-            {
-                _searchFilterItems.Clear();
-                foreach (var keyItem in AllKeyItems.AsParallel())
-                    if (keyItem.IsMatchSearch(newSearch) && keyItem is TKeyView keyView)
-                        _searchFilterItems.Add(keyView);
-            }
+            _searchFilterItems.Clear();
+            foreach (var keyItem in AllKeyItems.AsParallel())
+                if (keyItem is TKeyView keyView && (keyItem.IsMatchSearch(newSearch) || keyView.id == _lastSelectedItemId))
+                    _searchFilterItems.Add(keyView);
 
             _lastSearchString = newSearch;
         }

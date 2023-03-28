@@ -10,10 +10,13 @@ namespace Knot.Localization.Attributes
     public class KnotTypePickerAttribute : PropertyAttribute
     {
         public readonly Type BaseType;
+        public readonly bool AllowSameTypeInArray;
 
-        public KnotTypePickerAttribute(Type baseType)
+
+        public KnotTypePickerAttribute(Type baseType, bool allowMultipleTypesInArray = true)
         {
             BaseType = baseType;
+            AllowSameTypeInArray = allowMultipleTypesInArray;
         }
     }
 }

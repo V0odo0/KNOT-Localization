@@ -1,5 +1,6 @@
 {
     "name": "Knot.Localization.Editor",
+    "rootNamespace": "Knot.Localization.Editor",
     "references": [
         "GUID:0c836d202cf772f428223d8fdcf6f608"
     ],
@@ -11,7 +12,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "!DISABLE_KNOT_LOCALIZATION"
+    ],
     "versionDefines": [
         {
             "name": "com.unity.ugui",

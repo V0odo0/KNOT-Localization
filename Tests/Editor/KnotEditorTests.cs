@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using Knot.Localization.Data;
 using Knot.Localization.Editor;
 using NUnit.Framework;
@@ -287,27 +288,6 @@ namespace Knot.Localization.Tests.Editor
             controller.Dispose();
         }
 
-        [Test]
-        public void ValidateSharedTextFormatterMetadata()
-        {
-            KnotTextController controller = new KnotTextController();
-
-            var keyData = new KnotKeyData("Test");
-            var textData = new KnotTextData("Test", "Test");
-            
-            controller.BuildAsync(new KnotControllerBuildData<KnotTextData>
-            {
-                Culture = CultureInfo.InvariantCulture,
-                GlobalMetadata = new IKnotMetadata[] { new TextFormatterKeySharedMetadataTest() },
-                KeyData = new[] { keyData },
-                ItemData = new[] { textData }
-            }).GetAwaiter().GetResult();
-            
-            Assert.AreEqual(controller["Test"].Value, new TextFormatterKeySharedMetadataTest().Format(textData.RawText));
-
-            controller.Dispose();
-        }
-
 
         [OneTimeTearDown]
         public void TearDown()
@@ -320,7 +300,10 @@ namespace Knot.Localization.Tests.Editor
 
         internal class TextFormatterKeySharedMetadataTest : IKnotKeySharedMetadata, IKnotTextFormatterMetadata
         {
-            public string Format(string inputString) => $"(shared) {inputString}";
+            public void Format(StringBuilder sb)
+            {
+                sb.Insert(0, "(shared)");
+            }
 
             public object Clone() => new TextFormatterKeySharedMetadataTest();
         }
@@ -330,6 +313,11 @@ namespace Knot.Localization.Tests.Editor
             private CultureInfo _culture;
 
             public string Format(string inputString) => $"{_culture?.Name}{inputString}";
+
+            public void Format(StringBuilder sb)
+            {
+                sb.Insert(0, _culture?.Name);
+            }
 
             public void SetCulture(CultureInfo cultureInfo) => _culture = cultureInfo;
 

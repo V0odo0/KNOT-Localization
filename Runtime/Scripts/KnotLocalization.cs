@@ -16,7 +16,6 @@ namespace Knot.Localization
     public static class KnotLocalization
     {
         internal const string CoreName = "KNOT Localization";
-        internal const string Version = "0.9.3";
 
         public static KnotProjectSettings ProjectSettings =>
             _projectSettings ?? (_projectSettings = LoadProjectSettings());

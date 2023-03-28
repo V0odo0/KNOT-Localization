@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Knot.Localization.Attributes;
 using UnityEditor;
@@ -10,12 +11,13 @@ namespace Knot.Localization.Editor
     [CustomPropertyDrawer(typeof(KnotTypePickerAttribute))]
     public class KnotTypePickerDrawer : PropertyDrawer
     {
-        public Type BaseType => (attribute as KnotTypePickerAttribute)?.BaseType;
+        public KnotTypePickerAttribute Attribute => attribute as KnotTypePickerAttribute;
+        public Type BaseType => Attribute?.BaseType;
 
 
         bool IsValidProperty(SerializedProperty property)
         {
-            return BaseType != null && 
+            return BaseType != null &&
                    property.propertyType == SerializedPropertyType.ManagedReference &&
                    BaseType.GetDerivedTypesInfo().Any();
         }
@@ -34,28 +36,65 @@ namespace Knot.Localization.Editor
 
             EditorGUI.BeginProperty(position, label, property);
 
-            Type currentType = property.GetManagedReferenceType();
-            var types = BaseType.GetDerivedTypesInfo();
+            Rect popupPos = new Rect(position.x + EditorGUIUtility.labelWidth, position.y,
+                position.width - EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
 
-            Rect popupPos = position;
-            popupPos.height = EditorGUIUtility.singleLineHeight;
-            
-            EditorGUI.BeginChangeCheck();
+            Type selectedType = property.GetManagedReferenceType();
 
-            int selectedTypeInfoId = types.Select((info, i) => new {typeInfo = info, Index = i})
-                .FirstOrDefault(t => t.typeInfo.Type == currentType)?.Index ?? -1;
-            selectedTypeInfoId = EditorGUI.Popup(popupPos, label, selectedTypeInfoId, types.Select(ti => ti.Content).ToArray());
+            if (selectedType == null)
+                EditorGUI.PrefixLabel(position, label);
 
-            if (EditorGUI.EndChangeCheck() && types[selectedTypeInfoId].Type != property.GetManagedReferenceType())
+            bool isDropdownClicked;
+            if (selectedType == null || Attribute.BaseType == null)
+                isDropdownClicked = EditorGUI.DropdownButton(popupPos, EditorGUIUtility.TrTextContent("[Select Type]"), FocusType.Keyboard);
+            else
             {
-                property.managedReferenceValue = types[selectedTypeInfoId].GetInstance();
-                property.serializedObject.ApplyModifiedProperties();
+                var typeInfo = Attribute.BaseType.GetDerivedTypesInfo().FirstOrDefault(t => t.Type == selectedType);
+                isDropdownClicked = EditorGUI.DropdownButton(popupPos, typeInfo == null ?
+                    EditorGUIUtility.TrTextContent(selectedType.Name) :
+                    typeInfo.Content, FocusType.Keyboard);
             }
 
-            position.y += popupPos.height + EditorGUIUtility.standardVerticalSpacing;
-            position.height -= popupPos.height;
+            if (isDropdownClicked)
+            {
+                var types = BaseType.GetDerivedTypesInfo();
+                GenericMenu menu = new GenericMenu();
 
-            EditorGUI.PropertyField(position, property, label, true);
+                HashSet<Type> typeConstraints = null;
+                if (!Attribute.AllowSameTypeInArray)
+                {
+                    SerializedProperty parentProperty = property.FindParentProperty();
+                    if (parentProperty != null && parentProperty.isArray)
+                    {
+                        typeConstraints = new HashSet<Type>();
+                        for (int i = 0; i < parentProperty.arraySize; i++)
+                        {
+                            typeConstraints.Add(parentProperty.GetArrayElementAtIndex(i).GetManagedReferenceType());
+                        }
+                    }
+                }
+
+                foreach (var t in types)
+                {
+                    bool canSelect = typeConstraints == null || !typeConstraints.Contains(t.Type);
+                    bool isSelected = t.Type == selectedType;
+                    if (canSelect)
+                    {
+                        menu.AddItem(EditorGUIUtility.TrTextContent(t.Info.MenuName), isSelected, () =>
+                        {
+                            property.managedReferenceValue = t.GetInstance();
+                            property.serializedObject.ApplyModifiedProperties();
+                            selectedType = property.GetManagedReferenceType();
+                        });
+                    }
+                    else menu.AddDisabledItem(EditorGUIUtility.TrTextContent(t.Info.MenuName), isSelected);
+                }
+
+                menu.DropDown(popupPos);
+            }
+
+            if (selectedType != null)
+                EditorGUI.PropertyField(position, property, label, true);
 
             EditorGUI.EndProperty();
         }
@@ -65,7 +104,7 @@ namespace Knot.Localization.Editor
             if (!IsValidProperty(property))
                 return base.GetPropertyHeight(property, label);
 
-            return EditorGUI.GetPropertyHeight(property, true) + EditorGUIUtility.singleLineHeight;
+            return EditorGUI.GetPropertyHeight(property, true) + 3;
         }
     }
 }
