@@ -9,7 +9,7 @@ namespace Knot.Localization
     public class KnotAssetKeyReference : KnotKeyReference<Object>
     {
         public override Object Value => KnotLocalization.GetAsset(Key);
-        public override IEnumerable<IKnotMetadata> Metadata => KnotLocalization.Manager.GetAssetValue(Key)?.Metadata;
+        public override IEnumerable<IKnotMetadata> Metadata => KnotLocalization.Manager.GetAssetValue(Key)?.Metadata ?? Array.Empty<IKnotMetadata>();
 
 
         public KnotAssetKeyReference() { }

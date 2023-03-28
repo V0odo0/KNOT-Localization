@@ -6,7 +6,7 @@ namespace Knot.Localization.Editor
     [CustomEditor(typeof(KnotProjectSettings))]
     public class KnotProjectSettingsEditor : UnityEditor.Editor
     {
-        internal static string SettingsPath = $"Project/{KnotLocalization.CoreName}";
+        internal static string SettingsPath = $"Project/KNOT/Localization";
         internal static string[] DefaultKeyWords = 
         {
             "knot",

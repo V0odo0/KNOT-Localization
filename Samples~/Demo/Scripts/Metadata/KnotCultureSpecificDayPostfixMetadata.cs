@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 using Knot.Localization.Attributes;
 using Knot.Localization.Data;
 using UnityEngine;
@@ -21,9 +22,9 @@ namespace Knot.Localization.Demo
 
         public void SetCulture(CultureInfo cultureInfo) => _currentCulture = cultureInfo;
 
-        public string Format(string inputString)
+        public void Format(StringBuilder sb)
         {
-            return $"{inputString} {_currentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)}";
+            sb.Insert(sb.Length, _currentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek));
         }
     }
 }

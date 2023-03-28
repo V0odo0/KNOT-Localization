@@ -28,7 +28,12 @@ namespace Knot.Localization.Components
                 return;
 
             UpdateFont();
-            Text.text = value;
+            Text.text = KeyReference.Value;
+        }
+
+        protected override void OnValidate()
+        {
+            ForceUpdateValue();
         }
     }
 }

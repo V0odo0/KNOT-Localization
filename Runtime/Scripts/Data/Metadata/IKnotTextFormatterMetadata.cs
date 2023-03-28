@@ -1,4 +1,6 @@
-﻿namespace Knot.Localization.Data
+﻿using System.Text;
+
+namespace Knot.Localization.Data
 {
     /// <summary>
     /// An interface that should implement text <see cref="Format"/> logic.
@@ -6,6 +8,6 @@
     /// </summary>
     public interface IKnotTextFormatterMetadata : IKnotMetadata
     {
-        string Format(string inputString);
+        void Format(StringBuilder sb);
     }
 }
