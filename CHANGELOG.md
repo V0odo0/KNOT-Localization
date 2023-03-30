@@ -11,6 +11,7 @@
 
 * Fixed Addressables error: Attempting to load AssetReference that has already been loaded
 * Fixed key search behaviour in Database Editor
+* Fixed error "An element can track properties on only one serializedObject at a time"
 
 ## 0.9.3 (2023-01-24)
 
