@@ -104,18 +104,22 @@ namespace Knot.Localization.Editor
             SerializedObject databaseObj = new SerializedObject(database);
             SerializedProperty settingsProp = databaseObj.FindProperty("_settings");
 
+            LanguageSelector.Unbind();
             LanguageSelector.BindProperty(settingsProp.FindPropertyRelative("_languageSelector"));
 
             TextKeyCollectionsProp = databaseObj.FindProperty("_textKeyCollections");
             TextKeyCollectionsList.serializedProperty = TextKeyCollectionsProp;
+
+            TextController.Unbind();
             TextController.BindProperty(settingsProp.FindPropertyRelative("_textController"));
 
             AssetKeyCollectionsProp = databaseObj.FindProperty("_assetKeyCollections");
             AssetKeyCollectionsList.serializedProperty = AssetKeyCollectionsProp;
+
+            AssetController.Unbind();
             AssetController.BindProperty(settingsProp.FindPropertyRelative("_assetController"));
 
             MetadataContainerEditor.Bind(settingsProp.FindPropertyRelative("_metadata"));
-
         }
     }
 }
