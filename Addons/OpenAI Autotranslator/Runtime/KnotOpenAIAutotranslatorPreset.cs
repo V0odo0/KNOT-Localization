@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using Knot.Localization.Attributes;
+using UnityEngine;
+
+namespace Knot.Localization.Data
+{
+    [KnotTypeInfo("OpenAI Autotranslator Preset")]
+    [CreateAssetMenu(fileName = "KnotOpenAIAutotranslatorPreset", menuName = KnotLocalization.CoreName + "/OpenAI Autotranslator Preset", order = 50)]
+    public class KnotOpenAIAutotranslatorPreset : ScriptableObject
+    {
+        public TranslationEntry TranslationSource
+        {
+            get => _translationSource;
+            set => _translationSource = value;
+        }
+        [SerializeField] private TranslationEntry _translationSource;
+
+        public List<TranslationTargetEntry> TranslationTargets => _translationTargets ?? (_translationTargets = new List<TranslationTargetEntry>());
+        [SerializeField] private List<TranslationTargetEntry> _translationTargets;
+
+        public List<string> ExcludeKeys => _excludeKeys ?? (_excludeKeys = new List<string>());
+        [SerializeField] private List<string> _excludeKeys;
+
+
+        [Serializable]
+        public class TranslationEntry
+        {
+            public CultureInfo CultureInfo => CultureInfo.GetCultureInfo(CultureName);
+
+            public string CultureName
+            {
+                get => _cultureName;
+                set => _cultureName = value;
+            }
+            [SerializeField, KnotCultureNamePicker] private string _cultureName;
+
+            public KnotTextCollection TextCollection
+            {
+                get => _textCollection;
+                set => _textCollection = value;
+            }
+            [SerializeField] private KnotTextCollection _textCollection;
+        }
+
+        [Serializable]
+        public class TranslationTargetEntry : TranslationEntry
+        {
+            public string TranslationExtraContext
+            {
+                get => _translationExtraContext;
+                set => _translationExtraContext = value;
+            }
+            [SerializeField, TextArea] private string _translationExtraContext;
+        }
+    }
+}

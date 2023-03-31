@@ -74,21 +74,22 @@ namespace Knot.Localization
             }
             return settings;
         }
-        
 
-        internal static void Log(string message, LogType type)
+
+        internal static void Log(object message, LogType type, Object context = null)
         {
             message = $"{CoreName}: {message}";
+
             switch (type)
             {
                 default:
-                    Debug.Log(message);
+                    Debug.Log(message, context);
                     break;
                 case LogType.Error:
-                    Debug.LogError(message);
+                    Debug.LogError(message, context);
                     break;
                 case LogType.Warning:
-                    Debug.LogWarning(message);
+                    Debug.LogWarning(message, context);
                     break;
             }
         }

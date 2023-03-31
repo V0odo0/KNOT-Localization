@@ -197,6 +197,9 @@ namespace Knot.Localization
 
         public virtual void RegisterValueChangedCallback(string key, Action<TValueType> valueChanged)
         {
+            if (string.IsNullOrEmpty(key))
+                return;
+
             if (!ValueChangedCallbacks.ContainsKey(key))
                 _valueChangedCallbacks.Add(key, valueChanged);
             else _valueChangedCallbacks[key] += valueChanged;
@@ -204,6 +207,9 @@ namespace Knot.Localization
 
         public virtual void UnRegisterValueChangedCallback(string key, Action<TValueType> valueChanged)
         {
+            if (string.IsNullOrEmpty(key))
+                return;
+
             if (!ValueChangedCallbacks.ContainsKey(key))
                 return;
 
