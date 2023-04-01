@@ -6,7 +6,7 @@
 
 ![as_icon](https://user-images.githubusercontent.com/10213769/162616057-4a2d89aa-bbda-4080-aa0e-f3db333c7afa.png)
 
-**[YouTube](https://www.youtube.com/watch?v=vzYPx3FN9Sk) • 
+**[YouTube](https://www.youtube.com/playlist?list=PLGQ7jHPXvRpQnwoqr10pLRfqgqFSCWekT) • 
 [WebGL Demo](https://vd3v.com/assets/knot_localization/demo/) •
 [Documentation](https://vd3v.com/assets/knot_localization/docs/articles/quickstart.html) •
 [Changelog](https://github.com/V0odo0/KNOT-Localization/blob/main/CHANGELOG.md)**
