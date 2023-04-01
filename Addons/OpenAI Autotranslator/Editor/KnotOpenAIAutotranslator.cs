@@ -255,11 +255,11 @@ namespace Knot.Localization.Editor
         public class TranslationSettings
         {
             public string CompletionEndpointUrl = "https://api.openai.com/v1/chat/completions";
-            public string CompletionModel = "gpt-3.5-turbo";
+            public string CompletionModel = "gpt-3.5";
             public string CompletionPrompt = "Translate the following JSON file from {0} to {1}. Do not translate JSON \"Key\" value and keep it as is.";
 
             public int RequestTimeout = 15;
-            public int MaxSymbolsPerRequest = 5000;
+            public int MaxSymbolsPerRequest = 20000;
         }
 
         [Serializable]

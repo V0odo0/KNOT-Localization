@@ -21,7 +21,7 @@ namespace Knot.Localization.Data
         [SerializeField] private List<TranslationTargetEntry> _translationTargets;
 
         public List<string> ExcludeKeys => _excludeKeys ?? (_excludeKeys = new List<string>());
-        [SerializeField] private List<string> _excludeKeys;
+        [SerializeField, KnotTextKeyPicker] private List<string> _excludeKeys;
 
 
         [Serializable]

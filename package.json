@@ -1,13 +1,14 @@
 {
   "name": "com.knot.localization",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "V0odo0",
   "displayName": "KNOT Localization",
   "unity": "2020.3",
   "description": "Lightweight, scalable and extensible texts & assets localization system for Unity.",
   "keywords": [
     "localization",
-    "globalization"
+    "globalization",
+	"Autotranslation"
 	],
   "category": "Localization",
   "documentationUrl": "https://github.com/V0odo0/KNOT-Localization",

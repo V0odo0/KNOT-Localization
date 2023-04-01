@@ -1,3 +1,7 @@
+## 1.1.0 (2023-03-01)
+
+* Mew Addom: Open AI Autotranslator
+
 ## 1.0.1 (2023-03-30)
 
 * KnotTextKeyReference is now have it's own Text Formatters metadata. You can add them in inspector by clicking [F] button 
