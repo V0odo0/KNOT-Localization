@@ -1,4 +1,4 @@
-## 1.1.0 (2023-03-01)
+## 1.1.0 (2023-04-01)
 
 * Mew Addom: Open AI Autotranslator
 
