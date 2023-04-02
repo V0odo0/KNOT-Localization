@@ -22,7 +22,7 @@ namespace Knot.Localization.Data
 
         public List<string> ExcludeKeys => _excludeKeys ?? (_excludeKeys = new List<string>());
         [SerializeField, KnotTextKeyPicker] private List<string> _excludeKeys;
-
+        
 
         [Serializable]
         public class TranslationEntry
@@ -53,6 +53,21 @@ namespace Knot.Localization.Data
                 set => _translationExtraContext = value;
             }
             [SerializeField, TextArea] private string _translationExtraContext;
+
+            public TargetKeySelectionMode KeySelection
+            {
+                get => _keySelection;
+                set => _keySelection = value;
+            }
+            [SerializeField] private TargetKeySelectionMode _keySelection = TargetKeySelectionMode.All;
+        }
+
+        [Serializable]
+        public enum TargetKeySelectionMode
+        {
+            All,
+            MissingOnly,
+            ExistingOnly
         }
     }
 }
