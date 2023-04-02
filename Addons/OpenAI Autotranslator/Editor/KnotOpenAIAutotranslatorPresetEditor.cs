@@ -97,7 +97,7 @@ namespace Knot.Localization.Editor
             settings.CompletionModel = EditorGUILayout.TextField(ObjectNames.NicifyVariableName(nameof(settings.CompletionModel)), settings.CompletionModel);
             settings.CompletionPrompt = EditorGUILayout.TextField(ObjectNames.NicifyVariableName(nameof(settings.CompletionPrompt)), settings.CompletionPrompt);
             settings.RequestTimeout = EditorGUILayout.IntField(ObjectNames.NicifyVariableName(nameof(settings.RequestTimeout)), settings.RequestTimeout);
-            settings.MaxSymbolsPerRequest = EditorGUILayout.IntField(ObjectNames.NicifyVariableName(nameof(settings.MaxSymbolsPerRequest)), settings.MaxSymbolsPerRequest);
+            settings.MaxCharactersPerRequest = EditorGUILayout.IntField(ObjectNames.NicifyVariableName(nameof(settings.MaxCharactersPerRequest)), settings.MaxCharactersPerRequest);
 
             EditorGUI.indentLevel -= 1;
         }

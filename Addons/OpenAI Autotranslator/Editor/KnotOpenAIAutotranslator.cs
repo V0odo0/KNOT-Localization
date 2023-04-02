@@ -16,7 +16,7 @@ namespace Knot.Localization.Editor
     public static class KnotOpenAIAutotranslator
     {
         internal const string CoreName = "Open AI Autotranslator";
-
+        
         public static bool IsTranslating { get; private set; }
         public const string ManagerMyApiKeysUrl = "https://platform.openai.com/account/api-keys";
         public static readonly TranslationSettings DefaultSettings = new TranslationSettings();
@@ -35,25 +35,42 @@ namespace Knot.Localization.Editor
 
             IsTranslating = true;
 
-            var keyTextArrays = BuildKeyTextArrays(request.Preset);
+            var keyTextArrays = BuildKeyTextArrays(request.Preset, request.Settings);
             var keysToTranslate = new HashSet<string>(keyTextArrays.SelectMany(a => a.Entries).Select(e => e.Key));
             int totalKeysCount = keysToTranslate.Count;
             var results = new List<KeyValuePair<KnotOpenAIAutotranslatorPreset.TranslationTargetEntry, Dictionary<string, string>>>();
             var cancellationToken = new CancellationTokenSource();
-            float progress = 0.1f;
+            float totalProgress = 0.1f;
             foreach (var target in targets)
             {
                 try
                 {
-                    var progressBarMsg = $"Translating {totalKeysCount} keys from {request.Preset.TranslationSource.CultureInfo.EnglishName} to {target.CultureInfo.EnglishName}...";
+                    string progressBarMsg = string.Empty;
+                    var textArrayProgress = new Vector2Int(1, 1);
+                    var progress = new Progress<Vector2Int>();
+                    
+                    void UpdateProgressBarMessage()
+                    {
+                        progressBarMsg = "Translating keys from " +
+                                         $"{request.Preset.TranslationSource.CultureInfo.EnglishName} " +
+                                         $"to {target.CultureInfo.EnglishName}.  [{textArrayProgress.x} / {textArrayProgress.y}]";
+                    }
 
-                    var task = TranslateArrays(request, target, cancellationToken.Token, keyTextArrays);
+                    progress.ProgressChanged += (sender, f) =>
+                    {
+                        textArrayProgress = f;
+                        UpdateProgressBarMessage();
+                    };
+
+                    var task = TranslateArrays(request, target, cancellationToken.Token, progress, keyTextArrays);
                     while (!task.IsCompleted)
                     {
-                        if (EditorUtility.DisplayCancelableProgressBar(CoreName, progressBarMsg, progress))
+                        if (EditorUtility.DisplayCancelableProgressBar(CoreName, progressBarMsg, totalProgress))
                         {
-                            EditorUtility.ClearProgressBar();
+                            IsTranslating = false;
                             cancellationToken.Cancel();
+                            EditorUtility.ClearProgressBar();
+                            return;
                         }
 
                         await Task.Delay(100, cancellationToken.Token);
@@ -63,7 +80,7 @@ namespace Knot.Localization.Editor
                         results.Add(new KeyValuePair<KnotOpenAIAutotranslatorPreset.TranslationTargetEntry,
                             Dictionary<string, string>>(target, task.Result));
 
-                    progress += 1f / targets.Length;
+                    totalProgress += 1f / targets.Length;
                 }
                 catch (Exception e)
                 {
@@ -87,16 +104,19 @@ namespace Knot.Localization.Editor
         }
 
         static async Task<Dictionary<string, string>> TranslateArrays(TranslationRequest request, 
-            KnotOpenAIAutotranslatorPreset.TranslationTargetEntry target, CancellationToken cancellationToken, 
+            KnotOpenAIAutotranslatorPreset.TranslationTargetEntry target, CancellationToken cancellationToken, IProgress<Vector2Int> progress,
             params KeyTextArray[] keyTextArrays)
         {
             if (keyTextArrays.Length == 0)
                 return null;
-
+            
             Dictionary<string, string> result = null;
             StringBuilder prompt = new StringBuilder();
+            int keyTextArrayId = 0;
             foreach (var keyTextArray in keyTextArrays)
             {
+                progress.Report(new Vector2Int(keyTextArrayId + 1, keyTextArrays.Length));
+
                 prompt.Clear();
                 prompt.Append(string.Format(request.Settings.CompletionPrompt,
                     request.Preset.TranslationSource.CultureName, target.CultureName));
@@ -144,6 +164,8 @@ namespace Knot.Localization.Editor
                         return null;
                     }
                 }
+
+                keyTextArrayId++;
             }
 
             return result;
@@ -204,16 +226,26 @@ namespace Knot.Localization.Editor
                 EditorWindow.GetWindow<KnotDatabaseEditorWindow>().ReloadLayout();
         }
 
-        static KeyTextArray[] BuildKeyTextArrays(KnotOpenAIAutotranslatorPreset preset)
+        static KeyTextArray[] BuildKeyTextArrays(KnotOpenAIAutotranslatorPreset preset, TranslationSettings settings)
         {
             List<KeyTextArray> arrays = new List<KeyTextArray>();
 
             var array = new KeyTextArray();
             var keys = new HashSet<string>();
+            int requestCharCount = settings.CompletionPrompt.Length;
+            int curCharCount = requestCharCount;
             foreach (var text in preset.TranslationSource.TextCollection)
             {
                 if (keys.Contains(text.Key) || preset.ExcludeKeys.Contains(text.Key) || string.IsNullOrEmpty(text.RawText))
                     continue;
+
+                curCharCount += text.Key.Length + text.RawText.Length;
+                if (curCharCount >= settings.MaxCharactersPerRequest)
+                {
+                    curCharCount = requestCharCount;
+                    arrays.Add(array);
+                    array = new KeyTextArray();
+                }
 
                 var entry = new KeyTextEntry(text.Key, text.RawText);
                 array.Entries.Add(entry);
@@ -258,8 +290,8 @@ namespace Knot.Localization.Editor
             public string CompletionModel = "gpt-3.5";
             public string CompletionPrompt = "Translate the following JSON file from {0} to {1}. Do not translate JSON \"Key\" value and keep it as is.";
 
-            public int RequestTimeout = 15;
-            public int MaxSymbolsPerRequest = 20000;
+            public int RequestTimeout = 10;
+            public int MaxCharactersPerRequest = 3000;
         }
 
         [Serializable]
