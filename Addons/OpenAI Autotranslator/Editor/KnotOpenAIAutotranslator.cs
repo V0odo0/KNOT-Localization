@@ -238,9 +238,13 @@ namespace Knot.Localization.Editor
                 {
                     var existingData = r.Key.TextCollection.FirstOrDefault(d => d.Key == t.Key);
                     if (existingData != null)
+                    {
                         existingData.RawText = t.Value;
+                    }
                     else r.Key.TextCollection.Add(new KnotTextData(t.Key, t.Value));
                 }
+                EditorUtility.SetDirty(r.Key.TextCollection);
+                AssetDatabase.SaveAssetIfDirty(r.Key.TextCollection);
             }
 
             if (EditorWindow.HasOpenInstances<KnotDatabaseEditorWindow>())
