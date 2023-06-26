@@ -1,3 +1,12 @@
+## 1.1.1 (2023-06-27)
+
+* New Addon (Experimental): CSV Import Export
+* New Text Formatter Metadata - Localized Text Override
+* New Text Formatter Metadata - Replace with Localized Text
+* Fixed Component's Text Formatters not being applied if Database has been loaded after Localized Component initialization
+* Fixed incorrect database search logic resulting in an empty list
+* Fixed Addressables validation check
+
 ## 1.1.0 (2023-04-01)
 
 * New Addon: Open AI Autotranslator

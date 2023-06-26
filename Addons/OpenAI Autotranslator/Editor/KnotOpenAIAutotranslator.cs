@@ -50,6 +50,9 @@ namespace Knot.Localization.Editor
                 var results = new List<KeyValuePair<KnotOpenAIAutotranslatorPreset.TranslationTargetEntry, Dictionary<string, string>>>();
                 foreach (var target in targets)
                 {
+                    if (!target.Enabled)
+                        continue;
+
                     string progressBarMsg = string.Empty;
                     var textArrayProgress = new Vector2Int(1, 1);
                     var targetProgress = new Progress<Vector2Int>();

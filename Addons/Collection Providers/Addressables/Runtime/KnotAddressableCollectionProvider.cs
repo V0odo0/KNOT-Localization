@@ -37,7 +37,7 @@ namespace Knot.Localization.Data
 
         public async Task<KnotItemCollection> LoadAsync()
         {
-            if (AssetReference.IsValid())
+            if (AssetReference.RuntimeKeyIsValid())
             {
                 _asyncOperationHandle = AssetReference.LoadAssetAsync();
                 await _asyncOperationHandle.Task;

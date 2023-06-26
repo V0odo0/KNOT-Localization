@@ -4,6 +4,7 @@ using System.Linq;
 using Knot.Localization.Data;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 namespace Knot.Localization.Editor
@@ -56,9 +57,6 @@ namespace Knot.Localization.Editor
         protected abstract IKnotKeyViewLabel<TKeyView>[] KeyViewLabels { get; }
 
         private List<TKeyView> _keyViews = new List<TKeyView>();
-        private HashSet<TKeyView> _searchFilterItems = new HashSet<TKeyView>();
-        private int _lastSelectedItemId = -1;
-        private string _lastSearchString = string.Empty;
 
 
         protected KnotKeysTreeView(TreeViewState state): base(state)
@@ -70,8 +68,8 @@ namespace Knot.Localization.Editor
         protected sealed override TreeViewItem BuildRoot()
         {
             _allKeyItems.Clear();
-
             _allKeyItems.AddRange(_keyViews);
+
             if (TreeViewMode == KnotKeysTreeViewMode.Hierarchy)
                 _allKeyItems.AddRange(GetAllKeyGroups(_allKeyItems));
             _allKeyItems.Sort();
@@ -82,9 +80,7 @@ namespace Knot.Localization.Editor
             };
 
             SetupParentsAndChildrenFromDepths(root, root.children);
-
-            SearchChanged(searchString);
-
+            
             return root;
         }
 
@@ -234,41 +230,9 @@ namespace Knot.Localization.Editor
             base.KeyEvent();
         }
 
-        protected sealed override bool DoesItemMatchSearch(TreeViewItem item, string search) =>
-            _searchFilterItems.Contains(item);
-
-        protected override void SearchChanged(string newSearch)
+        protected sealed override bool DoesItemMatchSearch(TreeViewItem item, string search)
         {
-            if (rootItem == null)
-                return;
-            
-            if (_lastSearchString.Length != 0 && string.IsNullOrEmpty(newSearch))
-            {
-                try
-                {
-                    FrameItem(_lastSelectedItemId);
-                }
-                catch 
-                {
-                    //
-                }
-                return;
-            }
-
-            //Apply custom search filter
-            if (SearchFilter != null)
-            {
-                _searchFilterItems.Clear();
-                SearchFilter.ApplyFilter(newSearch, _keyViews, ref _searchFilterItems);
-                return;
-            }
-
-            _searchFilterItems.Clear();
-            foreach (var keyItem in AllKeyItems.AsParallel())
-                if (keyItem is TKeyView keyView && (keyItem.IsMatchSearch(newSearch) || keyView.id == _lastSelectedItemId))
-                    _searchFilterItems.Add(keyView);
-
-            _lastSearchString = newSearch;
+            return item is TKeyView keyView && (keyView.IsMatchSearch(search));
         }
 
 
@@ -284,7 +248,6 @@ namespace Knot.Localization.Editor
 
         protected override void SelectionChanged(IList<int> selectedIds)
         {
-            _lastSelectedItemId = selectedIds?.FirstOrDefault() ?? -1;
             KeysSelected?.Invoke(SelectedKeyViews);
         }
 
@@ -329,7 +292,6 @@ namespace Knot.Localization.Editor
         public virtual void Bind(List<TKeyView> keyViews)
         {
             _keyViews = keyViews;
-            _searchFilterItems.Clear();
 
             Reload();
         }

@@ -16,7 +16,7 @@ namespace Knot.Localization
                 if (_formatters == null || _formatters.Count == 0)
                     return KnotLocalization.GetText(Key);
 
-                return KnotText.Format(KnotLocalization.GetText(Key), _formatters);
+                return KnotText.Format(KnotLocalization.GetText(Key), Formatters);
             }
         }
         public override IEnumerable<IKnotMetadata> Metadata => KnotLocalization.Manager.GetTextValue(Key)?.Metadata ?? Array.Empty<IKnotMetadata>();

@@ -26,9 +26,9 @@ namespace Knot.Localization.Components
         {
             if (TextMeshPro == null)
                 return;
-
+            
             UpdateFont();
-            TextMeshPro.text = value;
+            TextMeshPro.text = KeyReference.Value;
         }
     }
 }

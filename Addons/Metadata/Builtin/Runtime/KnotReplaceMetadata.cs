@@ -36,6 +36,9 @@ namespace Knot.Localization.Data
 
         public void Format(StringBuilder sb)
         {
+            if (string.IsNullOrEmpty(OldValue))
+                return;
+
             sb.Replace(OldValue, NewValue);
         }
     }

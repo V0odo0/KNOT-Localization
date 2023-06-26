@@ -47,6 +47,13 @@ namespace Knot.Localization.Data
         [Serializable]
         public class TranslationTargetEntry : TranslationEntry
         {
+            public bool Enabled
+            {
+                get => _enabled;
+                set => _enabled = value;
+            }
+            [SerializeField, TextArea] private bool _enabled = true;
+
             public string TranslationExtraContext
             {
                 get => _translationExtraContext;

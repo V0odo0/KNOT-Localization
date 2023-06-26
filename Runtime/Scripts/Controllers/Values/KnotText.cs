@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Knot.Localization.Data;
+using UnityEngine;
 
 namespace Knot.Localization
 {
@@ -62,7 +63,12 @@ namespace Knot.Localization
                 SharedStringBuilder.Append(inputString);
 
                 foreach (var f in formatters)
+                {
+                    if (f is IKnotCultureSpecificMetadata cultureSpecificMetadata)
+                        cultureSpecificMetadata.SetCulture(KnotLocalization.Manager.SelectedLanguage.CultureInfo);
+
                     f?.Format(SharedStringBuilder);
+                }
 
                 return SharedStringBuilder.ToString();
             }

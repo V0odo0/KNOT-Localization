@@ -26,7 +26,7 @@ namespace Knot.Localization.Components
                 return;
 
             UpdateFont();
-            TextMesh.text = value;
+            TextMesh.text = KeyReference.Value;
         }
     }
 }

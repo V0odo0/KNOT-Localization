@@ -25,7 +25,7 @@ namespace Knot.Localization.Components
                 if (fontMetadata?.Font != null && TextMeshPro.font != fontMetadata.Font)
                     TextMeshPro.font = fontMetadata.Font;
 
-                TextMeshPro.text = value;
+                TextMeshPro.text = KeyReference.Value;
             }
 
             if (TextMeshProUGUI != null)
@@ -34,7 +34,7 @@ namespace Knot.Localization.Components
                 if (fontMetadata?.Font != null && TextMeshProUGUI.font != fontMetadata.Font)
                     TextMeshProUGUI.font = fontMetadata.Font;
 
-                TextMeshProUGUI.text = value;
+                TextMeshProUGUI.text = KeyReference.Value;
             }
         }
     }
