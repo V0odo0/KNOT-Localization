@@ -1,4 +1,4 @@
-## 1.1.1 (2023-06-27)
+## 1.2.0 (2023-06-27)
 
 * New Addon (Experimental): CSV Import Export
 * New Text Formatter Metadata - Localized Text Override
