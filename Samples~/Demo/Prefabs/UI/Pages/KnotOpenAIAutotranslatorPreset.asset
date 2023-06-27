@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256b428b39e16074884ffef770d143a7, type: 3}
+  m_Name: KnotOpenAIAutotranslatorPreset
+  m_EditorClassIdentifier: 
+  _translationSource:
+    _cultureName: en-US
+    _textCollection: {fileID: 11400000, guid: ebe5728976b6b524a92918682d9abd45, type: 2}
+  _translationTargets:
+  - _cultureName: de
+    _textCollection: {fileID: 11400000, guid: d97f2f53b2371b541953f7274a5ee4d1, type: 2}
+    _enabled: 1
+    _translationExtraContext: 
+    _keySelection: 1
+  _excludeKeys:
+  - untranslated_key

@@ -82,9 +82,16 @@ namespace Knot.Localization.Editor
                     {
                         menu.AddItem(EditorGUIUtility.TrTextContent(t.Info.MenuName), isSelected, () =>
                         {
-                            property.managedReferenceValue = t.GetInstance();
-                            property.serializedObject.ApplyModifiedProperties();
-                            selectedType = property.GetManagedReferenceType();
+                            try
+                            {
+                                property.managedReferenceValue = t.GetInstance();
+                                property.serializedObject.ApplyModifiedProperties();
+                                selectedType = property.GetManagedReferenceType();
+                            }
+                            catch
+                            {
+                                //
+                            }
                         });
                     }
                     else menu.AddDisabledItem(EditorGUIUtility.TrTextContent(t.Info.MenuName), isSelected);

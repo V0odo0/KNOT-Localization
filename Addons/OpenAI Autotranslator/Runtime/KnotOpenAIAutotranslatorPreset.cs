@@ -52,7 +52,7 @@ namespace Knot.Localization.Data
                 get => _enabled;
                 set => _enabled = value;
             }
-            [SerializeField, TextArea] private bool _enabled = true;
+            [SerializeField] private bool _enabled = true;
 
             public string TranslationExtraContext
             {

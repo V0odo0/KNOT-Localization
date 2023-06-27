@@ -40,12 +40,8 @@ MonoBehaviour:
   - _key: Pages.2.title
     _rawText: "F\xFCgen Sie Text in Echtzeit hinzu"
   - _key: Pages.3.0
-    _rawText: "Sie k\xF6nnen einem Textschl\xFCssel in einer Datenbank Metadaten
-      zuweisen, die Text basierend auf den Besonderheiten der aktuellen Sprache transformieren
-      k\xF6nnen. Der folgende Text wird mithilfe der System.CultureInfo-Klasse mit
-      dem Namen des aktuellen Wochentags nachfixiert."
-  - _key: Pages.3.postfixDayOfTheWeek
-    _rawText: 'Aktueller Wochentag:'
+    _rawText: "Sie k\xF6nnen dem Textschl\xFCssel in der Datenbank oder der Textschl\xFCsselreferenz
+      Metadaten zuweisen, um den resultierenden lokalisierten Wert umzuwandeln."
   - _key: Pages.3.title
     _rawText: Text mit Metadaten transformieren
   - _key: Pages.4.0
@@ -67,3 +63,14 @@ MonoBehaviour:
       aus einer JSON-Datei, die auf gist.github.com gehostet wird."
   - _key: UI.Load
     _rawText: Herunterladen
+  - _key: Item.Sword
+    _rawText: Schwert
+  - _key: PlayerItemSlot.WeaponFormat
+    _rawText: 'Waffe: {0}'
+  - _key: Pages.7.title
+    _rawText: Automatische Lokalisierung mit OpenAI
+  - _key: Pages.7.0
+    _rawText: "Mit der ChatGPT-API von OpenAI k\xF6nnen Sie den in der Datenbank
+      angezeigten Text automatisch \xFCbersetzen.\n\n1. Erstellen Sie das KnotOpenAIAutotranslatorPreset-Asset\n2.
+      \xDCbersetzungsquelle ausw\xE4hlen\n3. W\xE4hlen Sie \xDCbersetzungsziele aus\n4.
+      Geben Sie den API-Schl\xFCssel ein und klicken Sie auf \xDCBERSETZUNG STARTEN"

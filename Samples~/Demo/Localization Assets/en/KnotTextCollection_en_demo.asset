@@ -41,14 +41,10 @@ MonoBehaviour:
       as Fallback Value. Try to override the value for the given key. All localized
       components with a reference to this key will be updated.
   - _key: Pages.3.0
-    _rawText: You can assign Metadata to a text key in a Database that can transform
-      text based on the specifics of the current language. The following text will
-      be postfixed with the current day of the week name from System.CultureInfo
-      class.
-  - _key: Pages.3.postfixDayOfTheWeek
-    _rawText: 'Current day of the week:'
+    _rawText: You can assign Metadata to text key in Database or Text Key Reference
+      to transform resulting localized value.
   - _key: Pages.3.title
-    _rawText: Transforming Text value with Metadata
+    _rawText: Transforming Localized Text with Metadata
   - _key: Pages.4.0
     _rawText: The built-in Localized Components addon allows you to localize assets
       like sprites as well as texts. Change the language to see the effect.
@@ -62,3 +58,23 @@ MonoBehaviour:
       language text collection comes from JSON file hosted on gist.github.com.
   - _key: UI.Load
     _rawText: Load
+  - _key: Item.Sword
+    _rawText: Sword
+  - _key: PlayerItemSlot.WeaponFormat
+    _rawText: 'Weapon: {0}'
+  - _key: Pages.7.title
+    _rawText: OpenAI Autotranslation
+  - _key: Pages.7.0
+    _rawText: 'With OpenAI''s ChatGPT API, you can automatically translate the text
+      presented in the database.
+
+
+      1. Create KnotOpenAIAutotranslatorPreset
+      asset
+
+      2. Select translation source
+
+      3. Select translation targets
+
+      4.
+      Enter the API key and click START TRANSLATION'

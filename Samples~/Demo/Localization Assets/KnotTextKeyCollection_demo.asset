@@ -65,11 +65,6 @@ MonoBehaviour:
     _metadata:
       _runtime: []
       _editor: []
-  - _key: Pages.3.postfixDayOfTheWeek
-    _metadata:
-      _runtime:
-      - id: 0
-      _editor: []
   - _key: Pages.4.title
     _metadata:
       _runtime: []
@@ -90,10 +85,21 @@ MonoBehaviour:
     _metadata:
       _runtime: []
       _editor: []
+  - _key: Item.Sword
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: PlayerItemSlot.WeaponFormat
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.7.title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.7.0
+    _metadata:
+      _runtime: []
+      _editor: []
   references:
     version: 1
-    00000000:
-      type: {class: KnotCultureSpecificDayPostfixMetadata, ns: Knot.Localization.Demo,
-        asm: Knot.Localization}
-      data:
-        _serializationPlaceholder: 0
