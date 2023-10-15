@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Knot.Localization.Data
 {
     [KnotTypeInfo("Asset Collection")]
-    [CreateAssetMenu(fileName = "KnotAssetCollection", menuName = KnotLocalization.CoreName + "/Item Collection/Asset Collection", order = 50)]
+    [CreateAssetMenu(fileName = "KnotAssetCollection", menuName = KnotLocalization.CorePath + "Asset Collection", order = 50)]
     public class KnotAssetCollection : KnotItemCollection, IKnotItemCollection<KnotAssetData>
     {
         public KnotAssetData this[int index]

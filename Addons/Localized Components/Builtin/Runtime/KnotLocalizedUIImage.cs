@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace Knot.Localization.Components
 {
-    [AddComponentMenu(KnotLocalization.CoreName + "/Localized UI Image", 1000)]
+    [AddComponentMenu(KnotLocalization.CorePath + "Localized UI Image", 1000)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Image))]
     public partial class KnotLocalizedUIImage : KnotLocalizedComponent<KnotSpriteKeyReference, Object>

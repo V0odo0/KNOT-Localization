@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Knot.Localization.Components
 {
-    [AddComponentMenu(KnotLocalization.CoreName + "/Localized Text Mesh PRO (UI)", 1000)]
+    [AddComponentMenu(KnotLocalization.CorePath + "Localized Text Mesh PRO (UI)", 1000)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(TextMeshProUGUI))]
     public partial class KnotLocalizedTextMeshProUGUI : KnotLocalizedComponent<KnotTextKeyReference, string>

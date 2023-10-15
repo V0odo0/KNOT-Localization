@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Knot.Localization.Data
 {
     [KnotTypeInfo("Text Collection")]
-    [CreateAssetMenu(fileName = "KnotTextCollection", menuName = KnotLocalization.CoreName + "/Item Collection/Text Collection", order = 50)]
+    [CreateAssetMenu(fileName = "KnotTextCollection", menuName = KnotLocalization.CorePath + "Text Collection", order = 50)]
     public class KnotTextCollection : KnotItemCollection, IKnotItemCollection<KnotTextData>
     {
         public KnotTextData this[int index]

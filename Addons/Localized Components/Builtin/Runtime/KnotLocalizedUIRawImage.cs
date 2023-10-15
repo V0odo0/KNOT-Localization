@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Knot.Localization.Components
 {
-    [AddComponentMenu(KnotLocalization.CoreName + "/Localized UI Raw Image", 1000)]
+    [AddComponentMenu(KnotLocalization.CorePath + "Localized UI Raw Image", 1000)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RawImage))]
     public partial class KnotLocalizedUIRawImage : KnotLocalizedComponent<KnotTextureKeyReference, Object>

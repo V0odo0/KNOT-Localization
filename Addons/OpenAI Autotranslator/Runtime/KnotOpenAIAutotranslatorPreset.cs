@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Knot.Localization.Data
 {
     [KnotTypeInfo("OpenAI Autotranslator Preset")]
-    [CreateAssetMenu(fileName = "KnotOpenAIAutotranslatorPreset", menuName = KnotLocalization.CoreName + "/OpenAI Autotranslator Preset", order = 50)]
+    [CreateAssetMenu(fileName = "KnotOpenAIAutotranslatorPreset", menuName = KnotLocalization.CorePath + "Addons/OpenAI Autotranslator Preset", order = 50)]
     public class KnotOpenAIAutotranslatorPreset : ScriptableObject
     {
         public TranslationEntry TranslationSource

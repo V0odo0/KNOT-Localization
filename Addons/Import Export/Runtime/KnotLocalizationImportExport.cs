@@ -13,7 +13,7 @@ using UnityEditor;
 
 namespace Knot.Localization
 {
-    [CreateAssetMenu(fileName = "KnotLocalizationImportExport", menuName = KnotLocalization.CoreName + "/Experimental/Import Export", order = 50)]
+    [CreateAssetMenu(fileName = "KnotLocalizationImportExport", menuName = KnotLocalization.CorePath + "Addons/Import Export", order = 50)]
     public class KnotLocalizationImportExport : ScriptableObject
     {
         public KnotDatabase SrcDatabase => _srcDatabase;

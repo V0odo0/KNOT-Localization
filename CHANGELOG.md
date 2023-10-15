@@ -1,3 +1,7 @@
+## 1.2.1 (2023-10-15)
+
+* Editor menu path generalization
+
 ## 1.2.0 (2023-06-27)
 
 * New Addon (Experimental): CSV Import Export

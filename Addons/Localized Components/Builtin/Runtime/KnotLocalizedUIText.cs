@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Knot.Localization.Components
 {
-    [AddComponentMenu(KnotLocalization.CoreName + "/Localized UI Text", 1000)]
+    [AddComponentMenu(KnotLocalization.CorePath + "Localized UI Text", 1000)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Text))]
     public partial class KnotLocalizedUIText : KnotLocalizedComponent<KnotTextKeyReference, string>

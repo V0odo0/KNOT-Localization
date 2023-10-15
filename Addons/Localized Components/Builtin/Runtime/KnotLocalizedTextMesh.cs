@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Knot.Localization.Components
 {
-    [AddComponentMenu(KnotLocalization.CoreName + "/Localized Text Mesh", 1000)]
+    [AddComponentMenu(KnotLocalization.CorePath + "Localized Text Mesh", 1000)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(TextMesh))]
     public class KnotLocalizedTextMesh : KnotLocalizedComponent<KnotTextKeyReference, string>

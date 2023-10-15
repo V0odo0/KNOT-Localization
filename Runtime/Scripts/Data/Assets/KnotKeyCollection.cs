@@ -8,7 +8,7 @@ namespace Knot.Localization.Data
     /// <summary>
     /// Asset that is used to store <see cref="KnotKeyData"/> collection
     /// </summary>
-    [CreateAssetMenu(fileName = "KeyCollection", menuName = KnotLocalization.CoreName + "/Key Collection", order = 50)]
+    [CreateAssetMenu(fileName = "KeyCollection", menuName = KnotLocalization.CorePath + "Key Collection", order = 50)]
     public partial class KnotKeyCollection : ScriptableObject, IList<KnotKeyData>
     {
         internal static KnotKeyCollection Empty => _empty ?? (_empty = CreateInstance<KnotKeyCollection>());

@@ -2,7 +2,7 @@
 
 namespace Knot.Localization.Components
 {
-    [AddComponentMenu(KnotLocalization.CoreName + "/Localized Sprite Renderer", 1000)]
+    [AddComponentMenu(KnotLocalization.CorePath + "Localized Sprite Renderer", 1000)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer))]
     public partial class KnotLocalizedSpriteRenderer : KnotLocalizedComponent<KnotSpriteKeyReference, Object>

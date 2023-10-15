@@ -16,7 +16,8 @@ namespace Knot.Localization
     public static class KnotLocalization
     {
         internal const string CoreName = "KNOT Localization";
-
+        internal const string CorePath = "KNOT/Localization/";
+        
         public static KnotProjectSettings ProjectSettings =>
             _projectSettings ?? (_projectSettings = LoadProjectSettings());
         private static KnotProjectSettings _projectSettings;
