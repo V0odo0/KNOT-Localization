@@ -1,3 +1,7 @@
+## 1.2.2 (2023-11-0)
+
+* Fixed disabled TMPro addon for Unity 2023.2+ 
+
 ## 1.2.1 (2023-10-15)
 
 * Editor menu path generalization

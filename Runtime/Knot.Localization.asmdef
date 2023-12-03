@@ -30,6 +30,11 @@
             "name": "com.unity.addressables",
             "expression": "",
             "define": "KNOT_ADDRESSABLES"
+        },
+        {
+            "name": "com.unity.ugui",
+            "expression": "2",
+            "define": "KNOT_TEXTMESHPRO"
         }
     ],
     "noEngineReferences": false
