@@ -1,4 +1,9 @@
-## 1.2.2 (2023-11-0)
+## 1.2.3 (2024-05-02)
+
+* IKnotCultureSpecificMetadata is now marked as Obsolete. Instead, the culture will be provided to IKnotTextFormatterMetadata new implementation
+* Fixed LocalizedText component's F (Formatters) button not responding in Unity 2022+
+
+## 1.2.2 (2023-11-03)
 
 * Fixed disabled TMPro addon for Unity 2023.2+ 
 

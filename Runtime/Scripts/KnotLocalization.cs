@@ -102,10 +102,14 @@ namespace Knot.Localization
         public static string GetText(string key) => Manager.GetTextValue(key)?.Value;
 
         /// <summary>
+        /// Returns <see cref="IKnotText"/> assigned to <paramref name="key"/> from <see cref="Manager"/>
+        /// </summary>
+        public static IKnotText GetTextFormat(string key) => Manager.GetTextValue(key);
+
+        /// <summary>
         /// A shortcut for <see cref="IKnotManager.GetAssetValue"/>. Returns asset assigned to <paramref name="key"/> from <see cref="Manager"/>
         /// </summary>
         public static Object GetAsset(string key) => Manager.GetAssetValue(key)?.Value;
-
 
         /// <summary>
         /// Registers <paramref name="textUpdated"/> callback that is invoked when text with given <paramref name="key"/> has been updated

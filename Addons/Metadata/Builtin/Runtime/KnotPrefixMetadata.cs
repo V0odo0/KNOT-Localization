@@ -1,5 +1,6 @@
 using Knot.Localization.Attributes;
 using System;
+using System.Globalization;
 using System.Text;
 using UnityEngine;
 
@@ -30,5 +31,7 @@ namespace Knot.Localization.Data
         {
             sb.Insert(0, Prefix);
         }
+
+        public void Format(StringBuilder sb, CultureInfo cultureInfo) => Format(sb);
     }
 }

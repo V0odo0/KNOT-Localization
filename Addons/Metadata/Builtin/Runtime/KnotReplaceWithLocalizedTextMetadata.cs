@@ -1,12 +1,13 @@
 using Knot.Localization.Attributes;
 using System;
+using System.Globalization;
 using System.Text;
 using UnityEngine;
 
 namespace Knot.Localization.Data
 {
     [Serializable]
-    [KnotMetadataInfo("Replace with Localized Text", KnotMetadataInfoAttribute.MetadataScope.Text, AllowMultipleInstances = false)]
+    [KnotMetadataInfo("Replace with Localized Text", KnotMetadataInfoAttribute.MetadataScope.Text, AllowMultipleInstances = true)]
     public class KnotReplaceWithLocalizedTextMetadata : IKnotTextFormatterMetadata
     {
         public string OldValue
@@ -42,5 +43,7 @@ namespace Knot.Localization.Data
 
             sb.Replace(OldValue, NewValue.Value);
         }
+
+        public void Format(StringBuilder sb, CultureInfo cultureInfo) => Format(sb);
     }
 }

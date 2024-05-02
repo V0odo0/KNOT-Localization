@@ -52,12 +52,10 @@ namespace Knot.Localization
             
             IKnotMetadata[] keySharedMetadata = buildData.GlobalMetadata.OfType<IKnotKeySharedMetadata>().
                 Union(buildData.LanguageMetadata.OfType<IKnotKeySharedMetadata>()).ToArray();
-            UpdateCultureSpecificMetadata(keySharedMetadata);
 
             foreach (var data in GetCombinedKeyData(buildData).AsParallel())
             {
                 var keyMetadata = data.Value.KeyData?.Metadata.ToArray() ?? Array.Empty<IKnotMetadata>();
-                UpdateCultureSpecificMetadata(keyMetadata);
 
                 var metadata = keySharedMetadata.Union(keyMetadata).ToArray();
 
@@ -101,6 +99,7 @@ namespace Knot.Localization
             return combinedData;
         }
 
+        [Obsolete("Replaced with IKnotTextFormatterMetadata")]
         protected virtual void UpdateCultureSpecificMetadata(params IKnotMetadata[] metadata)
         {
             if (CurrentBuildData == null)
@@ -141,10 +140,7 @@ namespace Knot.Localization
                 return;
 
             if (_currentBuildData != null)
-            {
-                UpdateCultureSpecificMetadata(value.Metadata.ToArray());
                 value.ForceUpdateValue();
-            }
 
             if (Overrides.ContainsKey(key))
                 _overrides[key] = value;
@@ -156,7 +152,6 @@ namespace Knot.Localization
         ///<inheritdoc/>
         public virtual void AddOverride(string key, TValueType value, params IKnotMetadata[] metadata)
         {
-            UpdateCultureSpecificMetadata(metadata);
             AddOverride(key, CreateValue(value, metadata));
         }
 

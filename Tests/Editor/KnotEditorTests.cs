@@ -267,27 +267,6 @@ namespace Knot.Localization.Tests.Editor
             m.Dispose();
         }
 
-        [Test]
-        public void ValidateCultureSpecificTextMetadata()
-        {
-            KnotTextController controller = new KnotTextController();
-
-            var culture = CultureInfo.GetCultureInfo("en");
-            var keyData = new KnotKeyData("Test", new TextFormatterCultureSpecificMetadataTest());
-            var textData = new KnotTextData("Test", "Test");
-
-            controller.BuildAsync(new KnotControllerBuildData<KnotTextData>
-            {
-                Culture = culture,
-                KeyData = new[] { keyData },
-                ItemData = new[] { textData }
-            }).GetAwaiter().GetResult();
-
-            Assert.AreEqual(controller["Test"].Value, $"{culture.Name}{textData.RawText}");
-
-            controller.Dispose();
-        }
-
 
         [OneTimeTearDown]
         public void TearDown()
@@ -295,33 +274,6 @@ namespace Knot.Localization.Tests.Editor
             DeleteTempAsset(Database);
             DeleteTempAsset(TextKeyCollection);
             DeleteTempAsset(TextCollection);
-        }
-
-
-        internal class TextFormatterKeySharedMetadataTest : IKnotKeySharedMetadata, IKnotTextFormatterMetadata
-        {
-            public void Format(StringBuilder sb)
-            {
-                sb.Insert(0, "(shared)");
-            }
-
-            public object Clone() => new TextFormatterKeySharedMetadataTest();
-        }
-
-        internal class TextFormatterCultureSpecificMetadataTest : IKnotCultureSpecificMetadata, IKnotTextFormatterMetadata
-        {
-            private CultureInfo _culture;
-
-            public string Format(string inputString) => $"{_culture?.Name}{inputString}";
-
-            public void Format(StringBuilder sb)
-            {
-                sb.Insert(0, _culture?.Name);
-            }
-
-            public void SetCulture(CultureInfo cultureInfo) => _culture = cultureInfo;
-
-            public object Clone() => new TextFormatterKeySharedMetadataTest();
         }
     }
 }

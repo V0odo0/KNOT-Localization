@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace Knot.Localization.Data
 {
@@ -8,6 +9,6 @@ namespace Knot.Localization.Data
     /// </summary>
     public interface IKnotTextFormatterMetadata : IKnotMetadata
     {
-        void Format(StringBuilder sb);
+        void Format(StringBuilder sb, CultureInfo cultureInfo);
     }
 }

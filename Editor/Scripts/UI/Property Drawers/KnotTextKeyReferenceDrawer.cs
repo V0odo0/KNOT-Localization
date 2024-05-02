@@ -37,7 +37,10 @@ namespace Knot.Localization.Editor
                     var formatterPropertyPos = new Rect(keyPropertyPos.x + keyPropertyPos.width, keyPropertyPos.y, 25,
                         keyPropertyPos.height);
                     if (GUI.Button(formatterPropertyPos, EditorGUIUtility.TrTextContent("F")))
+                    {
                         formattersProperty.InsertArrayElementAtIndex(formattersProperty.arraySize);
+                        formattersProperty.serializedObject.ApplyModifiedProperties();
+                    }
                 }
             }
 
@@ -75,6 +78,8 @@ namespace Knot.Localization.Editor
                 var formatterPropertyPos = position;
                 formatterPropertyPos.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(formatterPropertyPos, formattersProperty);
+                if (formattersProperty.serializedObject.hasModifiedProperties)
+                    formattersProperty.serializedObject.ApplyModifiedProperties();
             }
 
             EditorGUIUtility.SetIconSize(lastIconSize);

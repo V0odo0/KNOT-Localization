@@ -86,23 +86,27 @@ namespace Knot.Localization.Editor
         void AddDropdown(Rect rect, ReorderableList elementsList)
         {
             GenericMenu menu = new GenericMenu();
-            foreach (var metadataType in _availableMetadataTypes)
+            foreach (var metadataType in KnotEditorUtils.MetadataTypes[Scope])
             {
-                menu.AddItem(metadataType.Content, false, () =>
+                if (_availableMetadataTypes.Contains(metadataType))
                 {
-                    var instance = metadataType.GetInstance();
-                    if (instance == null)
-                        return;
+                    menu.AddItem(metadataType.Content, false, () =>
+                    {
+                        var instance = metadataType.GetInstance();
+                        if (instance == null)
+                            return;
 
-                    serializedProperty.InsertArrayElementAtIndex(serializedProperty.arraySize);
-                    serializedProperty.GetArrayElementAtIndex(serializedProperty.arraySize - 1).managedReferenceValue =
-                        instance;
+                        serializedProperty.InsertArrayElementAtIndex(serializedProperty.arraySize);
+                        serializedProperty.GetArrayElementAtIndex(serializedProperty.arraySize - 1).managedReferenceValue =
+                            instance;
 
-                    index = serializedProperty.arraySize - 1;
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                        index = serializedProperty.arraySize - 1;
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
 
-                    UpdateAvailableMetadataTypes();
-                });
+                        UpdateAvailableMetadataTypes();
+                    });
+                }
+                else menu.AddDisabledItem(metadataType.Content, false);
             }
 
             menu.DropDown(rect);

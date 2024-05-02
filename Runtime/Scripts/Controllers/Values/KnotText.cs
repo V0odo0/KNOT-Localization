@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Knot.Localization.Data;
-using UnityEngine;
 
 namespace Knot.Localization
 {
     public class KnotText : IKnotText
     {
-        public static StringBuilder SharedStringBuilder = new StringBuilder();
+        internal static StringBuilder SharedStringBuilder => 
+            _sharedStringBuilder ?? (_sharedStringBuilder = new StringBuilder());
+        [ThreadStatic]
+        private static StringBuilder _sharedStringBuilder = new StringBuilder();
 
         public string Value { get; private set; }
         private string _rawValue;
@@ -55,23 +57,16 @@ namespace Knot.Localization
             }
         }
 
+
         public static string Format(string inputString, IEnumerable<IKnotTextFormatterMetadata> formatters)
         {
-            lock (SharedStringBuilder)
-            {
-                SharedStringBuilder.Clear();
-                SharedStringBuilder.Append(inputString);
+            SharedStringBuilder.Clear();
+            SharedStringBuilder.Append(inputString);
 
-                foreach (var f in formatters)
-                {
-                    if (f is IKnotCultureSpecificMetadata cultureSpecificMetadata)
-                        cultureSpecificMetadata.SetCulture(KnotLocalization.Manager.SelectedLanguage.CultureInfo);
+            foreach (var f in formatters)
+                f?.Format(SharedStringBuilder, KnotLocalization.Manager.SelectedLanguage.CultureInfo);
 
-                    f?.Format(SharedStringBuilder);
-                }
-
-                return SharedStringBuilder.ToString();
-            }
+            return SharedStringBuilder.ToString();
         }
 
         public static implicit operator string(KnotText text) => text.Value;

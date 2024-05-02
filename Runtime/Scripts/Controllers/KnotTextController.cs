@@ -14,7 +14,6 @@ namespace Knot.Localization
 
         [SerializeField] private string _fallbackValue = KeyFormatArg;
 
-
         protected override IKnotText CreateValueFromItemData(KnotTextData itemData, params IKnotMetadata[] metadata)
         {
             return new KnotText(itemData.RawText, metadata);

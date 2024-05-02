@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace Knot.Localization.Data
 {
@@ -7,6 +8,7 @@ namespace Knot.Localization.Data
     /// <see cref="SetCulture"/> is called by <see cref="KnotController{TItemData,TValue,TValueType}"/> on build time.
     /// Use it to store <see cref="CultureInfo"/> of selected language 
     /// </summary>
+    [Obsolete("Use IKnotTextFormatterMetadata instead")]
     public interface IKnotCultureSpecificMetadata : IKnotMetadata
     {
         /// <summary>
