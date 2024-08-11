@@ -123,7 +123,6 @@ namespace Knot.Localization.Editor
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var keyProperty = GetKeyProperty(property);
-
             if (keyProperty == null)
                 return base.GetPropertyHeight(property, label);
 

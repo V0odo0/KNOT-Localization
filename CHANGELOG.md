@@ -1,3 +1,7 @@
+## 1.2.4 (2024-08-12)
+
+* Added Localize extension method for string type
+
 ## 1.2.3 (2024-05-02)
 
 * IKnotCultureSpecificMetadata is now marked as Obsolete. Instead, the culture will be provided to IKnotTextFormatterMetadata new implementation

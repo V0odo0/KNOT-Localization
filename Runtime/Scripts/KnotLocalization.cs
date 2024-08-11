@@ -97,14 +97,21 @@ namespace Knot.Localization
 
 
         /// <summary>
-        /// A shortcut for <see cref="IKnotManager.GetTextValue"/>. Returns text assigned to <paramref name="key"/> from <see cref="Manager"/>
+        /// A shortcut for <see cref="IKnotManager.GetTextValue"/>. Returns current language  localized text assigned to <paramref name="key"/> from <see cref="Manager"/>
         /// </summary>
         public static string GetText(string key) => Manager.GetTextValue(key)?.Value;
 
         /// <summary>
-        /// Returns <see cref="IKnotText"/> assigned to <paramref name="key"/> from <see cref="Manager"/>
+        /// Returns current language <see cref="IKnotText"/> assigned to <paramref name="key"/> from <see cref="Manager"/>
         /// </summary>
         public static IKnotText GetTextFormat(string key) => Manager.GetTextValue(key);
+
+        /// <summary>
+        /// Returns current language localized text assigned to <paramref name="key"/> from <see cref="Manager"/>
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string Localize(this string key) => Manager.GetTextValue(key)?.Value;
 
         /// <summary>
         /// A shortcut for <see cref="IKnotManager.GetAssetValue"/>. Returns asset assigned to <paramref name="key"/> from <see cref="Manager"/>
