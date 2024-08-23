@@ -101,7 +101,12 @@ namespace Knot.Localization.Editor
             }
 
             if (selectedType != null)
+            {
+                EditorGUI.BeginChangeCheck();
                 EditorGUI.PropertyField(position, property, label, true);
+                if (EditorGUI.EndChangeCheck())
+                    property.serializedObject.ApplyModifiedProperties();
+            }
 
             EditorGUI.EndProperty();
         }

@@ -1,3 +1,7 @@
+## 1.2.5 (2024-08-23)
+
+* Fixed KnotTypePicker'r attribute drawer not responding to property changes
+
 ## 1.2.4 (2024-08-12)
 
 * Added Localize extension method for string type
