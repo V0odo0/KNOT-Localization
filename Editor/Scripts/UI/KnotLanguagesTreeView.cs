@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -11,7 +11,7 @@ namespace Knot.Localization.Editor
 {
     public class KnotLanguagesTreeView : TreeView
     {
-        internal static string DragAndDropDataName = $"{KnotEditorUtils.CorePrefix}.LanguageData";
+        internal static string DragAndDropDataName = $"{EditorUtils.CorePrefix}.LanguageData";
 
         public event Action<int> Selected;
         public event Action<int> RequestRemove = id => { };
@@ -135,7 +135,7 @@ namespace Knot.Localization.Editor
 
     public class KnotLanguageTreeViewItem : TreeViewItem
     {
-        public override Texture2D icon => KnotEditorUtils.GetIcon(KnotLanguagesTabPanel.LanguageIconName) as Texture2D;
+        public override Texture2D icon => Core.Editor.EditorUtils.GetIcon(KnotLanguagesTabPanel.LanguageIconName) as Texture2D;
         public override string displayName => Data.CultureInfo.GetDisplayName();
 
         public readonly KnotLanguageData Data;

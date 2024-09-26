@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Knot.Core;
 using Knot.Localization.Data;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -16,7 +17,7 @@ namespace Knot.Localization
     public static class KnotLocalization
     {
         internal const string CoreName = "KNOT Localization";
-        internal const string CorePath = "KNOT/Localization/";
+        internal const string CorePath = Utils.EditorRootPath + "Localization/";
         
         public static KnotProjectSettings ProjectSettings =>
             _projectSettings ?? (_projectSettings = LoadProjectSettings());

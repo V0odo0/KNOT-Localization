@@ -1,5 +1,5 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/V0odo0/Knot-localization?label=release)
-![Unity version](https://img.shields.io/badge/Unity-2020.3%2B-blue)
+![Unity version](https://img.shields.io/badge/Unity-2021.3%2B-blue)
 ![Dependencies](https://img.shields.io/badge/dependencies-none-green)
 ![Platforms](https://img.shields.io/badge/platforms-all-blue)
 ![GitHub](https://img.shields.io/github/license/V0odo0/KNOT-Localization?label=license)

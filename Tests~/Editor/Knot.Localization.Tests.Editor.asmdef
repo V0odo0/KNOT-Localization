@@ -1,6 +1,8 @@
 {
     "name": "Knot.Localization.Tests.Editor",
+    "rootNamespace": "",
     "references": [
+        "GUID:c4fabd72c3d2eef41b05bea728c3b9c5",
         "GUID:0c836d202cf772f428223d8fdcf6f608",
         "GUID:df9667fafd8981d4b8730b2b325af412",
         "GUID:27619889b8ba8c24980f49ee34dbb44a",

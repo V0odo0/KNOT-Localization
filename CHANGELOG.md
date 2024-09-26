@@ -1,3 +1,14 @@
+## 1.3.0 (2024-09-27)
+
+* [breaking change] Asset Store - Moving common parts of code to Knot.Core assembly. Please, delete asset folder before updating
+* [breaking change] UPM (GitHub) - Moving common parts of code to Knot.Core assembly. Please, use scope registry installation method
+* Migrating to Unity 2021.3+
+* Tests assembly moved to Package's Samples
+* Removed About window. Links are moved to package description
+
+* Fixed IKnotManager.SetDatabase controller callbacks transfer
+* Fixed NullReferenceException on Database asset deletion
+
 ## 1.2.5 (2024-08-23)
 
 * Fixed KnotTypePicker'r attribute drawer not responding to property changes

@@ -1,7 +1,6 @@
 ﻿using System;
-using Knot.Localization.Attributes;
+using Knot.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Knot.Localization.Data
 {

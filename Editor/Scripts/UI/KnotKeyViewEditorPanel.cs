@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Knot.Core.Editor;
 using Knot.Localization.Attributes;
 using Knot.Localization.Data;
 using UnityEditor;
@@ -102,7 +103,7 @@ namespace Knot.Localization.Editor
             foreach (var lang in Database.Languages)
             {
                 string foldoutName = lang.CultureInfo.GetDisplayName();
-                KnotItemViewFoldout foldout = new KnotItemViewFoldout(foldoutName, icon:KnotEditorUtils.GetIcon(KnotLanguagesTabPanel.LanguageIconName))
+                KnotItemViewFoldout foldout = new KnotItemViewFoldout(foldoutName, icon: Core.Editor.EditorUtils.GetIcon(KnotLanguagesTabPanel.LanguageIconName))
                 {
                     IsActive = false
                 };
@@ -223,7 +224,7 @@ namespace Knot.Localization.Editor
                 return false;
 
             var collectionAssets = KeyView.LanguageItems.Values.SelectMany(list => list).Select(itemView => itemView.SourceAsset as UnityEngine.Object);
-            KnotEditorUtils.RegisterCompleteObjects("Rename Key", () =>
+            EditorUtils.RegisterCompleteObjects("Rename Key", () =>
             {
                 if (KeyView.SourceCollection != null && KeyView.SourceCollection.ContainsKey(oldKey))
                     KeyView.SourceCollection[oldKey].Key = newKey;
@@ -241,7 +242,7 @@ namespace Knot.Localization.Editor
             if (collection.Any(item => item.Key == KeyView.Key))
                 return false;
 
-            KnotEditorUtils.RegisterCompleteObjects("Add Text Item", () =>
+            EditorUtils.RegisterCompleteObjects("Add Text Item", () =>
             {
                 collection.Add(GetNewItem(KeyView));
             }, collection as UnityEngine.Object);
@@ -255,7 +256,7 @@ namespace Knot.Localization.Editor
             if (itemToRemove == null)
                 return false;
 
-            KnotEditorUtils.RegisterCompleteObjects("Remove Text Item", () =>
+            EditorUtils.RegisterCompleteObjects("Remove Text Item", () =>
             {
                 collection.Remove(itemToRemove);
             }, collection as UnityEngine.Object);

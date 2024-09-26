@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Knot.Localization.Attributes;
 using UnityEngine;
+using Knot.Core;
 
 namespace Knot.Localization.Data
 {

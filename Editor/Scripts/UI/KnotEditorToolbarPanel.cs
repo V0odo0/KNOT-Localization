@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Knot.Core.Editor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
@@ -40,12 +41,12 @@ namespace Knot.Localization.Editor
             Toolbar.TabSelected += tabId =>
             {
                 SelectedTab = _tabs[tabId];
-                KnotEditorUtils.UserSettings.EditorTabType.Type = SelectedTab.TabType;
+                EditorUtils.UserSettings.EditorTabType.Type = SelectedTab.TabType;
             };
 
             TabContentContainer = Root.Q<VisualElement>(nameof(TabContentContainer));
 
-            var targetTab = Tabs.FirstOrDefault(tab => tab.TabType == KnotEditorUtils.UserSettings.EditorTabType.Type);
+            var targetTab = Tabs.FirstOrDefault(tab => tab.TabType == EditorUtils.UserSettings.EditorTabType.Type);
             SelectedTab = targetTab ?? Tabs.FirstOrDefault();
         }
 

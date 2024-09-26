@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Knot.Localization.Attributes;
 using Knot.Localization.Data;
 using UnityEngine;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Knot.Core;
 using Knot.Localization.Attributes;
 using UnityEngine;
 

@@ -26,7 +26,7 @@ namespace Knot.Localization.Editor
                 if (evt.newValue == evt.previousValue)
                     return;
 
-                KnotEditorUtils.RegisterCompleteObjects("Asset Changed",
+                EditorUtils.RegisterCompleteObjects("Asset Changed",
                     () =>
                     {
                         ItemView.ItemData.Asset = evt.newValue;

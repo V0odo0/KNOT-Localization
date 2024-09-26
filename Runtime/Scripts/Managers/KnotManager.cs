@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Knot.Localization.Attributes;
+using Knot.Core;
 using Knot.Localization.Data;
 using UnityEngine;
 using Task = System.Threading.Tasks.Task;
@@ -187,20 +187,22 @@ namespace Knot.Localization
             _database = database;
             _languages = database.Languages.ToList();
 
-            //Ensure that all subscribers of old database controllers are transferred to new database controllers
-            if (_textController != null)
-            {
-                TransferControllerValueChangedCallbacks(_textController, Database.Settings.TextController);
-                _textController.Dispose();
-            }
-            if (_assetController != null)
-            {
-                TransferControllerValueChangedCallbacks(_assetController, Database.Settings.AssetController);
-                _assetController.Dispose();
-            }
+            var oldTextController = _textController;
+            var oldAssetController = _assetController;
 
             _textController = database.Settings.TextController.Clone() as IKnotTextController;
             _assetController = database.Settings.AssetController.Clone() as  IKnotAssetController;
+
+            if (oldTextController != null)
+            {
+                TransferControllerValueChangedCallbacks(oldTextController, _textController);
+                oldTextController.Dispose();
+            }
+            if (oldAssetController != null)
+            {
+                TransferControllerValueChangedCallbacks(oldAssetController, _assetController);
+                oldAssetController.Dispose();
+            }
 
             if (loadStartupLanguage)
             {

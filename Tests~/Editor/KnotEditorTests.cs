@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Globalization;
 using System.Linq;
-using System.Text;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using Knot.Localization.Editor;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
+using EditorUtils = Knot.Localization.Editor.EditorUtils;
 using Object = UnityEngine.Object;
 
 namespace Knot.Localization.Tests.Editor
@@ -69,8 +70,8 @@ namespace Knot.Localization.Tests.Editor
         [Test, Order(900)]
         public void EditorResourcesExist()
         {
-            Assert.IsTrue(KnotEditorUtils.EditorPanels.Any());
-            Assert.AreNotEqual(KnotEditorUtils.EditorStyles, null);
+            Assert.IsTrue(EditorUtils.EditorPanels.Any());
+            Assert.AreNotEqual(EditorUtils.EditorStyles, null);
         }
 
         [Test, Order(1000)]

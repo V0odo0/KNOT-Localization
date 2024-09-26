@@ -1,5 +1,6 @@
 ﻿using System;
 using Knot.Localization.Data;
+using Knot.Core;
 
 namespace Knot.Localization.Attributes
 {

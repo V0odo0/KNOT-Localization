@@ -7,16 +7,19 @@ using Knot.Localization.Data;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Knot.Core.Editor;
 using Object = UnityEngine.Object;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 
 namespace Knot.Localization.Editor
 {
-    public static class KnotEditorUtils
+    internal static class EditorUtils
     {
-        internal const string CorePrefix = "KnotLocalization";
-        internal const string ToolsRootPath = "Tools/" + KnotLocalization.CoreName + "/";
+        public static Action DefaultDatabaseChanged;
+        
+        public const string CorePrefix = "KnotLocalization";
+        public const string ToolsRootPath = "Tools/" + KnotLocalization.CoreName + "/";
 
         const string EditorStylesResourcesPath = "UI/KnotEditorStyles";
 
@@ -27,19 +30,19 @@ namespace Knot.Localization.Editor
             _upmPackageInfo ?? (_upmPackageInfo = PackageInfo.FindForAssembly(Assembly.GetAssembly(typeof(KnotLocalization))));
         private static PackageInfo _upmPackageInfo;
 
-        public static IReadOnlyDictionary<KnotMetadataInfoAttribute.MetadataScope, KnotEditorExtensions.TypeInfo[]> MetadataTypes
+        public static IReadOnlyDictionary<KnotMetadataInfoAttribute.MetadataScope, EditorExtensions.TypeInfo[]> MetadataTypes
         {
             get
             {
                 if (_metadataTypes == null)
                 {
-                    _metadataTypes = new Dictionary<KnotMetadataInfoAttribute.MetadataScope, KnotEditorExtensions.TypeInfo[]>();
+                    _metadataTypes = new Dictionary<KnotMetadataInfoAttribute.MetadataScope, EditorExtensions.TypeInfo[]>();
 
                     var allTypesInfo = typeof(IKnotMetadata).GetDerivedTypesInfo();
                     var allScopes = (KnotMetadataInfoAttribute.MetadataScope[]) Enum.GetValues(typeof(KnotMetadataInfoAttribute.MetadataScope));
                     foreach (var scope in allScopes)
                     {
-                        List<KnotEditorExtensions.TypeInfo> scopeTypesInfo = new List<KnotEditorExtensions.TypeInfo>();
+                        List<EditorExtensions.TypeInfo> scopeTypesInfo = new List<EditorExtensions.TypeInfo>();
 
                         foreach (var typeInfo in allTypesInfo)
                         {
@@ -54,12 +57,12 @@ namespace Knot.Localization.Editor
                 return _metadataTypes;
             }
         }
-        private static Dictionary<KnotMetadataInfoAttribute.MetadataScope, KnotEditorExtensions.TypeInfo[]> _metadataTypes;
+        private static Dictionary<KnotMetadataInfoAttribute.MetadataScope, EditorExtensions.TypeInfo[]> _metadataTypes;
         
 
-        public static KnotEditorUserSettings UserSettings => 
-            _userSettings ?? (_userSettings = KnotEditorUserSettings.Load());
-        private static KnotEditorUserSettings _userSettings;
+        public static EditorUserSettings UserSettings => 
+            _userSettings ?? (_userSettings = EditorUserSettings.Load());
+        private static EditorUserSettings _userSettings;
 
 
         public static Dictionary<string, VisualTreeAsset> EditorPanels
@@ -81,16 +84,59 @@ namespace Knot.Localization.Editor
             _editorStyles == null ? _editorStyles = Resources.Load(EditorStylesResourcesPath) as StyleSheet : _editorStyles;
         private static StyleSheet _editorStyles;
 
-        internal static MethodInfo GetIconActiveStateMethod => _getIconActiveStateMethod ?? (_getIconActiveStateMethod =
-            typeof(EditorUtility).GetMethod(
-                "GetIconInActiveState",
-                BindingFlags.Static | BindingFlags.NonPublic));
-        private static MethodInfo _getIconActiveStateMethod;
+        internal static Texture CoreIcon => Core.Editor.EditorUtils.GetIcon("KnotLocalization_icon");
 
-        internal static Texture CoreIcon => GetIcon("KnotLocalization_icon");
+        /// <summary>
+        /// Current or last opened <see cref="KnotDatabase"/> in <see cref="KnotDatabaseEditorWindow"/>
+        /// </summary>
+        public static KnotDatabase ActiveDatabase
+        {
+            get => _activeDatabase == null ?
+                _activeDatabase = AssetDatabase.LoadAssetAtPath<KnotDatabase>(AssetDatabase.GUIDToAssetPath(EditorUtils.UserSettings.LastActiveDatabaseGuid)) :
+                _activeDatabase;
+            set
+            {
+                if (value == null || value == _activeDatabase)
+                    return;
 
-        private static Dictionary<string, Texture> _cachedIcons = new Dictionary<string, Texture>();
-        private static Dictionary<string, Texture> _cachedIconsActiveState = new Dictionary<string, Texture>();
+                EditorUtils.UserSettings.LastActiveDatabaseGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(value));
+                _activeDatabase = value;
+            }
+        }
+        private static KnotDatabase _activeDatabase;
+
+        /// <summary>
+        /// Cached list of all project's <see cref="KnotDatabase"/> assets
+        /// </summary>
+        public static KnotDatabase[] DatabaseAssets
+        {
+            get
+            {
+                if (_databaseAssets == null)
+                    UpdateDatabaseAssets();
+
+                return _databaseAssets != null && _databaseAssets.Any(db => db == null) ?
+                    _databaseAssets = _databaseAssets.Where(db => db != null).ToArray() : _databaseAssets;
+            }
+        }
+        private static KnotDatabase[] _databaseAssets;
+
+
+        public static void UpdateDatabaseAssets()
+        {
+            _databaseAssets =
+                AssetDatabase.FindAssets($"t:{nameof(KnotDatabase)}").
+                    Select(AssetDatabase.GUIDToAssetPath).
+                    Select(AssetDatabase.LoadAssetAtPath<KnotDatabase>).ToArray();
+        }
+
+        public static void OpenDatabaseEditor(KnotDatabase database = null)
+        {
+            if (database != null && database.IsPersistent())
+                ActiveDatabase = database;
+
+            KnotDatabaseEditorWindow.Open();
+        }
 
 
         [InitializeOnLoadMethod]
@@ -108,43 +154,6 @@ namespace Knot.Localization.Editor
         static void SaveAllSettings()
         {
             _userSettings?.Save();
-        }
-
-
-        public static Object RequestCreateAsset(Type type, string name = "", bool ping = false, bool select = false)
-        {
-            if (type == null || !type.IsSubclassOf(typeof(ScriptableObject)))
-                return null;
-
-            name = string.IsNullOrEmpty(name) ? type.Name : name;
-            try
-            {
-                string path = EditorUtility.SaveFilePanelInProject($"Create {name}", name, "asset", "");
-                if (string.IsNullOrEmpty(path))
-                    return null;
-
-                var instance = ScriptableObject.CreateInstance(type);
-                instance.name = name;
-                AssetDatabase.CreateAsset(instance, path);
-
-                if (ping)
-                    EditorGUIUtility.PingObject(instance);
-                if (select)
-                    Selection.activeObject = instance;
-
-                return instance;
-            }
-            catch
-            {
-                KnotLocalization.Log($"Failed to create {name} asset", LogType.Error);
-            }
-
-            return null;
-        }
-
-        public static T RequestCreateAsset<T>(string name = "", bool ping = false, bool select = false) where T : ScriptableObject
-        {
-            return RequestCreateAsset(typeof(T), name, ping, select) as T;
         }
 
         public static bool RecordObjects(string commandName, Action postRecordAction = null, params Object[] obj)
@@ -175,48 +184,6 @@ namespace Knot.Localization.Editor
                 EditorUtility.SetDirty(o);
 
             return true;
-        }
-
-        public static Texture GetIcon(string iconName)
-        {
-            if (_cachedIcons.ContainsKey(iconName))
-                return _cachedIcons[iconName];
-            
-            Debug.unityLogger.logEnabled = false;
-            Texture icon = EditorGUIUtility.IconContent(iconName)?.image;
-            Debug.unityLogger.logEnabled = true;
-
-            if (icon == null)
-                icon = Resources.Load<Texture>(iconName);
-
-            if (icon == null)
-                return null;
-
-            if (!_cachedIcons.ContainsKey(iconName))
-                _cachedIcons.Add(iconName, icon);
-
-            return icon;
-        }
-        
-        public static Texture GetIconActiveState(string iconName)
-        {
-            if (_cachedIconsActiveState.ContainsKey(iconName))
-                return _cachedIconsActiveState[iconName];
-
-            if (GetIconActiveStateMethod == null)
-                return GetIcon(iconName);
-
-            Debug.unityLogger.logEnabled = false;
-            Texture2D icon = (Texture2D) GetIconActiveStateMethod.Invoke(null, new object[]{ GetIcon(iconName) });
-            Debug.unityLogger.logEnabled = true;
-
-            if (icon == null)
-                return GetIcon(iconName);
-
-            if (!_cachedIconsActiveState.ContainsKey(iconName))
-                _cachedIconsActiveState.Add(iconName, icon);
-
-            return icon;
         }
 
         public static void PerformPlayModeLiveReload()

@@ -1,4 +1,5 @@
-﻿using Knot.Localization.Attributes;
+﻿using Knot.Core.Editor;
+using Knot.Localization.Attributes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

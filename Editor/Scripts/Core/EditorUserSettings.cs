@@ -8,10 +8,10 @@ using UnityEngine;
 namespace Knot.Localization.Editor
 {
     [Serializable]
-    public class KnotEditorUserSettings
+    internal class EditorUserSettings
     {
         internal const int Version = 1;
-        internal static string ConfigValueName = $"{KnotEditorUtils.CorePrefix}.UserSettings";
+        internal static string ConfigValueName = $"{EditorUtils.CorePrefix}.UserSettings";
 
         public int CurrentVersion = Version;
 
@@ -46,7 +46,7 @@ namespace Knot.Localization.Editor
         
         public void Save()
         {
-            EditorUserSettings.SetConfigValue(ConfigValueName, JsonUtility.ToJson(this));
+            UnityEditor.EditorUserSettings.SetConfigValue(ConfigValueName, JsonUtility.ToJson(this));
         }
 
 
@@ -64,11 +64,11 @@ namespace Knot.Localization.Editor
         }
 
 
-        public static KnotEditorUserSettings Load()
+        public static EditorUserSettings Load()
         {
-            return string.IsNullOrEmpty(EditorUserSettings.GetConfigValue(ConfigValueName)) ? 
-                new KnotEditorUserSettings() : 
-                JsonUtility.FromJson<KnotEditorUserSettings>(EditorUserSettings.GetConfigValue(ConfigValueName));
+            return string.IsNullOrEmpty(UnityEditor.EditorUserSettings.GetConfigValue(ConfigValueName)) ? 
+                new EditorUserSettings() : 
+                JsonUtility.FromJson<EditorUserSettings>(UnityEditor.EditorUserSettings.GetConfigValue(ConfigValueName));
         }
     }
 }

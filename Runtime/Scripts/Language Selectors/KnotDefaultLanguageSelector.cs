@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Knot.Localization.Attributes;
+using Knot.Core;
 using Knot.Localization.Data;
 using UnityEngine;
 

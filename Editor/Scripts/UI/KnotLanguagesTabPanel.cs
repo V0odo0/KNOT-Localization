@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Linq;
-using Knot.Localization.Attributes;
+using Knot.Core;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEngine;
 using UnityEditor.UIElements;
@@ -26,7 +27,7 @@ namespace Knot.Localization.Editor
 
         public KnotLanguagesTabPanel() : base(nameof(KnotLanguagesTabPanel))
         {
-            TreeView = new KnotLanguagesTreeView(Database, KnotEditorUtils.UserSettings.LanguagesTreeViewState);
+            TreeView = new KnotLanguagesTreeView(Database, EditorUtils.UserSettings.LanguagesTreeViewState);
             TreeView.Selected += SelectLanguage;
             TreeView.RequestRemove += RemoveLanguage;
             TreeView.RequestMove += MoveLanguage;
@@ -35,7 +36,7 @@ namespace Knot.Localization.Editor
             TreeViewContainer.onGUIHandler += () => TreeView.OnGUI(TreeViewContainer.contentRect);
 
             AddLanguageButton = Root.Q<ToolbarButton>(nameof(AddLanguageButton));
-            AddLanguageButton.Add(new Image { image = KnotEditorUtils.GetIcon("Toolbar Plus More") });
+            AddLanguageButton.Add(new Image { image = Core.Editor.EditorUtils.GetIcon("Toolbar Plus More") });
             AddLanguageButton.clickable.clicked += () =>
             {
                 var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures).Select(c => c.Name)
@@ -69,7 +70,7 @@ namespace Knot.Localization.Editor
             if (Database.Languages.Count <= id)
                 return;
 
-            KnotEditorUtils.RecordObjects("Remove Language", () =>
+            EditorUtils.RecordObjects("Remove Language", () =>
             {
                 Database.Languages.RemoveAt(id);
             }, Database);
@@ -80,7 +81,7 @@ namespace Knot.Localization.Editor
         void MoveLanguage(int id, int targetId)
         {
             KnotLanguageData srcData = Database.Languages[id];
-            KnotEditorUtils.RecordObjects("Move Language", () =>
+            EditorUtils.RecordObjects("Move Language", () =>
             {
                 Database.Languages.RemoveAt(id);
                 if (targetId > id)
@@ -97,7 +98,7 @@ namespace Knot.Localization.Editor
             if (Database.Languages.Any(d => d.CultureName == cultureName))
                 return;
 
-            KnotEditorUtils.RecordObjects("Add language", () =>
+            EditorUtils.RecordObjects("Add language", () =>
             {
                 Database.Languages.Add(new KnotLanguageData(cultureName));
             }, Database);

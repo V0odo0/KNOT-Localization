@@ -36,7 +36,7 @@ namespace Knot.Localization.Editor
             TabContentRoot.style.flexBasis = 149600;
             TabContentRoot.RegisterCallback(new EventCallback<GeometryChangedEvent>(evt =>
             {
-                if (KnotEditorUtils.UserSettings.PanelLayoutMode == KnotPanelLayoutMode.Auto)
+                if (EditorUtils.UserSettings.PanelLayoutMode == KnotPanelLayoutMode.Auto)
                     SetLayoutMode(GetAutoLayoutMode());
             }));
         }
@@ -47,7 +47,7 @@ namespace Knot.Localization.Editor
             ReloadLayout();
             Undo.undoRedoPerformed += ReloadLayout;
 
-            SetLayoutMode(KnotEditorUtils.UserSettings.PanelLayoutMode);
+            SetLayoutMode(EditorUtils.UserSettings.PanelLayoutMode);
         }
 
         protected override void OnPanelRemoved()
@@ -78,7 +78,7 @@ namespace Knot.Localization.Editor
                 float newWidth = Mathf.Clamp(_editorPanelStartDragWidth - delta.x, 
                     Root.contentRect.width * (MIN_EDITOR_PANEL_WITH_PERCENT / 100f), 
                     Root.contentRect.width * (MAX_EDITOR_PANEL_WITH_PERCENT / 100f));
-                ItemEditorPanel.style.width = KnotEditorUtils.UserSettings.LayoutPanelEditorWidth = newWidth;
+                ItemEditorPanel.style.width = EditorUtils.UserSettings.LayoutPanelEditorWidth = newWidth;
             }));
 
             return s;
@@ -99,7 +99,7 @@ namespace Knot.Localization.Editor
                         ItemEditorPanel.style.maxHeight = new StyleLength(Length.Percent(100));
                         ItemEditorPanel.style.minWidth = new StyleLength(Length.Percent(MIN_EDITOR_PANEL_WITH_PERCENT));
                         ItemEditorPanel.style.maxWidth = new StyleLength(Length.Percent(MAX_EDITOR_PANEL_WITH_PERCENT));
-                        ItemEditorPanel.style.width = KnotEditorUtils.UserSettings.LayoutPanelEditorWidth;
+                        ItemEditorPanel.style.width = EditorUtils.UserSettings.LayoutPanelEditorWidth;
                         ItemEditorPanel.style.borderTopWidth = 0;
                         ItemEditorPanel.style.borderLeftWidth = 1;
 
@@ -129,9 +129,9 @@ namespace Knot.Localization.Editor
             {
                 menu.AppendAction($"Layout/{ObjectNames.NicifyVariableName(mode.ToString())}", action =>
                     {
-                        SetLayoutMode(KnotEditorUtils.UserSettings.PanelLayoutMode = mode);
+                        SetLayoutMode(EditorUtils.UserSettings.PanelLayoutMode = mode);
                     },
-                    action => KnotEditorUtils.UserSettings.PanelLayoutMode == mode
+                    action => EditorUtils.UserSettings.PanelLayoutMode == mode
                         ? DropdownMenuAction.Status.Checked
                         : DropdownMenuAction.Status.Normal);
             }

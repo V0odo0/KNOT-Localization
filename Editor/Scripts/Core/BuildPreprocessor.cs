@@ -5,7 +5,7 @@ using UnityEditor.Build.Reporting;
 
 namespace Knot.Localization.Editor
 {
-    public class KnotBuildPreprocessor : IPreprocessBuildWithReport
+    internal class BuildPreprocessor : IPreprocessBuildWithReport
     {
         public int callbackOrder => 0;
 

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 namespace Knot.Localization.Editor
 {
     public abstract class KnotKeysTreeView<TKeyView> : TreeView where TKeyView : KnotTreeViewKeyItem
     {
-        public static string DragAndDropKeyName => $"{KnotEditorUtils.CorePrefix}.{typeof(TKeyView).Name}";
+        public static string DragAndDropKeyName => $"{EditorUtils.CorePrefix}.{typeof(TKeyView).Name}";
 
         static readonly GUIContent AddToKeyCollectionContent = new GUIContent("Add to Key Collection");
         static readonly GUIContent RemoveFromKeyCollectionContent = new GUIContent("Remove from Key Collection");
@@ -32,13 +32,13 @@ namespace Knot.Localization.Editor
         
         public KnotKeysTreeViewMode TreeViewMode
         {
-            get => KnotEditorUtils.UserSettings.KeysTreeViewMode;
+            get => EditorUtils.UserSettings.KeysTreeViewMode;
             set
             {
-                if (value == KnotEditorUtils.UserSettings.KeysTreeViewMode)
+                if (value == EditorUtils.UserSettings.KeysTreeViewMode)
                     return;
 
-                KnotEditorUtils.UserSettings.KeysTreeViewMode = value;
+                EditorUtils.UserSettings.KeysTreeViewMode = value;
                 Reload();
             }
         }
@@ -128,7 +128,7 @@ namespace Knot.Localization.Editor
         {
             labelsRect.x -= GUI.skin.label.CalcSize(label).x;
             if (rowSelected && label.image != null)
-                label.image = KnotEditorUtils.GetIconActiveState(label.image.name) ?? label.image;
+                label.image = Core.Editor.EditorUtils.GetIconActiveState(label.image.name) ?? label.image;
 
             EditorGUI.LabelField(labelsRect, label, EditorStyles.miniLabel);
         }
@@ -303,7 +303,7 @@ namespace Knot.Localization.Editor
         {
             get
             {
-                switch (KnotEditorUtils.UserSettings.KeysTreeViewMode)
+                switch (EditorUtils.UserSettings.KeysTreeViewMode)
                 {
                     case KnotKeysTreeViewMode.List:
                         return Key;
@@ -318,7 +318,7 @@ namespace Knot.Localization.Editor
         {
             get
             {
-                switch (KnotEditorUtils.UserSettings.KeysTreeViewMode)
+                switch (EditorUtils.UserSettings.KeysTreeViewMode)
                 {
                     case KnotKeysTreeViewMode.Hierarchy:
                         return Mathf.Min(Key.Count(c => c == '.'), 10);
@@ -339,7 +339,7 @@ namespace Knot.Localization.Editor
 
     public class KnotTreeViewKeyItemGroup : KnotTreeViewKeyItem
     {
-        public override Texture2D icon => KnotEditorUtils.GetIcon("Folder Icon") as Texture2D;
+        public override Texture2D icon => Core.Editor.EditorUtils.GetIcon("Folder Icon") as Texture2D;
 
         public override KnotKeyData KeyData => null;
 

@@ -2,6 +2,8 @@
     "name": "Knot.Localization.Editor",
     "rootNamespace": "Knot.Localization.Editor",
     "references": [
+        "GUID:af414662448468948b4193c4d3d002ee",
+        "GUID:c4fabd72c3d2eef41b05bea728c3b9c5",
         "GUID:0c836d202cf772f428223d8fdcf6f608"
     ],
     "includePlatforms": [

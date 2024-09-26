@@ -1,9 +1,9 @@
-﻿using Knot.Localization.Attributes;
+﻿using Knot.Core;
+using Knot.Localization.Attributes;
 using Knot.Localization.Data;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEditorInternal;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Knot.Localization.Editor

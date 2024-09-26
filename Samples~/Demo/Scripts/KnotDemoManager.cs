@@ -26,10 +26,18 @@ namespace Knot.Localization.Demo
         private List<KnotDemoPageToggle> _pageToggles = new List<KnotDemoPageToggle>();
         
 
-        void Awake()
+        void Start()
         {
             if (KnotLocalization.ProjectSettings.DefaultDatabase != _sourceDatabase || !KnotLocalization.ProjectSettings.LoadOnStartup)
                 KnotLocalization.Manager.SetDatabase(_sourceDatabase, true);
+
+            _languageDropdown.ClearOptions();
+            _languageDropdown.AddOptions(KnotLocalization.Manager.Languages.Select(l => l.NativeName).ToList());
+            _languageDropdown.SetValueWithoutNotify(KnotLocalization.Manager.Languages.IndexOf(KnotLocalization.Manager.SelectedLanguage));
+            _languageDropdown.onValueChanged.AddListener(arg0 =>
+            {
+                KnotLocalization.Manager.LoadLanguage(KnotLocalization.Manager.Languages[arg0]);
+            });
 
             SetupPages();
         }

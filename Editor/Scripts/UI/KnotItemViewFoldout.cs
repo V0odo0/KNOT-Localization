@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Knot.Core.Editor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -90,7 +91,7 @@ namespace Knot.Localization.Editor
             Root.text = name;
             Root.RegisterValueChangedCallback(evt =>
             {
-                KnotEditorUtils.UserSettings.SetFoldoutState(FoldoutStateName, evt.newValue);
+                EditorUtils.UserSettings.SetFoldoutState(FoldoutStateName, evt.newValue);
                 if (!IsActive)
                     return;
 
@@ -114,7 +115,7 @@ namespace Knot.Localization.Editor
         {
             base.OnPanelAdded();
 
-            Root.value = KnotEditorUtils.UserSettings.GetFoldoutState(FoldoutStateName);
+            Root.value = EditorUtils.UserSettings.GetFoldoutState(FoldoutStateName);
 
             UpdateAdjacency();
 
@@ -176,13 +177,13 @@ namespace Knot.Localization.Editor
             switch (ButtonState)
             {
                 case FoldoutButtonState.Add:
-                    icon.image = KnotEditorUtils.GetIcon("Toolbar Plus");
+                    icon.image = Core.Editor.EditorUtils.GetIcon("Toolbar Plus");
                     break;
                 case FoldoutButtonState.AddContextMenu:
-                    icon.image = KnotEditorUtils.GetIcon("Toolbar Plus More");
+                    icon.image = Core.Editor.EditorUtils.GetIcon("Toolbar Plus More");
                     break;
                 case FoldoutButtonState.Remove:
-                    icon.image = KnotEditorUtils.GetIcon("Toolbar Minus");
+                    icon.image = Core.Editor.EditorUtils.GetIcon("Toolbar Minus");
                     break;
             }
         }

@@ -2,10 +2,9 @@
 #pragma warning disable CS0649
 using System;
 using System.Threading.Tasks;
-using Knot.Localization.Attributes;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Knot.Core;
 
 namespace Knot.Localization.Data
 {

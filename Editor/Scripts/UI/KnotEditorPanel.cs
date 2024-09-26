@@ -7,7 +7,7 @@ namespace Knot.Localization.Editor
 {
     public class KnotEditorPanel
     {
-        public virtual KnotDatabase Database => KnotDatabaseUtils.ActiveDatabase;
+        public virtual KnotDatabase Database => EditorUtils.ActiveDatabase;
 
         public SerializedObject DatabaseObj => _databaseObj ?? (_databaseObj = new SerializedObject(Database));
         private SerializedObject _databaseObj;
@@ -17,7 +17,7 @@ namespace Knot.Localization.Editor
 
         public KnotEditorPanel(string className)
         {
-            if (KnotEditorUtils.EditorPanels.TryGetValue(className, out var asset))
+            if (EditorUtils.EditorPanels.TryGetValue(className, out var asset))
                 Root = asset.CloneTree().Q<VisualElement>(className);
             else throw new Exception($"{nameof(VisualElement)} was not found for {className}");
 

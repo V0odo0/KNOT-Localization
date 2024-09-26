@@ -8,7 +8,7 @@ namespace Knot.Localization.Editor
         public int Order => 1000;
 
         protected static GUIContent Label =>
-            _label ?? (_label = new GUIContent(KnotEditorUtils.GetIcon(KnotLanguagesTabPanel.LanguageIconName), "Localized values"));
+            _label ?? (_label = new GUIContent(EditorUtils.GetIcon(KnotLanguagesTabPanel.LanguageIconName), "Localized values"));
         private static GUIContent _label;
 
 

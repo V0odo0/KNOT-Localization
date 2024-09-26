@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Knot.Localization.Data;
+using Knot.Core.Editor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 

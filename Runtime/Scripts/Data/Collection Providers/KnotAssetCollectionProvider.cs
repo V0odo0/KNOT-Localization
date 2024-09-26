@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Knot.Core;
 using Knot.Localization.Attributes;
 using UnityEngine;
 

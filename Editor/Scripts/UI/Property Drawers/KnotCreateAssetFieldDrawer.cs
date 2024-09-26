@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
+using Knot.Core;
+using Knot.Core.Editor;
 using Knot.Localization.Attributes;
 using UnityEditor;
 using UnityEngine;
@@ -40,7 +42,7 @@ namespace Knot.Localization.Editor
             Object asset = null;
             if (assetTypes.Length == 1)
             {
-                asset = KnotEditorUtils.RequestCreateAsset(assetTypes.First());
+                asset = Core.Editor.EditorUtils.RequestCreateAsset(assetTypes.First());
             }
             else
             {
@@ -54,7 +56,7 @@ namespace Knot.Localization.Editor
 
                     menu.AddItem(label, false, () =>
                         {
-                            asset = KnotEditorUtils.RequestCreateAsset(assetType);
+                            asset = Core.Editor.EditorUtils.RequestCreateAsset(assetType);
 
                             if (asset == null)
                                 return;

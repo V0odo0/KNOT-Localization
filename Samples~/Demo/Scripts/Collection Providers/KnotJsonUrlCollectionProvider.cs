@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Knot.Localization.Attributes;
+using Knot.Core;
 using Knot.Localization.Data;
 using UnityEngine;
 using UnityEngine.Networking;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using Knot.Localization.Attributes;
 using Knot.Localization.Data;
 using UnityEngine;
+using Knot.Core;
 
 namespace Knot.Localization
 {

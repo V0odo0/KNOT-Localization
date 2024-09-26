@@ -1,7 +1,7 @@
 ﻿using System;
-using Knot.Localization.Attributes;
 using Knot.Localization.Data;
 using Object = UnityEngine.Object;
+using Knot.Core;
 
 namespace Knot.Localization
 {

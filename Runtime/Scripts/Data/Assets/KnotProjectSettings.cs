@@ -3,6 +3,7 @@
 using Knot.Localization.Attributes;
 using Knot.Localization.Data;
 using UnityEngine;
+using Knot.Core;
 
 namespace Knot.Localization
 {

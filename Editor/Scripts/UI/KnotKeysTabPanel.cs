@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -62,7 +63,7 @@ namespace Knot.Localization.Editor
         protected KnotKeysTabPanel() : base("KnotKeysTabPanel")
         {
             AddKeyButton = Root.Q<ToolbarButton>(nameof(AddKeyButton));
-            AddKeyButton.Add(new Image { image = KnotEditorUtils.GetIcon("Toolbar Plus More") });
+            AddKeyButton.Add(new Image { image = Core.Editor.EditorUtils.GetIcon("Toolbar Plus More") });
             AddKeyButton.clicked += () =>
             {
                 if (!IsKeyCollectionsPersistent())
@@ -90,7 +91,7 @@ namespace Knot.Localization.Editor
 
             KeySearchField = new KnotKeySearchField<TKeyView>(Toolbar.Q<ToolbarPopupSearchField>(nameof(KeySearchField)), KeySearchFilters);
             KeySearchField.SelectedSearchFilter = SelectedSearchFilter;
-            KeySearchField.Root.SetValueWithoutNotify(KnotEditorUtils.UserSettings.TextKeysTreeViewState.searchString);
+            KeySearchField.Root.SetValueWithoutNotify(EditorUtils.UserSettings.TextKeysTreeViewState.searchString);
             KeySearchField.ValueChanged += value =>
             {
                 TreeView.searchString = value;
@@ -178,7 +179,7 @@ namespace Knot.Localization.Editor
             var keysToAdd = keys.Where(key => !keyCollection.ContainsKey(key)).ToArray();
             if (keysToAdd.Any())
             {
-                KnotEditorUtils.RegisterCompleteObjects("Add Keys", () =>
+                EditorUtils.RegisterCompleteObjects("Add Keys", () =>
                 {
                     foreach (var key in keysToAdd)
                         keyCollection.Add(new KnotKeyData(key));
@@ -194,7 +195,7 @@ namespace Knot.Localization.Editor
             var collectionAssets = itemViews.Select(view => view.SourceAsset as UnityEngine.Object).
                 Where(o => o != null).ToArray();
 
-            KnotEditorUtils.RegisterCompleteObjects("Remove Keys", () =>
+            EditorUtils.RegisterCompleteObjects("Remove Keys", () =>
             {
                 foreach (var keyView in keyViews.Where(v => v.KeyData != null))
                     keyView.SourceCollection.RemoveKey(keyView.Key);
@@ -217,7 +218,7 @@ namespace Knot.Localization.Editor
             var newKeys = new Dictionary<string, string>();
             var allKeys = new HashSet<string>(KeyViews.Select(v => v.Key));
 
-            KnotEditorUtils.RegisterCompleteObjects("Duplicate Keys", () =>
+            EditorUtils.RegisterCompleteObjects("Duplicate Keys", () =>
             {
                 //Duplicate keys
                 foreach (var keyView in keyViews.Where(view => view.SourceCollection != null && view.SourceCollection.ContainsKey(view.Key)))
@@ -256,7 +257,7 @@ namespace Knot.Localization.Editor
             if (!IsKeyCollectionsPersistent())
                 return;
 
-            KnotEditorUtils.RegisterCompleteObjects("Add Keys", () =>
+            EditorUtils.RegisterCompleteObjects("Add Keys", () =>
             {
                 foreach (var keyView in keyViews)
                     if (!keyCollection.ContainsKey(keyView.Key))
@@ -272,7 +273,7 @@ namespace Knot.Localization.Editor
             if (keyViews.All(v => v.SourceCollection == null))
                 return;
 
-            KnotEditorUtils.RegisterCompleteObjects("Remove from Keys Collection", () =>
+            EditorUtils.RegisterCompleteObjects("Remove from Keys Collection", () =>
             {
                 foreach (var keyView in keyViews.Where(v => v.SourceCollection != null))
                     keyView.SourceCollection.RemoveKey(keyView.Key);
@@ -298,7 +299,7 @@ namespace Knot.Localization.Editor
                 default:
                     return false;
                 case 0:
-                    var keyCollection = KnotEditorUtils.RequestCreateAsset<KnotKeyCollection>("Key Collection");
+                    var keyCollection = Core.Editor.EditorUtils.RequestCreateAsset<KnotKeyCollection>("Key Collection");
                     if (keyCollection != null)
                     {
                         KeyCollections.Add(keyCollection);
@@ -340,7 +341,7 @@ namespace Knot.Localization.Editor
                     {
                         TreeView.TreeViewMode = mode;
                     },
-                    action => KnotEditorUtils.UserSettings.KeysTreeViewMode == mode
+                    action => EditorUtils.UserSettings.KeysTreeViewMode == mode
                         ? DropdownMenuAction.Status.Checked
                         : DropdownMenuAction.Status.Normal);
             }

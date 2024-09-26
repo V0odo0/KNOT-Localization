@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
+using Knot.Core.Editor;
 using Knot.Localization.Attributes;
-using Knot.Localization.Data;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

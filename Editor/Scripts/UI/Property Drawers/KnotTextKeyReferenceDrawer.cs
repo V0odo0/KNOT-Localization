@@ -1,4 +1,5 @@
 ﻿using System;
+using Knot.Core.Editor;
 using Knot.Localization.Attributes;
 using UnityEditor;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Knot.Localization.Editor
     public class KnotTextKeyReferenceDrawer : KnotKeyReferenceDrawer<string>
     {
         protected override Texture GetIcon(SerializedProperty parentProperty, SerializedProperty keyProperty) 
-            => string.IsNullOrEmpty(keyProperty.stringValue) ? null : KnotEditorUtils.GetIcon(KnotTextKeysTabPanel.KeyViewIconName);
+            => string.IsNullOrEmpty(keyProperty.stringValue) ? null : Core.Editor.EditorUtils.GetIcon(KnotTextKeysTabPanel.KeyViewIconName);
 
         protected  override void ShowKeyPicker(Rect atRect, SerializedProperty parentProperty, Action<string> keyPicked)
         {

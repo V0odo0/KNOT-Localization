@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Knot.Core.Editor;
 
 namespace Knot.Localization.Editor
 {
@@ -18,7 +19,7 @@ namespace Knot.Localization.Editor
         protected override IKnotKeyViewLabel<KnotTextKeyView>[] KeyViewLabels => Labels;
 
 
-        public KnotTextKeysTreeView() : base(KnotEditorUtils.UserSettings.TextKeysTreeViewState)
+        public KnotTextKeysTreeView() : base(EditorUtils.UserSettings.TextKeysTreeViewState)
         {
 
         }

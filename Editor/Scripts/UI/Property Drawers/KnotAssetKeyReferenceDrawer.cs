@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Knot.Core;
+using Knot.Core.Editor;
 using Knot.Localization.Attributes;
 using UnityEditor;
 using UnityEngine;
@@ -20,7 +22,7 @@ namespace Knot.Localization.Editor
 
             var type = GetTargetType(parentProperty);
             
-            return type == null || type == typeof(Object) ? KnotEditorUtils.GetIcon(KnotAssetsKeysTabPanel.KeyViewIconName) : AssetPreview.GetMiniTypeThumbnail(type);
+            return type == null || type == typeof(Object) ? Core.Editor.EditorUtils.GetIcon(KnotAssetsKeysTabPanel.KeyViewIconName) : AssetPreview.GetMiniTypeThumbnail(type);
         }
 
         protected override void ShowKeyPicker(Rect atRect, SerializedProperty parentProperty, Action<string> keyPicked)

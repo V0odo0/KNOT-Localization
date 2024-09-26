@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Knot.Core.Editor;
 using UnityEngine;
 
 namespace Knot.Localization.Editor
@@ -21,7 +22,7 @@ namespace Knot.Localization.Editor
         protected override IKnotKeyViewLabel<KnotAssetKeyView>[] KeyViewLabels => Labels;
 
 
-        public KnotAssetKeysTreeView() : base(KnotEditorUtils.UserSettings.AssetKeysTreeViewState)
+        public KnotAssetKeysTreeView() : base(EditorUtils.UserSettings.AssetKeysTreeViewState)
         {
 
         }

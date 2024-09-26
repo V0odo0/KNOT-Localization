@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -51,7 +50,7 @@ namespace Knot.Localization.Editor
             CreateKeyButton = Panel.Root.Q<Button>(nameof(CreateKeyButton));
             CreateKeyButton.clicked += CreateKey;
             CreateKeyButton.SetEnabled(_keyCollections.Any());
-            CreateKeyButton.Add(new Image{image = KnotEditorUtils.GetIcon(_keyCollections.Length == 1 ? "Toolbar Plus" : "Toolbar Plus More") });
+            CreateKeyButton.Add(new Image{image = Core.Editor.EditorUtils.GetIcon(_keyCollections.Length == 1 ? "Toolbar Plus" : "Toolbar Plus More") });
             
             SetDeferredFocusTarget(KeyTextField.GetVisualInput());
         }

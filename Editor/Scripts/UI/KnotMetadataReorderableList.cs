@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Knot.Core.Editor;
 using Knot.Localization.Attributes;
 using UnityEditor;
 using UnityEditorInternal;
@@ -16,7 +17,7 @@ namespace Knot.Localization.Editor
         public readonly KnotMetadataInfoAttribute.MetadataScope Scope;
         public readonly bool IsEditorOnly;
 
-        private List<KnotEditorExtensions.TypeInfo> _availableMetadataTypes = new List<KnotEditorExtensions.TypeInfo>();
+        private List<EditorExtensions.TypeInfo> _availableMetadataTypes = new List<EditorExtensions.TypeInfo>();
         private SerializedProperty _lastSerializedProperty;
 
 
@@ -65,7 +66,7 @@ namespace Knot.Localization.Editor
         void UpdateAvailableMetadataTypes()
         {
             _availableMetadataTypes.Clear();
-            foreach (var metadataType in KnotEditorUtils.MetadataTypes[Scope])
+            foreach (var metadataType in EditorUtils.MetadataTypes[Scope])
             {
                 var metadataInfo = metadataType.Type.GetCustomAttribute<KnotMetadataInfoAttribute>();
                 if (metadataInfo != null)
@@ -86,7 +87,7 @@ namespace Knot.Localization.Editor
         void AddDropdown(Rect rect, ReorderableList elementsList)
         {
             GenericMenu menu = new GenericMenu();
-            foreach (var metadataType in KnotEditorUtils.MetadataTypes[Scope])
+            foreach (var metadataType in EditorUtils.MetadataTypes[Scope])
             {
                 if (_availableMetadataTypes.Contains(metadataType))
                 {

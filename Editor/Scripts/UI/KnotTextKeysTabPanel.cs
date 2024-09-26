@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Knot.Localization.Attributes;
+using Knot.Core;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEngine;
 
@@ -16,8 +17,8 @@ namespace Knot.Localization.Editor
 
         protected override Type SelectedSearchFilterType
         {
-            get => KnotEditorUtils.UserSettings.TextKeySearchFilterType.Type;
-            set => KnotEditorUtils.UserSettings.TextKeySearchFilterType.Type = value;
+            get => EditorUtils.UserSettings.TextKeySearchFilterType.Type;
+            set => EditorUtils.UserSettings.TextKeySearchFilterType.Type = value;
         }
 
 
@@ -40,7 +41,7 @@ namespace Knot.Localization.Editor
 
     public class KnotTextKeyView : KnotKeyView<KnotTextItemView, KnotTextData>
     {
-        public override Texture2D icon => KnotEditorUtils.GetIcon(KnotTextKeysTabPanel.KeyViewIconName) as Texture2D;
+        public override Texture2D icon => Core.Editor.EditorUtils.GetIcon(KnotTextKeysTabPanel.KeyViewIconName) as Texture2D;
         
 
         public KnotTextKeyView(string key, KnotKeyCollection sourceCollection = null, KnotKeyData keyData = null) : base(key, sourceCollection, keyData)

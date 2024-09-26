@@ -22,7 +22,7 @@ namespace Knot.Localization.Editor
         {
             if (GUILayout.Button("Open", GUILayout.Height(EditorGUIUtility.singleLineHeight * 2)))
             {
-                KnotDatabaseUtils.OpenDatabaseEditor(Target);
+                EditorUtils.OpenDatabaseEditor(Target);
             }
         }
     }

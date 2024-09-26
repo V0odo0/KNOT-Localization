@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -16,7 +17,7 @@ namespace Knot.Localization.Editor
         void OnEnable()
         {
             EditorApplication.projectChanged += UpdateActiveDatabase;
-            KnotDatabaseUtils.DefaultDatabaseChanged += ReloadLayout;
+            EditorUtils.DefaultDatabaseChanged += ReloadLayout;
 
             ReloadLayout();
         }
@@ -24,7 +25,7 @@ namespace Knot.Localization.Editor
         void OnDisable()
         {
             EditorApplication.projectChanged -= UpdateActiveDatabase;
-            KnotDatabaseUtils.DefaultDatabaseChanged -= ReloadLayout;
+            EditorUtils.DefaultDatabaseChanged -= ReloadLayout;
         }
 
         void OnFocus()
@@ -53,10 +54,10 @@ namespace Knot.Localization.Editor
                 EditorGUILayout.LabelField("No Database selected", EditorStyles.centeredGreyMiniLabel);
                 if (GUILayout.Button("Create Database"))
                 {
-                    var db = KnotEditorUtils.RequestCreateAsset<KnotDatabase>("KnotDatabase", true);
+                    var db = Core.Editor.EditorUtils.RequestCreateAsset<KnotDatabase>("KnotDatabase", true);
                     if (db != null)
                     {
-                        KnotDatabaseUtils.ActiveDatabase = db;
+                        EditorUtils.ActiveDatabase = db;
                         ReloadLayout();
                     }
                 }
@@ -68,10 +69,10 @@ namespace Knot.Localization.Editor
         
         void UpdateActiveDatabase()
         {
-            if (KnotDatabaseUtils.ActiveDatabase != null)
+            if (EditorUtils.ActiveDatabase != null)
                 return;
 
-            KnotDatabaseUtils.UpdateDatabaseAssets();
+            EditorUtils.UpdateDatabaseAssets();
             ReloadLayout();
             Repaint();
         }
@@ -81,7 +82,7 @@ namespace Knot.Localization.Editor
             if (dataBase == null)
                 return;
 
-            KnotDatabaseUtils.ActiveDatabase = dataBase;
+            EditorUtils.ActiveDatabase = dataBase;
             ReloadLayout();
             EditorGUIUtility.PingObject(dataBase);
         }
@@ -89,13 +90,20 @@ namespace Knot.Localization.Editor
 
         public void ReloadLayout()
         {
+            var window = GetWindow<KnotDatabaseEditorWindow>();
+            
             rootVisualElement.Clear();
-            rootVisualElement.styleSheets.Add(KnotEditorUtils.EditorStyles);
+            rootVisualElement.styleSheets.Add(EditorUtils.EditorStyles);
 
-            if (KnotDatabaseUtils.ActiveDatabase == null)
+            if (EditorUtils.ActiveDatabase == null)
+            {
                 AddNoDatabaseContainer();
+                window.titleContent.text = "Database Editor";
+            }
             else
             {
+                window.titleContent.text = EditorUtils.ActiveDatabase.name;
+
                 EditorToolbarPanel = new KnotEditorToolbarPanel();
                 rootVisualElement.Add(EditorToolbarPanel);
             }
@@ -105,23 +113,23 @@ namespace Knot.Localization.Editor
         {
             if (!Application.isPlaying)
                 menu.AddDisabledItem(new GUIContent("Live Reload (Play Mode only)"));
-            else menu.AddItem(new GUIContent("Live Reload"), false, KnotEditorUtils.PerformPlayModeLiveReload);
+            else menu.AddItem(new GUIContent("Live Reload"), false, EditorUtils.PerformPlayModeLiveReload);
 
             menu.AddSeparator(string.Empty);
             
             menu.AddItem(new GUIContent("Database/New..."), false, () =>
                 {
-                    SetActiveDatabase(KnotEditorUtils.RequestCreateAsset<KnotDatabase>());
-                    KnotDatabaseUtils.UpdateDatabaseAssets();
+                    SetActiveDatabase(Core.Editor.EditorUtils.RequestCreateAsset<KnotDatabase>());
+                    EditorUtils.UpdateDatabaseAssets();
                 });
 
-            if (KnotDatabaseUtils.DatabaseAssets.Any())
+            if (EditorUtils.DatabaseAssets.Any())
             {
                 menu.AddSeparator("Database/");
-                foreach (var db in KnotDatabaseUtils.DatabaseAssets)
+                foreach (var db in EditorUtils.DatabaseAssets)
                 {
                     menu.AddItem(new GUIContent($"Database/{db.name}{(db == KnotLocalization.ProjectSettings.DefaultDatabase ? " _[Default]" : string.Empty)}"),
-                        KnotDatabaseUtils.ActiveDatabase == db, () => { SetActiveDatabase(db); });
+                        EditorUtils.ActiveDatabase == db, () => { SetActiveDatabase(db); });
                 }
             }
 
@@ -136,18 +144,18 @@ namespace Knot.Localization.Editor
             if (dataBase == null)
                 return false;
 
-            KnotDatabaseUtils.OpenDatabaseEditor(dataBase);
+            EditorUtils.OpenDatabaseEditor(dataBase);
             
             return true;
         }
 
-        [MenuItem(KnotEditorUtils.ToolsRootPath + "Database Editor", false, 1000)]
+        [MenuItem(KnotLocalization.CorePath + "Database Editor", false, 1000)]
         public static void Open()
         {
             var window = GetWindow<KnotDatabaseEditorWindow>();
             window.minSize = new Vector2(385, 300);
             window.titleContent.text = "Database Editor";
-            window.titleContent.image = KnotEditorUtils.CoreIcon;
+            window.titleContent.image = EditorUtils.CoreIcon;
 
             if (HasOpenInstances<KnotDatabaseEditorWindow>())
                 window.ReloadLayout();

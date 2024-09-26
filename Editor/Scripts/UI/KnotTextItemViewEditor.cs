@@ -30,7 +30,7 @@ namespace Knot.Localization.Editor
                 if (evt.newValue == evt.previousValue)
                     return;
 
-                KnotEditorUtils.RegisterCompleteObjects("Text Changed",
+                EditorUtils.RegisterCompleteObjects("Text Changed",
                     () =>
                     {
                         ItemView.ItemData.RawText = evt.newValue;

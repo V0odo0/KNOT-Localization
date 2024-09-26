@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -14,14 +15,6 @@ namespace Knot.Localization.Editor
         {
 
         }
-
-        public override void OnGUI(Rect rect)
-        {
-            base.OnGUI(rect);
-
-            GUILayout.Label("OK");
-        }
-
 
         static string[] GetAllKeys(KnotDatabase db)
         {
@@ -42,7 +35,7 @@ namespace Knot.Localization.Editor
 
             var treeViewItems = new List<PickerTreeViewItem> { new PickerTreeViewItem(string.Empty, 0, "None", null) };
             for (int i = 0; i < allKeys.Length; i++)
-                treeViewItems.Add(new PickerTreeViewItem(allKeys[i], i + 1, allKeys[i], KnotEditorUtils.GetIcon(KnotTextKeysTabPanel.KeyViewIconName)));
+                treeViewItems.Add(new PickerTreeViewItem(allKeys[i], i + 1, allKeys[i], Core.Editor.EditorUtils.GetIcon(KnotTextKeysTabPanel.KeyViewIconName)));
             
             var popup = new KnotTextKeyPickerPopup(treeViewItems);
             popup.ItemPicked += keyPicked;

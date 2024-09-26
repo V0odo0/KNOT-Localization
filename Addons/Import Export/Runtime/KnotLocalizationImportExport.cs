@@ -1,12 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Knot.Localization.Attributes;
+using Knot.Core;
 using UnityEngine;
 using Knot.Localization.Data;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
