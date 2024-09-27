@@ -1,6 +1,5 @@
 ﻿#pragma warning disable CS0649
 
-using Knot.Localization.Attributes;
 using Knot.Localization.Data;
 using UnityEngine;
 using Knot.Core;

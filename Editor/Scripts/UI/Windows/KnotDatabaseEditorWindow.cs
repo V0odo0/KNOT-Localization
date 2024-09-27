@@ -149,7 +149,7 @@ namespace Knot.Localization.Editor
             return true;
         }
 
-        [MenuItem(KnotLocalization.CorePath + "Database Editor", false, 1000)]
+        [MenuItem("Tools/" + KnotLocalization.CorePath + "Database Editor", false, 1000)]
         public static void Open()
         {
             var window = GetWindow<KnotDatabaseEditorWindow>();

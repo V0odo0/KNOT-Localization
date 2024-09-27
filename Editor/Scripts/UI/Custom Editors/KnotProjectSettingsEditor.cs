@@ -1,58 +1,29 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using Knot.Core;
+using Knot.Core.Editor;
+using UnityEditor;
 
 namespace Knot.Localization.Editor
 {
     [CustomEditor(typeof(KnotProjectSettings))]
-    public class KnotProjectSettingsEditor : UnityEditor.Editor
+    internal class KnotProjectSettingsEditor : ProjectSettingsEditor<KnotProjectSettings>
     {
-        internal static string SettingsPath = $"Project/KNOT/Localization";
-        internal static string[] DefaultKeyWords = 
-        {
-            "knot",
-            "default",
-            "database",
-            "localization",
-            "language",
-            "globalization"
-        };
-
+        public static string SettingsPath => GetSettingsPath("Localization");
 
         public override void OnInspectorGUI()
         {
-            if (target == null)
-                return;
+            base.OnInspectorGUI();
 
-            serializedObject.Update();
-            SerializedProperty property = serializedObject.GetIterator();
-            if (property.NextVisible(true))
-            {
-                do
-                {
-                    if (property.name == "m_Script")
-                        continue;
-
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty(property.name), true);
-                }
-                while (property.NextVisible(false));
-            }
-            serializedObject.ApplyModifiedProperties();
+            if (!Target.LoadOnStartup)
+                EditorGUILayout.HelpBox("KnotLocalization.Manager.SetDatabase() should be called manually", MessageType.Info);
         }
 
 
         [SettingsProvider]
         static SettingsProvider GetSettingsProvider()
         {
-            var provider = new SettingsProvider(SettingsPath, SettingsScope.Project, DefaultKeyWords);
-            var editor = CreateEditor(KnotLocalization.ProjectSettings);
-            provider.guiHandler += s =>
-            {
-                editor.OnInspectorGUI();
-            };
-
-            return provider;
+            return GetSettingsProvider(KnotLocalization.ProjectSettings, SettingsPath,
+                typeof(KnotProjectSettingsEditor));
         }
-
 
         public static void Open()
         {
