@@ -1,12 +1,12 @@
 {
   "name": "com.knot.localization",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "author": "V0odo0",
   "displayName": "KNOT Localization",
   "unity": "2021.3",
-  "description": "Lightweight, scalable and extensible texts & assets localization system for Unity. \n\nWiki: https://github.com/V0odo0/KNOT-Localization/wiki \n\nGitHub: https://github.com/V0odo0/KNOT-Localization \n\nAsset Store: https://assetstore.unity.com/packages/tools/localization/knot-localization-187603 \n\nUnity Forum Thread: https://forum.unity.com/threads/knot-localization.1042891/",
+  "description": "Lightweight, scalable and extensible texts & assets localization system for Unity. \n\nWiki: https://github.com/V0odo0/KNOT-Localization/wiki \nGitHub: https://github.com/V0odo0/KNOT-Localization \nAsset Store: https://assetstore.unity.com/packages/tools/localization/knot-localization-187603 \nUnity Forum Thread: https://forum.unity.com/threads/knot-localization.1042891/",
   "dependencies": {
-        "com.knot.core": "1.0.1"
+        "com.knot.core": "1.0.4"
     },
   "keywords": [
     "localization",

@@ -40,5 +40,7 @@ namespace Knot.Localization
         {
             KnotLocalization.UnRegisterTextUpdatedCallback(key, valueUpdated);
         }
+
+        public override string ToString() => Application.isPlaying? Value : Key;
     }
 }

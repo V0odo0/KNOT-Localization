@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Knot.Localization.Data;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Knot.Localization
@@ -26,5 +27,7 @@ namespace Knot.Localization
         {
             KnotLocalization.UnRegisterAssetUpdatedCallback(Key, valueUpdated);
         }
+
+        public override string ToString() => Application.isPlaying && Value != null ? Value.ToString() : Key;
     }
 }

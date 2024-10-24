@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Knot.Core;
 using Knot.Localization.Data;
 using UnityEngine;
 using Object = UnityEngine.Object;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Knot.Localization
 {
@@ -18,9 +13,9 @@ namespace Knot.Localization
     {
         internal const string CoreName = "KNOT Localization";
         internal const string CorePath = Utils.EditorRootPath + "Localization/";
-        
-        public static KnotProjectSettings ProjectSettings =>
-            _projectSettings ?? (_projectSettings = LoadProjectSettings());
+
+        internal static KnotProjectSettings ProjectSettings =>
+            _projectSettings == null ? _projectSettings = Utils.GetProjectSettings<KnotProjectSettings>() : _projectSettings;
         private static KnotProjectSettings _projectSettings;
 
         public static IKnotManager Manager => _manager ?? (_manager = ProjectSettings.Manager ?? new KnotManager());
@@ -32,49 +27,6 @@ namespace Knot.Localization
         {
             if (ProjectSettings.LoadOnStartup && ProjectSettings.DefaultDatabase != KnotDatabase.Empty)
                 Manager.SetDatabase(ProjectSettings.DefaultDatabase, true);
-        }
-
-        
-        static KnotProjectSettings LoadProjectSettings()
-        {
-            KnotProjectSettings settings;
-
-#if UNITY_EDITOR
-            var allSettings =
-                AssetDatabase.FindAssets($"t:{nameof(KnotProjectSettings)}").
-                    Select(AssetDatabase.GUIDToAssetPath).
-                    Select(AssetDatabase.LoadAssetAtPath<KnotProjectSettings>).ToArray();
-
-            if (allSettings.Length == 0)
-            {
-                string path = $"Assets/{nameof(KnotProjectSettings)}.asset";
-                settings = AssetDatabase.LoadAssetAtPath<KnotProjectSettings>(path);
-                
-                if (settings == null)
-                    settings = PlayerSettings.GetPreloadedAssets().OfType<KnotProjectSettings>().FirstOrDefault();
-
-                if (settings == null)
-                {
-                    var instance = ScriptableObject.CreateInstance<KnotProjectSettings>();
-                    AssetDatabase.CreateAsset(instance, path);
-                    AssetDatabase.SaveAssets();
-                    settings = instance;
-
-                    var preloadedAssets = PlayerSettings.GetPreloadedAssets();
-                    PlayerSettings.SetPreloadedAssets(preloadedAssets.Append(settings).ToArray());
-                }
-            }
-            else settings = allSettings.First();
-#else
-            settings = Resources.FindObjectsOfTypeAll<KnotProjectSettings>().FirstOrDefault();
-#endif
-
-            if (settings == null)
-            {
-                settings = KnotProjectSettings.Empty;
-                Log("Unable to load or create Project Settings. Empty Project Settings will be assigned.", LogType.Warning);
-            }
-            return settings;
         }
 
 

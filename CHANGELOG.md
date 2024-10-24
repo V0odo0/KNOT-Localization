@@ -1,3 +1,7 @@
+## 1.3.2 (2024-10-25)
+
+* KnotTextKeyReference & KnotAssetReference ToString impl
+
 ## 1.3.0 (2024-09-27)
 
 * [breaking change] Asset Store - Moving common parts of code to Knot.Core assembly. Please, delete asset folder before updating

@@ -22,14 +22,7 @@ namespace Knot.Localization.Editor
         public const string ToolsRootPath = "Tools/" + KnotLocalization.CoreName + "/";
 
         const string EditorStylesResourcesPath = "UI/KnotEditorStyles";
-
-
-        public static bool IsUpmPackage => UpmPackageInfo != null;
-
-        public static PackageInfo UpmPackageInfo => 
-            _upmPackageInfo ?? (_upmPackageInfo = PackageInfo.FindForAssembly(Assembly.GetAssembly(typeof(KnotLocalization))));
-        private static PackageInfo _upmPackageInfo;
-
+        
         public static IReadOnlyDictionary<KnotMetadataInfoAttribute.MetadataScope, EditorExtensions.TypeInfo[]> MetadataTypes
         {
             get
