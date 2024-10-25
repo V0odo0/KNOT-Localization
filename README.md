@@ -12,7 +12,7 @@
 
 ## Installation
 
-Download latest stable release from [Asset Store](https://assetstore.unity.com/packages/tools/localization/knot-localization-187603)
+Download latest stable release from [Asset Store](https://assetstore.unity.com/packages/tools/localization/knot-localization-187603) or [FAB](https://fab.com/s/5714cd8def60)
 
 > *or*
 
