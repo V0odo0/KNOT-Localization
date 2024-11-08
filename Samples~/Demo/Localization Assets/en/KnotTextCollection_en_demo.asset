@@ -78,3 +78,15 @@ MonoBehaviour:
 
       4.
       Enter the API key and click START TRANSLATION'
+  - _key: Pages.8.title
+    _rawText: Plural Forms
+  - _key: Pages.8.0
+    _rawText: Plural Forms
+  - _key: Pages.8.Apple
+    _rawText: Apple
+  - _key: Pages.8.Apple.Many
+    _rawText: Apples
+  - _key: Pages.8.description
+    _rawText: You can add a plural form to any key. For example, the given key "Pages.8.Apple"
+      has a subkey ending with ".Many". A localization query for the key "Pages.8.Apple"
+      with the specified plural form returns the corresponding value.

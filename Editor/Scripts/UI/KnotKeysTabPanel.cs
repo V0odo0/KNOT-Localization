@@ -106,9 +106,11 @@ namespace Knot.Localization.Editor
             TreeView = GetKeysTreeView();
             TreeView.SearchFilter = SelectedSearchFilter;
 
-            TreeView.RemoveKeys += RemoveKeys;
-            TreeView.DuplicateKeys += DuplicateKeys;
+            TreeView.RequestRemoveKeys += RemoveKeys;
+            TreeView.RequestDuplicateKeys += DuplicateKeys;
             TreeView.KeysSelected += SelectKeys;
+            if (TreeView is KnotTextKeysTreeView textKeysTreeView)
+                textKeysTreeView.RequestCreatePluralFormKey += CreatePluralFormKeys;
             
             TreeViewContainer = Root.Q<IMGUIContainer>(nameof(TreeViewContainer));
             TreeViewContainer.onGUIHandler = OnTreeViewGUI;
@@ -252,6 +254,30 @@ namespace Knot.Localization.Editor
             TreeView.FrameKeys(true, newKeys.Values.ToArray());
         }
 
+        protected virtual void CreatePluralFormKeys(KnotTextKeyView[] keyViews, KnotPluralForm pluralForm)
+        {
+            var newKeys = new HashSet<string>();
+            EditorUtils.RegisterCompleteObjects(nameof(CreatePluralFormKeys), () =>
+            {
+                //Duplicate keys
+                foreach (var keyView in keyViews.Where(view => view.SourceCollection != null && view.SourceCollection.ContainsKey(view.Key)))
+                {
+                    var pluralKey = $"{keyView.Key}.{pluralForm.ToString()}";
+                    if (keyView.SourceCollection.ContainsKey(pluralKey))
+                        continue;
+
+                    keyView.SourceCollection.Add(new KnotKeyData(pluralKey, keyView.KeyData));
+                    newKeys.Add(pluralKey);
+
+                    TreeView.SetExpanded(keyView.id, true);
+                }
+
+            }, keyViews.Select(v => v.SourceCollection).ToArray());
+
+            ReloadLayout();
+            TreeView.FrameKeys(true, newKeys.ToArray());
+        }
+
         protected virtual void AddToKeyCollection(KnotKeyCollection keyCollection, params TKeyView[] keyViews)
         {
             if (!IsKeyCollectionsPersistent())
@@ -330,7 +356,7 @@ namespace Knot.Localization.Editor
 
             KeyViewEditor.Bind(keyViews);
         }
-
+        
         protected override void BuildTabOptionsMenu(DropdownMenu menu)
         {
             base.BuildTabOptionsMenu(menu);

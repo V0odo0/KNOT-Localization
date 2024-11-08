@@ -41,6 +41,14 @@ namespace Knot.Localization
             KnotLocalization.UnRegisterTextUpdatedCallback(key, valueUpdated);
         }
 
+        public virtual string GetValue(KnotPluralForm pluralForm)
+        {
+            if (_formatters == null || _formatters.Count == 0)
+                return KnotLocalization.GetText(Key, pluralForm);
+
+            return KnotText.Format(KnotLocalization.GetText(Key, pluralForm), Formatters);
+        }
+
         public override string ToString() => Application.isPlaying? Value : Key;
     }
 }

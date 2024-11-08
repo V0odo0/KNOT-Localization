@@ -31,10 +31,7 @@ MonoBehaviour:
       _editor: []
   - _key: Pages.1.0
     _metadata:
-      _runtime:
-      - rid: 7349065975784275987
-      - rid: 7349065975784275988
-      - rid: 7349065975784275989
+      _runtime: []
       _editor: []
   - _key: Pages.1.title
     _metadata:
@@ -104,19 +101,26 @@ MonoBehaviour:
     _metadata:
       _runtime: []
       _editor: []
+  - _key: Pages.8.title
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.8.0
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.8.Apple
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.8.Apple.Many
+    _metadata:
+      _runtime: []
+      _editor: []
+  - _key: Pages.8.description
+    _metadata:
+      _runtime: []
+      _editor: []
   references:
     version: 2
-    RefIds:
-    - rid: 7349065975784275987
-      type: {class: KnotCultureSpecificDayPostfixMetadata, ns: Knot.Localization.Demo,
-        asm: Knot.Localization}
-      data:
-        _serializationPlaceholder: 0
-    - rid: 7349065975784275988
-      type: {class: KnotCustomFontMetadata, ns: Knot.Localization.Data, asm: Knot.Localization}
-      data:
-        _font: {fileID: 0}
-    - rid: 7349065975784275989
-      type: {class: KnotPrefixMetadata, ns: Knot.Localization.Data, asm: Knot.Localization}
-      data:
-        _prefix: 123
+    RefIds: []

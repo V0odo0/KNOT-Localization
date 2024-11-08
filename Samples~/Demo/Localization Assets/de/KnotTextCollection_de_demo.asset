@@ -74,3 +74,14 @@ MonoBehaviour:
       angezeigten Text automatisch \xFCbersetzen.\n\n1. Erstellen Sie das KnotOpenAIAutotranslatorPreset-Asset\n2.
       \xDCbersetzungsquelle ausw\xE4hlen\n3. W\xE4hlen Sie \xDCbersetzungsziele aus\n4.
       Geben Sie den API-Schl\xFCssel ein und klicken Sie auf \xDCBERSETZUNG STARTEN"
+  - _key: Pages.8.title
+    _rawText: Pluralformen
+  - _key: Pages.8.0
+    _rawText: Pluralformen
+  - _key: Pages.8.Apple
+    _rawText: Apfel
+  - _key: Pages.8.description
+    _rawText: "Sie k\xF6nnen jeder Taste eine Pluralform hinzuf\xFCgen. Zum Beispiel
+      hat der angegebene Schl\xFCssel \"Pages.8.Apple\" einen Unterkey, der mit \".Many\"
+      endet. Eine Lokalisierungsabfrage f\xFCr den Schl\xFCssel \"Pages.8.Apple\"
+      mit der angegebenen Pluralform gibt den entsprechenden Wert zur\xFCck."

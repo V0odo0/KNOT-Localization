@@ -13,15 +13,15 @@ namespace Knot.Localization.Editor
     {
         public static string DragAndDropKeyName => $"{EditorUtils.CorePrefix}.{typeof(TKeyView).Name}";
 
+        
+        public event Action<TKeyView[]> KeysSelected;
+        public event Action<TKeyView[]> RequestRemoveKeys;
+        public event Action<TKeyView[]> RequestDuplicateKeys;
+
         static readonly GUIContent AddToKeyCollectionContent = new GUIContent("Add to Key Collection");
         static readonly GUIContent RemoveFromKeyCollectionContent = new GUIContent("Remove from Key Collection");
         static readonly GUIContent DuplicateKeyContent = new GUIContent("Duplicate");
         static readonly GUIContent RemoveKeyContent = new GUIContent("Remove");
-        
-
-        public event Action<TKeyView[]> KeysSelected;
-        public event Action<TKeyView[]> RemoveKeys;
-        public event Action<TKeyView[]> DuplicateKeys;
 
 
         public IReadOnlyList<KnotTreeViewKeyItem> AllKeyItems => _allKeyItems;
@@ -171,15 +171,20 @@ namespace Knot.Localization.Editor
             DragAndDrop.StartDrag(DragAndDropKeyName);
         }
 
-        protected override void ContextClickedItem(int id)
+        protected virtual GenericMenu BuildGenericMenu()
         {
-            GenericMenu menu = new GenericMenu();
+            var menu = new GenericMenu();
 
+            PrebuildGenericMenu(menu);
             menu.AddItem(DuplicateKeyContent, false, RequestDuplicateSelected);
             menu.AddItem(RemoveKeyContent, false, RequestRemoveSelected);
 
-            menu.ShowAsContext();
+            return menu;
         }
+
+        protected virtual void PrebuildGenericMenu(GenericMenu menu) { }
+
+        protected override void ContextClickedItem(int id) => BuildGenericMenu().ShowAsContext();
 
         void RequestRemoveSelected()
         {
@@ -189,9 +194,9 @@ namespace Knot.Localization.Editor
             if (SelectedKeyItems.Any(item => item is KnotTreeViewKeyItemGroup))
             {
                 var groupKeys = SelectedKeyItems.OfType<KnotTreeViewKeyItemGroup>().Select(g => g.Key);
-                RemoveKeys?.Invoke(AllKeyItems.Where(item => groupKeys.Any(key => item.Key.StartsWith($"{key}."))).OfType<TKeyView>().ToArray());
+                RequestRemoveKeys?.Invoke(AllKeyItems.Where(item => groupKeys.Any(key => item.Key.StartsWith($"{key}."))).OfType<TKeyView>().ToArray());
             }
-            else RemoveKeys?.Invoke(SelectedKeyViews.ToArray());
+            else RequestRemoveKeys?.Invoke(SelectedKeyViews.ToArray());
         }
 
         void RequestDuplicateSelected()
@@ -202,10 +207,11 @@ namespace Knot.Localization.Editor
             if (SelectedKeyItems.Any(item => item is KnotTreeViewKeyItemGroup))
             {
                 var groupKeys = SelectedKeyItems.OfType<KnotTreeViewKeyItemGroup>().Select(g => g.Key);
-                DuplicateKeys?.Invoke(AllKeyItems.Where(item => groupKeys.Any(key => item.Key.StartsWith(key))).OfType<TKeyView>().ToArray());
+                RequestDuplicateKeys?.Invoke(AllKeyItems.Where(item => groupKeys.Any(key => item.Key.StartsWith(key))).OfType<TKeyView>().ToArray());
             }
-            else DuplicateKeys?.Invoke(SelectedKeyItems.OfType<TKeyView>().ToArray());
+            else RequestDuplicateKeys?.Invoke(SelectedKeyItems.OfType<TKeyView>().ToArray());
         }
+
 
         protected override void KeyEvent()
         {

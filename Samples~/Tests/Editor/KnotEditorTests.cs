@@ -268,6 +268,28 @@ namespace Knot.Localization.Tests.Editor
             m.Dispose();
         }
 
+        [UnityTest]
+        public IEnumerator CreateManagerAndGetPluralForm()
+        {
+            KnotManager m = new KnotManager();
+            m.SetDatabase(Database);
+            m.LoadLanguage(m.Languages.FirstOrDefault());
+
+            while (m.State != KnotManagerState.LanguageLoaded)
+                yield return null;
+
+            string key = "Apple";
+
+            m.TextController.AddOverride(key, "Apple");
+            m.TextController.AddOverride($"{key}.{KnotPluralForm.Many.ToString()}", "Apples");
+
+            Assert.IsTrue(m.GetTextValue(key, KnotPluralForm.One).Value == "Apple");
+            Assert.IsTrue(m.GetTextValue(key, KnotPluralForm.Two).Value == "Apples");
+            Assert.IsTrue(m.GetTextValue(key, KnotPluralForm.Many).Value == "Apples");
+
+            m.Dispose();
+        }
+
 
         [OneTimeTearDown]
         public void TearDown()

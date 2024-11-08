@@ -55,16 +55,21 @@ namespace Knot.Localization
         public static string GetText(string key) => Manager.GetTextValue(key)?.Value;
 
         /// <summary>
-        /// Returns current language <see cref="IKnotText"/> assigned to <paramref name="key"/> from <see cref="Manager"/>
+        /// A shortcut for <see cref="IKnotManager.GetTextValue"/>. Returns current language  localized text assigned to <paramref name="key"/> from <see cref="Manager"/> with <see cref="KnotPluralForm"/>
         /// </summary>
-        public static IKnotText GetTextFormat(string key) => Manager.GetTextValue(key);
+        public static string GetText(string key, KnotPluralForm pluralForm) => Manager.GetTextValue(key, pluralForm)?.Value;
+
+#if !KNOT_LOCALIZATION_DISABLE_EXTENSIONS
+        /// <summary>
+        /// Extensions method that returns current language localized text assigned to <paramref name="key"/> from <see cref="Manager"/>
+        /// </summary>
+        public static string Localize(this string key) => Manager.GetTextValue(key)?.Value;
 
         /// <summary>
-        /// Returns current language localized text assigned to <paramref name="key"/> from <see cref="Manager"/>
+        /// Extensions method that returns current language localized text assigned to <paramref name="key"/> from <see cref="Manager"/> for <see cref="KnotPluralForm"/>
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static string Localize(this string key) => Manager.GetTextValue(key)?.Value;
+        public static string Localize(this string key, KnotPluralForm pluralForm) => Manager.GetTextValue(key, pluralForm)?.Value;
+#endif
 
         /// <summary>
         /// A shortcut for <see cref="IKnotManager.GetAssetValue"/>. Returns asset assigned to <paramref name="key"/> from <see cref="Manager"/>

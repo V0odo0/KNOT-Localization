@@ -223,6 +223,21 @@ namespace Knot.Localization
 
         public virtual IKnotText GetTextValue(string key) => TextController.TryGetValue(key, out var value) ? value : new KnotText(TextController.GetFallbackValue(key));
 
+        public virtual IKnotText GetTextValue(string key, KnotPluralForm pluralForm)
+        {
+            var pluralFormKey = $"{key}.{pluralForm.ToString()}";
+            if (TextController.ContainsKey(pluralFormKey))
+            {
+                if (TextController.TryGetValue(pluralFormKey, out var value))
+                    return value;
+
+                if (pluralForm != KnotPluralForm.One && TextController.TryGetValue($"{key}.{KnotPluralForm.Many}", out var manyValue))
+                    return manyValue;
+            }
+
+            return GetTextValue(key);
+        }
+
         public virtual IKnotAsset GetAssetValue(string key) => AssetController.TryGetValue(key, out var value) ? value : new KnotAsset(AssetController.GetFallbackValue(key));
 
         public virtual void Dispose()

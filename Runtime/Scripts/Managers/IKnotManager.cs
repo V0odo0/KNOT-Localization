@@ -63,6 +63,11 @@ namespace Knot.Localization
         IKnotText GetTextValue(string key);
 
         /// <summary>
+        /// Returns <see cref="IKnotText"/> with given <paramref name="key"/> from <see cref="TextController"/> with <see cref="KnotPluralForm"/>
+        /// </summary>
+        IKnotText GetTextValue(string key, KnotPluralForm pluralForm);
+
+        /// <summary>
         /// Returns <see cref="IKnotAsset"/> with given <paramref name="key"/> from <see cref="AssetController"/>
         /// </summary>
         IKnotAsset GetAssetValue(string key);

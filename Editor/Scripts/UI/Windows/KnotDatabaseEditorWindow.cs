@@ -71,7 +71,7 @@ namespace Knot.Localization.Editor
         {
             if (EditorUtils.ActiveDatabase != null)
                 return;
-
+            
             EditorUtils.UpdateDatabaseAssets();
             ReloadLayout();
             Repaint();

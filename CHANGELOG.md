@@ -1,3 +1,9 @@
+## 1.4.0 (2024-11-08)
+
+* New: Plural Forms
+* Added KNOT_LOCALIZATION_DISABLE_EXTENSIONS define symbol. You can define it to get rid of project-wide extension methods
+* Updated Samples/Demo
+
 ## 1.3.2 (2024-10-25)
 
 * KnotTextKeyReference & KnotAssetReference ToString impl
