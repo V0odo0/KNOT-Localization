@@ -1,3 +1,7 @@
+## 1.4.1 (2024-11-19)
+
+* Fixed Database Editor window was forced to open after each Assembly Reload
+
 ## 1.4.0 (2024-11-08)
 
 * New: Plural Forms

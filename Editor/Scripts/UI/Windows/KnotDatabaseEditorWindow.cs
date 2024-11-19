@@ -71,10 +71,13 @@ namespace Knot.Localization.Editor
         {
             if (EditorUtils.ActiveDatabase != null)
                 return;
-            
+
             EditorUtils.UpdateDatabaseAssets();
-            ReloadLayout();
-            Repaint();
+            if (hasFocus)
+            {
+                ReloadLayout();
+                Repaint();
+            }
         }
 
         void SetActiveDatabase(KnotDatabase dataBase)
@@ -90,19 +93,17 @@ namespace Knot.Localization.Editor
 
         public void ReloadLayout()
         {
-            var window = GetWindow<KnotDatabaseEditorWindow>();
-            
             rootVisualElement.Clear();
             rootVisualElement.styleSheets.Add(EditorUtils.EditorStyles);
 
             if (EditorUtils.ActiveDatabase == null)
             {
                 AddNoDatabaseContainer();
-                window.titleContent.text = "Database Editor";
+                titleContent.text = "Database Editor";
             }
             else
             {
-                window.titleContent.text = EditorUtils.ActiveDatabase.name;
+                titleContent.text = EditorUtils.ActiveDatabase.name;
 
                 EditorToolbarPanel = new KnotEditorToolbarPanel();
                 rootVisualElement.Add(EditorToolbarPanel);
@@ -147,6 +148,7 @@ namespace Knot.Localization.Editor
             EditorUtils.OpenDatabaseEditor(dataBase);
             
             return true;
+            //
         }
 
         [MenuItem("Tools/" + KnotLocalization.CorePath + "Database Editor", false, 1000)]

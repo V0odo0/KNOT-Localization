@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Knot.Core.Editor;
 using Object = UnityEngine.Object;
-using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 
 namespace Knot.Localization.Editor
@@ -85,14 +84,14 @@ namespace Knot.Localization.Editor
         public static KnotDatabase ActiveDatabase
         {
             get => _activeDatabase == null ?
-                _activeDatabase = AssetDatabase.LoadAssetAtPath<KnotDatabase>(AssetDatabase.GUIDToAssetPath(EditorUtils.UserSettings.LastActiveDatabaseGuid)) :
+                _activeDatabase = AssetDatabase.LoadAssetAtPath<KnotDatabase>(AssetDatabase.GUIDToAssetPath(UserSettings.LastActiveDatabaseGuid)) :
                 _activeDatabase;
             set
             {
                 if (value == null || value == _activeDatabase)
                     return;
 
-                EditorUtils.UserSettings.LastActiveDatabaseGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(value));
+                UserSettings.LastActiveDatabaseGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(value));
                 _activeDatabase = value;
             }
         }
