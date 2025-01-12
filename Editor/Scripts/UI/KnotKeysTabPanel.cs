@@ -5,6 +5,7 @@ using Knot.Core.Editor;
 using Knot.Localization.Data;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Knot.Localization.Editor
@@ -59,6 +60,8 @@ namespace Knot.Localization.Editor
             set => SelectedSearchFilterType = value?.GetType();
         }
 
+        private string _lastSelectedKeyDuringSearch;
+
 
         protected KnotKeysTabPanel() : base("KnotKeysTabPanel")
         {
@@ -95,6 +98,24 @@ namespace Knot.Localization.Editor
             KeySearchField.ValueChanged += value =>
             {
                 TreeView.searchString = value;
+                if (!TreeView.hasSearch)
+                {
+                    KnotTreeViewKeyItem itemToFrame = null;
+                    if (!string.IsNullOrEmpty(_lastSelectedKeyDuringSearch))
+                    {
+                        itemToFrame = TreeView.AllKeyItems.FirstOrDefault(item => item.Key == _lastSelectedKeyDuringSearch);
+                    }
+                    else if (TreeView.SelectedKeyItems.Any())
+                    {
+                        itemToFrame = TreeView.SelectedKeyItems.First();
+                    }
+
+                    if (itemToFrame != null)
+                    {
+                        TreeView.SetExpandedRecursive(itemToFrame.id, true);
+                        TreeView.FrameItem(itemToFrame.id);
+                    }
+                }
                 UpdateSearchResultsLabel();
             };
             KeySearchField.SearchFilterSelected += filter =>
@@ -350,6 +371,8 @@ namespace Knot.Localization.Editor
 
                 return;
             }
+
+            _lastSelectedKeyDuringSearch = TreeView.hasSearch ? keyViews.First().Key : string.Empty;
 
             if (!TabContentRoot.Contains(KeyViewEditor))
                 TabContentRoot.Add(KeyViewEditor);

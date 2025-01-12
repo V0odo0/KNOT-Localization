@@ -1,3 +1,7 @@
+## 1.4.2 (2025-01-12)
+
+* Fixed Text/Asset search filter update not framing selected items in tree view
+
 ## 1.4.1 (2024-11-19)
 
 * Fixed Database Editor window was forced to open after each Assembly Reload
