@@ -1,6 +1,6 @@
-﻿<UXML xmlns:eg="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
-  <eg:VisualElement name="KnotCreateKeyPopup" style="margin: 3px; flex-direction: row">
-    <eg:TextField name="KeyTextField" style="flex-grow: 1"/>
-    <eg:Button name="CreateKeyButton" tooltip="Add Key"/>
-  </eg:VisualElement>
-</UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" eg="UnityEngine.UIElements" ed="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="KnotCreateKeyPopup" style="margin: 3px; flex-direction: row; align-items: stretch; justify-content: flex-start;">
+        <ui:TextField name="KeyTextField" text="&lt;KEY&gt;" style="flex-grow: 999; flex-shrink: 999; align-items: auto;" />
+        <ui:Button name="CreateKeyButton" tooltip="Add Key" style="min-width: 25px;" />
+    </ui:VisualElement>
+</ui:UXML>

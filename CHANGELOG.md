@@ -1,3 +1,7 @@
+## 1.4.3 (2025-04-15)
+
+* Fixed Add Key button not accessible in layout
+
 ## 1.4.2 (2025-01-12)
 
 * Fixed Text/Asset search filter update not framing selected items in tree view
