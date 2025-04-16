@@ -1,3 +1,7 @@
+## 1.4.4 (2025-04-16)
+
+* Fixed Live Reload resets to default language
+
 ## 1.4.3 (2025-04-15)
 
 * Fixed Add Key button not accessible in layout

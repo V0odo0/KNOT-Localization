@@ -178,13 +178,17 @@ namespace Knot.Localization.Editor
             return true;
         }
 
+        public static bool CanPerformPlayModeLiveReload()
+        {
+            return Application.isPlaying && KnotLocalization.Manager.SelectedLanguage != null;
+        }
+
         public static void PerformPlayModeLiveReload()
         {
-            if (!Application.isPlaying)
+            if (!CanPerformPlayModeLiveReload())
                 return;
-
-            if (KnotLocalization.Manager.State == KnotManagerState.LanguageLoaded)
-                KnotLocalization.Manager.LoadLanguage(KnotLocalization.Manager.Languages.FirstOrDefault());
+            
+            KnotLocalization.Manager.LoadLanguage(KnotLocalization.Manager.SelectedLanguage);
         }
     }
 }

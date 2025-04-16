@@ -112,9 +112,9 @@ namespace Knot.Localization.Editor
 
         public void AddItemsToMenu(GenericMenu menu)
         {
-            if (!Application.isPlaying)
-                menu.AddDisabledItem(new GUIContent("Live Reload (Play Mode only)"));
-            else menu.AddItem(new GUIContent("Live Reload"), false, EditorUtils.PerformPlayModeLiveReload);
+            if (EditorUtils.CanPerformPlayModeLiveReload())
+                menu.AddItem(new GUIContent("Live Reload"), false, EditorUtils.PerformPlayModeLiveReload);
+            else menu.AddDisabledItem(new GUIContent("Live Reload"), false);
 
             menu.AddSeparator(string.Empty);
             
