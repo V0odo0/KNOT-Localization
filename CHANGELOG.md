@@ -1,3 +1,7 @@
+## 1.4.5 (2026-04-03)
+
+* Added KnotLocalizedComponent.OnValueUpdated to Awake. It will be be called instead of OnEnable upon GameObject initialization
+
 ## 1.4.4 (2025-04-16)
 
 * Fixed Live Reload resets to default language

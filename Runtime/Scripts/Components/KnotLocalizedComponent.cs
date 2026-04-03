@@ -15,10 +15,13 @@ namespace Knot.Localization.Components
         }
         [SerializeField] private TKeyReference _keyReference;
 
+        private bool _onEnableReached;
+
 
         protected virtual void Awake()
         {
-
+            if (KnotLocalization.Manager.State == KnotManagerState.LanguageLoaded)
+                OnValueUpdated(KeyReference.Value);
         }
         
         protected virtual void Start()
@@ -28,10 +31,15 @@ namespace Knot.Localization.Components
 
         protected virtual void OnEnable()
         {
-            if (KnotLocalization.Manager.State == KnotManagerState.LanguageLoaded)
-                OnValueUpdated(KeyReference.Value);
+            if (_onEnableReached)
+            {
+                if (KnotLocalization.Manager.State == KnotManagerState.LanguageLoaded)
+                    OnValueUpdated(KeyReference.Value);
+            }
 
             KeyReference.ValueUpdated += OnValueUpdated;
+            
+            _onEnableReached = true;
         }
 
         protected virtual void OnDisable()
