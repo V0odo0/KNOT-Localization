@@ -11,6 +11,7 @@ namespace Knot.Localization
     /// <summary>
     /// Base implementation of <see cref="IKnotController{TItemData,TValue,TValueType}"/>
     /// </summary>
+    [Serializable]
     public abstract class KnotController<TItemData, TValue, TValueType> : IKnotController<TItemData, TValue, TValueType>
         where TItemData : KnotItemData
         where TValue : class, IKnotValue<TValueType>

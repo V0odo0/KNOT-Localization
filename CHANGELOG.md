@@ -1,3 +1,8 @@
+## 1.4.6 (2026-08-10)
+
+* Fixed obsolete TreeView, TreeViewState & TreeViewItem API warnings in Unity 6.2+ (migrated to generic TreeView<int> API with UNITY_6000_2_OR_NEWER guards)
+* Added [Serializable] attribute to abstract base classes with serializable inheritors (KnotKeyReference, KnotAssetKeyReferenceT, KnotController, KnotTargetMethod)
+
 ## 1.4.5 (2026-04-03)
 
 * Added KnotLocalizedComponent.OnValueUpdated to Awake. It will be be called instead of OnEnable upon GameObject initialization

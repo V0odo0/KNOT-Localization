@@ -6,6 +6,10 @@ using UnityEditor.IMGUI.Controls;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+#if UNITY_6000_2_OR_NEWER
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
+#endif
 
 namespace Knot.Localization.Editor
 {
@@ -76,7 +80,11 @@ namespace Knot.Localization.Editor
         public override Vector2 GetWindowSize() => DefaultWindowSize;
 
 
+#if UNITY_6000_2_OR_NEWER
+        protected class PickerTreeView : UnityEditor.IMGUI.Controls.TreeView<int>
+#else
         protected class PickerTreeView : UnityEditor.IMGUI.Controls.TreeView
+#endif
         {
             public event Action<TItem> ItemSelected;
             public event Action<TItem> ItemPicked; 

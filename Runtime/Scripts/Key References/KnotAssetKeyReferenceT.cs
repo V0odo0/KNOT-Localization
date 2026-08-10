@@ -3,6 +3,7 @@ using Object = UnityEngine.Object;
 
 namespace Knot.Localization
 {
+    [Serializable]
     public abstract class KnotAssetKeyReferenceT<TValueType> : KnotAssetKeyReference where TValueType : Object
     {
         public new event Action<TValueType> ValueUpdated

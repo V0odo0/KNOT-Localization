@@ -9,6 +9,7 @@ namespace Knot.Localization.Components
     /// Base class that is used to store the reference to localizable component's property or method 
     /// </summary>
     /// <typeparam name="TValueType"></typeparam>
+    [Serializable]
     public abstract class KnotTargetMethod<TValueType>
     {
         /// <summary>

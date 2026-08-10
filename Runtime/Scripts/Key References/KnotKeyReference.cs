@@ -8,6 +8,7 @@ namespace Knot.Localization
     /// <summary>
     /// Base class for accessing <see cref="IKnotValue{TValue}"/>.<see cref="IKnotValue{TValue}.Value"/> trough <see cref="IKnotController{TItemData,TValue,TValueType}"/> during runtime
     /// </summary>
+    [Serializable]
     public abstract class KnotKeyReference<TValueType>
     {
         /// <summary>
