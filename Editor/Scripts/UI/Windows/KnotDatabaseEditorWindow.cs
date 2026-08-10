@@ -141,7 +141,11 @@ namespace Knot.Localization.Editor
         [OnOpenAsset]
         static bool OnOpedDatabaseAsset(int instanceId, int line)
         {
+#if UNITY_6000_3_OR_NEWER
+            KnotDatabase dataBase = EditorUtility.EntityIdToObject(instanceId) as KnotDatabase;
+#else
             KnotDatabase dataBase = EditorUtility.InstanceIDToObject(instanceId) as KnotDatabase;
+#endif
             if (dataBase == null)
                 return false;
 

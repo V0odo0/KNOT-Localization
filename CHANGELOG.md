@@ -1,3 +1,7 @@
+## 1.4.7 (2026-08-10)
+
+* Fixed obsolete EditorUtility.InstanceIDToObject API error in Unity 6.3+ (migrated to EditorUtility.EntityIdToObject with UNITY_6000_3_OR_NEWER guard)
+
 ## 1.4.6 (2026-08-10)
 
 * Fixed obsolete TreeView, TreeViewState & TreeViewItem API warnings in Unity 6.2+ (migrated to generic TreeView<int> API with UNITY_6000_2_OR_NEWER guards)
