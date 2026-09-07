@@ -29,7 +29,7 @@
 		{
             "displayName": "Tests",
             "description": "Common NUnit Tests",
-            "path": "Tests~/"
+            "path": "Samples~/Tests"
         }
     ]
 }
