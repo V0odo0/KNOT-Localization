@@ -28,7 +28,7 @@ namespace Knot.Localization.Editor
 
             bool hasAssetTypeRestriction = assetType != null && assetType != typeof(Object);
             var keys = new HashSet<string>();
-            foreach (var assetKey in db.AssetKeyCollections.Where(c => c != null).SelectMany(c => c))
+            foreach (var assetKey in db.GetMergedAssetKeyCollections().Where(c => c != null).SelectMany(c => c))
             {
                 if (hasAssetTypeRestriction)
                 {

@@ -21,6 +21,8 @@ namespace Knot.Localization.Editor
         public readonly IMGUIContainer AssetKeyCollectionsContainer;
         public readonly PropertyField AssetController;
 
+        public readonly IMGUIContainer AdditionalDatabasesContainer;
+
         public readonly Foldout MetadataContainerFoldout;
         public readonly KnotMetadataContainerEditor MetadataContainerEditor;
 
@@ -29,6 +31,8 @@ namespace Knot.Localization.Editor
         protected KnotReorderableList AssetKeyCollectionsList;
         protected SerializedProperty TextKeyCollectionsProp;
         protected SerializedProperty AssetKeyCollectionsProp;
+        protected KnotReorderableList AdditionalDatabasesList;
+        protected SerializedProperty AdditionalDatabasesProp;
 
 
         public KnotDatabaseSettingsTabPanel() : base(nameof(KnotDatabaseSettingsTabPanel))
@@ -50,6 +54,13 @@ namespace Knot.Localization.Editor
                 DrawKeyCollectionsList(AssetKeyCollectionsProp, AssetKeyCollectionsList);
             };
             AssetController = Root.Q<PropertyField>(nameof(AssetController));
+
+            AdditionalDatabasesList = GetKeyCollectionsList("Additional Databases");
+            AdditionalDatabasesContainer = Root.Q<IMGUIContainer>(nameof(AdditionalDatabasesContainer));
+            AdditionalDatabasesContainer.onGUIHandler = () =>
+            {
+                DrawKeyCollectionsList(AdditionalDatabasesProp, AdditionalDatabasesList);
+            };
 
             MetadataContainerFoldout = Root.Q<Foldout>(nameof(MetadataContainerFoldout));
             MetadataContainerEditor = new KnotMetadataContainerEditor(MetadataContainerFoldout, KnotMetadataInfoAttribute.MetadataScope.Database);
@@ -73,7 +84,7 @@ namespace Knot.Localization.Editor
 
         void DrawKeyCollectionsList(SerializedProperty property, ReorderableList list)
         {
-            if (AssetKeyCollectionsList.serializedProperty == null || property == null)
+            if (list.serializedProperty == null || property == null)
                 return;
 
             property.serializedObject.Update();
@@ -118,6 +129,9 @@ namespace Knot.Localization.Editor
 
             AssetController.Unbind();
             AssetController.BindProperty(settingsProp.FindPropertyRelative("_assetController"));
+
+            AdditionalDatabasesProp = databaseObj.FindProperty("_additionalDatabases");
+            AdditionalDatabasesList.serializedProperty = AdditionalDatabasesProp;
 
             MetadataContainerEditor.Bind(settingsProp.FindPropertyRelative("_metadata"));
         }

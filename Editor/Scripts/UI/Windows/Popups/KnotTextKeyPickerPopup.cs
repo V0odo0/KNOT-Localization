@@ -25,7 +25,7 @@ namespace Knot.Localization.Editor
                 return Array.Empty<string>();
 
             var keys = new HashSet<string>();
-            foreach (var textKey in db.TextKeyCollections.Where(c => c != null).SelectMany(c => c))
+            foreach (var textKey in db.GetMergedTextKeyCollections().Where(c => c != null).SelectMany(c => c))
                 keys.Add(textKey.Key);
 
             return keys.OrderBy(key => key).ToArray();

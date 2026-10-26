@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Knot.Localization.Data;
@@ -64,7 +65,7 @@ namespace Knot.Localization
             SharedStringBuilder.Append(inputString);
 
             foreach (var f in formatters)
-                f?.Format(SharedStringBuilder, KnotLocalization.Manager.SelectedLanguage.CultureInfo);
+                f?.Format(SharedStringBuilder, KnotLocalization.Manager.SelectedLanguage?.CultureInfo ?? CultureInfo.CurrentCulture);
 
             return SharedStringBuilder.ToString();
         }

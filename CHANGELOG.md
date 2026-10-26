@@ -1,3 +1,11 @@
+## 1.5.0 (2026-10-27)
+
+* Minimum Unity version raised to 6000.3
+* New: KnotDatabase Additional Databases. Referenced databases are merged into the loaded one (languages, key collections, collection providers and metadata); their keys and values override the ones of the referencing database, later entries override earlier ones. Self, circular and duplicate references are ignored
+* Text and Asset Key pickers include keys from Additional Databases
+* New: UI Toolkit KnotLocalizedTextBinding (UXML / UI Builder and SetBinding / BindLocalizedText) that updates bound text on language change. Its Key is a KnotTextKeyReference, so UI Builder shows the key picker dropdown and Formatters like Localized Components do. Outside of Play Mode the key itself is shown as a placeholder and the localization system is not accessed. Requires the UI Toolkit (com.unity.modules.uielements) module
+* Fixed KnotText.Format (and KnotTextKeyReference.Value with Formatters) throwing when no language is loaded
+
 ## 1.4.7 (2026-08-10)
 
 * Fixed obsolete EditorUtility.InstanceIDToObject API error in Unity 6.3+ (migrated to EditorUtility.EntityIdToObject with UNITY_6000_3_OR_NEWER guard)

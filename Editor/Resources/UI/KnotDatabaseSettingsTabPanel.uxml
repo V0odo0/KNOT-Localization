@@ -10,6 +10,8 @@
             <uie:PropertyField name="TextController" tooltip="Implements creating key-value dictionary from provided language data. Controller is responsible for retrieving values from currently selected language" />
             <uie:PropertyField name="AssetController" tooltip="Implements creating key-value dictionary from provided language data. Controller is responsible for retrieving values from currently selected language" />
             <ui:VisualElement name="Separator" class="Separator" />
+            <ui:IMGUIContainer name="AdditionalDatabasesContainer" class="margin3px" tooltip="Databases merged into this one when it is loaded. Their languages, keys and values override the ones of this database, later entries override earlier ones" />
+            <ui:VisualElement name="Separator" class="Separator" />
             <ui:Foldout name="MetadataContainerFoldout" text="Global Metadata" class="margin3px" style="min-height: 2px;" />
         </ui:ScrollView>
     </ui:VisualElement>

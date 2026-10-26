@@ -38,6 +38,12 @@ namespace Knot.Localization
         [NonSerialized] private IKnotAssetController _assetController;
 
 
+        /// <summary>
+        /// <see cref="Database"/> followed by all its <see cref="KnotDatabase.AdditionalDatabases"/>, ordered from the lowest to the highest priority
+        /// </summary>
+        protected IReadOnlyList<KnotDatabase> MergedDatabases => _mergedDatabases ?? (_mergedDatabases = Database.GetMergedDatabases());
+        [NonSerialized] private List<KnotDatabase> _mergedDatabases;
+
         [NonSerialized] private HashSet<IKnotRuntimeItemCollectionProvider> _loadedCollectionProviders;
         [NonSerialized] private KnotItemCollection[] _fallbackCollections;
 
@@ -58,20 +64,28 @@ namespace Knot.Localization
             _loadedCollectionProviders = new HashSet<IKnotRuntimeItemCollectionProvider>();
             _fallbackCollections = null;
 
-            //Load target language collections
-            var collections = (await LoadCollectionsAsync(language.CollectionProviders)).ToArray();
+            //Refresh merged databases so Additional Databases edited after SetDatabase (e.g. Live Reload) are respected
+            _mergedDatabases = Database.GetMergedDatabases();
 
-            foreach (var cp in language.CollectionProviders.OfType<IKnotRuntimeItemCollectionProvider>())
+            //Load target language collections from all merged databases
+            var collectionProviders = GetMergedCollectionProviders(language);
+            var collections = (await LoadCollectionsAsync(collectionProviders)).ToArray();
+
+            foreach (var cp in collectionProviders.OfType<IKnotRuntimeItemCollectionProvider>())
                 _loadedCollectionProviders.Add(cp);
 
+            var globalMetadata = GetMergedGlobalMetadata();
+            var languageMetadata = GetMergedLanguageMetadata(language);
+
             //Get fallback language
-            var fallbackMetadata = Database?.Settings.Metadata.OfType<KnotLanguageFallbackMetadata>().
-                Union(language.Metadata.OfType<KnotLanguageFallbackMetadata>()) ?? new KnotLanguageFallbackMetadata[0];
-            var fallbackLanguage = Database?.Languages.Where(ld => ld != language).
+            var fallbackMetadata = globalMetadata.OfType<KnotLanguageFallbackMetadata>().
+                Union(languageMetadata.OfType<KnotLanguageFallbackMetadata>()).ToArray();
+            var fallbackLanguage = Languages.Where(ld => ld.CultureName != language.CultureName).
                 FirstOrDefault(ld => fallbackMetadata.Any(fb => fb.CultureName == ld.CultureName));
 
-            var textKeys = GetKeyDataFromCollections(Database?.TextKeyCollections ?? new List<KnotKeyCollection>());
-            var assetKeys = GetKeyDataFromCollections(Database?.AssetKeyCollections ?? new List<KnotKeyCollection>());
+            //Collections are passed from the highest to the lowest priority database, so the first found key wins
+            var textKeys = GetKeyDataFromCollections(MergedDatabases.Reverse().SelectMany(db => db.TextKeyCollections).ToList());
+            var assetKeys = GetKeyDataFromCollections(MergedDatabases.Reverse().SelectMany(db => db.AssetKeyCollections).ToList());
 
             //Load all items from collections including missing keys from fallback language collections
             var textItems = await GetItemDataFromCollections<KnotTextData>(textKeys, fallbackLanguage, collections);
@@ -81,16 +95,16 @@ namespace Knot.Localization
             await TextController.BuildAsync(new KnotControllerBuildData<KnotTextData>
             {
                 Culture = language.CultureInfo,
-                GlobalMetadata = Database?.Settings.Metadata.ToArray() ?? new IKnotMetadata[0],
-                LanguageMetadata = language.Metadata.ToArray(),
+                GlobalMetadata = globalMetadata,
+                LanguageMetadata = languageMetadata,
                 KeyData = textKeys.ToArray(),
                 ItemData = textItems.ToArray(),
             });
             await AssetController.BuildAsync(new KnotControllerBuildData<KnotAssetData>
             {
                 Culture = language.CultureInfo,
-                GlobalMetadata = Database?.Settings.Metadata.ToArray() ?? new IKnotMetadata[0],
-                LanguageMetadata = language.Metadata.ToArray(),
+                GlobalMetadata = globalMetadata,
+                LanguageMetadata = languageMetadata,
                 KeyData = assetKeys.ToArray(),
                 ItemData = assetItems.ToArray(),
             });
@@ -104,6 +118,54 @@ namespace Knot.Localization
 
             _state = KnotManagerState.LanguageLoaded;
             StateChanged?.Invoke(_state);
+        }
+
+        /// <summary>
+        /// Returns all <see cref="KnotLanguageData"/> with the same culture as <paramref name="language"/> from <see cref="MergedDatabases"/>, ordered from the highest to the lowest priority
+        /// </summary>
+        protected virtual List<KnotLanguageData> GetMergedLanguageData(KnotLanguageData language)
+        {
+            var result = MergedDatabases.Reverse()
+                .SelectMany(db => db.Languages.Where(ld => ld != null && ld.CultureName == language.CultureName))
+                .ToList();
+
+            if (!result.Contains(language))
+                result.Insert(0, language);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns collection providers of <paramref name="language"/> culture from <see cref="MergedDatabases"/>, ordered from the highest to the lowest priority
+        /// </summary>
+        protected virtual List<IKnotItemCollectionProvider> GetMergedCollectionProviders(KnotLanguageData language)
+        {
+            return GetMergedLanguageData(language).SelectMany(ld => ld.CollectionProviders).Distinct().ToList();
+        }
+
+        protected virtual IKnotMetadata[] GetMergedLanguageMetadata(KnotLanguageData language)
+        {
+            var languages = GetMergedLanguageData(language);
+            languages.Reverse();
+
+            return languages.SelectMany(ld => ld.Metadata).Where(m => m != null).Distinct().ToArray();
+        }
+
+        protected virtual IKnotMetadata[] GetMergedGlobalMetadata()
+        {
+            return MergedDatabases.SelectMany(db => db.Settings.Metadata).Where(m => m != null).Distinct().ToArray();
+        }
+
+        protected virtual List<KnotLanguageData> GetMergedLanguages(IEnumerable<KnotDatabase> databases)
+        {
+            var languages = new List<KnotLanguageData>();
+            foreach (var language in databases.SelectMany(db => db.Languages))
+            {
+                if (language != null && languages.All(ld => ld.CultureName != language.CultureName))
+                    languages.Add(language);
+            }
+
+            return languages;
         }
 
         protected virtual List<KnotKeyData> GetKeyDataFromCollections(List<KnotKeyCollection> keyCollections)
@@ -140,7 +202,7 @@ namespace Knot.Localization
             {
                 if (_fallbackCollections == null)
                 {
-                    var targetCollectionProviders = fallbackLanguage.CollectionProviders
+                    var targetCollectionProviders = GetMergedCollectionProviders(fallbackLanguage)
                         .OfType<IKnotRuntimeItemCollectionProvider>().ToArray();
 
                     _fallbackCollections = (await LoadCollectionsAsync(targetCollectionProviders)).ToArray();
@@ -185,7 +247,8 @@ namespace Knot.Localization
         public virtual void SetDatabase(KnotDatabase database, bool loadStartupLanguage = false)
         {
             _database = database;
-            _languages = database.Languages.ToList();
+            _mergedDatabases = Database.GetMergedDatabases();
+            _languages = GetMergedLanguages(_mergedDatabases);
 
             var oldTextController = _textController;
             var oldAssetController = _assetController;
@@ -216,6 +279,10 @@ namespace Knot.Localization
             if (languageData == null)
                 return;
 
+            //Language may come from one of the additional databases, so the merged instance with the same culture is used
+            if (!Languages.Contains(languageData))
+                languageData = Languages.FirstOrDefault(ld => ld.CultureName == languageData.CultureName) ?? languageData;
+
             _selectedLanguage = languageData;
             Database?.Settings.LanguageSelector.SaveSelectedLanguage(_selectedLanguage);
             LoadLanguageAsync(languageData);
@@ -243,6 +310,7 @@ namespace Knot.Localization
         public virtual void Dispose()
         {
             _languages?.Clear();
+            _mergedDatabases = null;
 
             if (_loadedCollectionProviders != null)
                 foreach (var cp in _loadedCollectionProviders)

@@ -22,6 +22,11 @@
             "name": "com.unity.ugui",
             "expression": "",
             "define": "UNITY_UGUI"
+        },
+        {
+            "name": "com.unity.modules.uielements",
+            "expression": "",
+            "define": "KNOT_UITOOLKIT"
         }
     ],
     "noEngineReferences": false

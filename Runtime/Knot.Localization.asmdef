@@ -36,6 +36,11 @@
             "name": "com.unity.ugui",
             "expression": "2",
             "define": "KNOT_TEXTMESHPRO"
+        },
+        {
+            "name": "com.unity.modules.uielements",
+            "expression": "",
+            "define": "KNOT_UITOOLKIT"
         }
     ],
     "noEngineReferences": false
