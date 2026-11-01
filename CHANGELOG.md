@@ -1,3 +1,7 @@
+## 1.5.1 (2026-11-01)
+
+* Fixed obsolete int-to-EntityId conversion in the Database Editor asset-open callback by accepting EntityId directly
+
 ## 1.5.0 (2026-10-27)
 
 * Minimum Unity version raised to 6000.3
